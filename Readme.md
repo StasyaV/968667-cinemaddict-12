@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Анастасия Войтулевич](https://up.htmlacademy.ru/ecmascript/12/user/968667).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Андреев](https://htmlacademy.ru/profile/id812127).
 
 ---
 
