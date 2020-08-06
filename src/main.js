@@ -2,8 +2,8 @@ import {render} from "./util.js";
 import {createUserTemplate} from "./view/user.js";
 import {createMenuTemplate} from "./view/menu.js";
 import {createSortTemplate} from "./view/sort.js";
-import {createContentContainer, createTopRatedTemplate, createMostCommentedTemplate} from "./view/content-container.js";
-import {createFilmCard} from "./view/film-card.js";
+import {createContentContainer} from "./view/content-container.js";
+import {createFilmCard, getFilmObj} from "./view/film-card.js";
 import {createButtonLoaderTemplate} from "./view/button.js";
 import {createStatTemplate} from "./view/stat.js";
 
@@ -19,17 +19,23 @@ render(mainContainter, createContentContainer());
 
 const filmListContainer = mainContainter.querySelector(`.films-list__container`);
 
+const filmCards = new Array(RENDERED_CARDS_COUNT).fill().map(getFilmObj);
+
 for (let i = 0; i < RENDERED_CARDS_COUNT; i++) {
-  render(filmListContainer, createFilmCard());
+  render(filmListContainer, createFilmCard(filmCards[i]));
 }
+
+// const getFilmsList = () => {
+//   let filmsList = [];
+//   for (let i = 0; i < 10; i++) {
+//     let film = getFilmObj(i, generateCommentsList());
+//     filmsList.push(film);
+//   }
+//   return filmsList;
+// }
 
 const filmsList = mainContainter.querySelector(`.films-list`);
 render(filmsList, createButtonLoaderTemplate());
-
-const filmContainer = mainContainter.querySelector(`.films`);
-
-render(filmContainer, createTopRatedTemplate());
-render(filmContainer, createMostCommentedTemplate());
 
 const footerContainer = document.querySelector(`.footer`);
 
