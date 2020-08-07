@@ -17,6 +17,7 @@ const filmPosters = [`made-for-each-other.png`, `popeye-meets-sinbad.png`, `sage
 const filmGenres = [`Musical`, `Comedy`, `Drama`, `Cartoon`, `Western`, `Horror`, `Fantasy`];
 const emotions = [`smile`, `sleeping`, `puke`, `angry`];
 const names = [`Игорь`, `Андрей`, `Саша`, `Дима`, `Валя`, `Коля`, `Евгений`, `Марина`, `Лера`, `Лора`, `Вика`, `Миша`];
+const countriesList = [`USA`, `Russia`, `Ukraine`, `Germany`, `Poland`, `Sweden`, `Norway`];
 
 const generateDescriptionLength = () => {
   const maxLengthDescription = 5;
@@ -32,30 +33,34 @@ const generateDescription = () => {
   return description;
 };
 
-export const generateCommentsList = function () {
-  const commentsArray = [];
-  for (let i = 0; i < getRandomNum(0, 5); i++) {
+export const getCommentObj = function () {
     const commentObj = {
-      emoji: `/public/images/emoji` + emotions[getRandomNum(0, emotions.length)] + `.png`,
+      emoji: `/images/emoji/` + emotions[getRandomNum(0, emotions.length)] + `.png`,
       message: descriptionList[getRandomNum(0, descriptionList.length)],
-      name: names[getRandomNum(0, names)],
+      author: names[getRandomNum(0, names)],
       date: `2019/12/31 23:59`
     };
-    commentsArray.push(commentObj);
-  }
-  return commentsArray;
+  return commentObj;
 };
 
+export const commentsArray = new Array(getRandomNum(0, 5)).fill().map(getCommentObj);
+
 export const getFilmObj = (value, index) => {
-  const comments = generateCommentsList();
   const filmObj = {
     name: filmNamesList[getRandomNum(0, filmNamesList.length)],
     img: `/images/posters/` + filmPosters[getRandomNum(0, filmPosters.length)],
     shortDescription: generateDescription(),
-    comments: comments.length,
+    fullDescription: generateDescription(),
+    comments: commentsArray.length,
     raiting: getRandomNum(0, 10),
     year: getRandomNum(1929, 1964),
-    length: `1h 36m`,
+    director: names[getRandomNum(0, names)],
+    writers: names[getRandomNum(0, names)],
+    actors: names[getRandomNum(0, names)],
+    releaseDay: `01 April 1995`,
+    ageToWatch: getRandomNum(0, 18) + `+`,
+    runtime: `1h 36m`,
+    country: countriesList[getRandomNum(0, countriesList.length)],
     genre: filmGenres[getRandomNum(0, filmGenres.length)],
     id: index
   };
@@ -63,14 +68,14 @@ export const getFilmObj = (value, index) => {
 };
 
 export const createFilmCard = (card) => {
-  const {name, shortDescription, img, comments, raiting, year, length, genre, id} = card;
+  const {name, shortDescription, img, comments, raiting, year, runtime, genre, id} = card;
 
   return `<article class="film-card" id=${id}>
   <h3 class="film-card__title">${name}</h3>
   <p class="film-card__rating">${raiting}</p>
   <p class="film-card__info">
     <span class="film-card__year">${year}</span>
-    <span class="film-card__duration">${length}</span>
+    <span class="film-card__duration">${runtime}</span>
     <span class="film-card__genre">${genre}</span>
   </p>
   <img src=${img} alt="" class="film-card__poster">

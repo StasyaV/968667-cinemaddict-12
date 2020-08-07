@@ -3,11 +3,13 @@ import {createUserTemplate} from "./view/user.js";
 import {createMenuTemplate} from "./view/menu.js";
 import {createSortTemplate} from "./view/sort.js";
 import {createContentContainer} from "./view/content-container.js";
-import {createFilmCard, getFilmObj} from "./view/film-card.js";
+import {createFilmCard, getFilmObj, commentsArray} from "./view/film-card.js";
 import {createButtonLoaderTemplate} from "./view/button.js";
 import {createStatTemplate} from "./view/stat.js";
+import {createfilmDetailsTemplate} from "./view/film-details.js"
+import {createCommentTemplate} from "./view/comment.js";
 
-const RENDERED_CARDS_COUNT = 5;
+const RENDER_CARDS_COUNT = 18;
 const header = document.querySelector(`.header`);
 const mainContainter = document.querySelector(`.main`);
 
@@ -19,20 +21,11 @@ render(mainContainter, createContentContainer());
 
 const filmListContainer = mainContainter.querySelector(`.films-list__container`);
 
-const filmCards = new Array(RENDERED_CARDS_COUNT).fill().map(getFilmObj);
+const filmCards = new Array(RENDER_CARDS_COUNT).fill().map(getFilmObj);
 
-for (let i = 0; i < RENDERED_CARDS_COUNT; i++) {
+for (let i = 0; i < RENDER_CARDS_COUNT; i++) {
   render(filmListContainer, createFilmCard(filmCards[i]));
 }
-
-// const getFilmsList = () => {
-//   let filmsList = [];
-//   for (let i = 0; i < 10; i++) {
-//     let film = getFilmObj(i, generateCommentsList());
-//     filmsList.push(film);
-//   }
-//   return filmsList;
-// }
 
 const filmsList = mainContainter.querySelector(`.films-list`);
 render(filmsList, createButtonLoaderTemplate());
@@ -40,3 +33,13 @@ render(filmsList, createButtonLoaderTemplate());
 const footerContainer = document.querySelector(`.footer`);
 
 render(footerContainer, createStatTemplate());
+
+const body = document.querySelector(`body`);
+
+// render(body, createfilmDetailsTemplate(filmCards[0]));
+
+// const commentsContainer = document.querySelector(`.film-details__comments-list`);
+
+// for (let i = 0; i < commentsArray.length; i++) {
+//   render(commentsContainer, createCommentTemplate(commentsArray[i]));
+// }
