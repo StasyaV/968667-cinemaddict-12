@@ -3,13 +3,15 @@ import {createUserTemplate} from "./view/user.js";
 import {createMenuTemplate} from "./view/menu.js";
 import {createSortTemplate} from "./view/sort.js";
 import {createContentContainer} from "./view/content-container.js";
-import {createFilmCard, getFilmObj, commentsArray} from "./view/film-card.js";
+import {createFilmCard} from "./view/film-card.js";
 import {createButtonLoaderTemplate} from "./view/button.js";
 import {createStatTemplate} from "./view/stat.js";
-import {createfilmDetailsTemplate} from "./view/film-details.js"
+import {getFilmObj, commentsArray} from "./data/data-mock.js";
+import {createfilmDetailsTemplate} from "./view/film-details.js";
 import {createCommentTemplate} from "./view/comment.js";
 
 const RENDER_CARDS_COUNT = 18;
+const CARDS_PER_STEP = 5;
 const header = document.querySelector(`.header`);
 const mainContainter = document.querySelector(`.main`);
 
@@ -23,12 +25,31 @@ const filmListContainer = mainContainter.querySelector(`.films-list__container`)
 
 const filmCards = new Array(RENDER_CARDS_COUNT).fill().map(getFilmObj);
 
-for (let i = 0; i < RENDER_CARDS_COUNT; i++) {
+for (let i = 0; i < CARDS_PER_STEP; i++) {
   render(filmListContainer, createFilmCard(filmCards[i]));
 }
 
-const filmsList = mainContainter.querySelector(`.films-list`);
-render(filmsList, createButtonLoaderTemplate());
+if (filmCards.length > CARDS_PER_STEP) {
+  let renderedFilmCards = CARDS_PER_STEP;
+
+  const filmsList = mainContainter.querySelector(`.films-list`);
+  render(filmsList, createButtonLoaderTemplate());
+
+  const buttonLoader = filmsList.querySelector(`.films-list__show-more`);
+
+  buttonLoader.addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    filmCards
+      .slice(renderedFilmCards, renderedFilmCards + CARDS_PER_STEP)
+      .forEach((card) => render(filmListContainer, createFilmCard(card)));
+
+    renderedFilmCards += CARDS_PER_STEP;
+
+    if (renderedFilmCards >= filmCards.length) {
+      buttonLoader.remove();
+    }
+  });
+}
 
 const footerContainer = document.querySelector(`.footer`);
 
@@ -36,10 +57,10 @@ render(footerContainer, createStatTemplate());
 
 const body = document.querySelector(`body`);
 
-// render(body, createfilmDetailsTemplate(filmCards[0]));
+render(body, createfilmDetailsTemplate(filmCards[0]));
 
-// const commentsContainer = document.querySelector(`.film-details__comments-list`);
+const commentsContainer = document.querySelector(`.film-details__comments-list`);
 
-// for (let i = 0; i < commentsArray.length; i++) {
-//   render(commentsContainer, createCommentTemplate(commentsArray[i]));
-// }
+for (let i = 0; i < commentsArray.length; i++) {
+  render(commentsContainer, createCommentTemplate(commentsArray[i]));
+}
