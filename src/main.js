@@ -69,8 +69,8 @@ filmListContainer.addEventListener(`click`, function (evt) {
   render(body, createfilmDetailsTemplate(filmItem));
 
   const commentsContainer = document.querySelector(`.film-details__comments-list`);
-  for (let i = 0; i < comments.length; i++) {
-    render(commentsContainer, createCommentTemplate(comments[i]));
+  for (let comment of comments) {
+    render(commentsContainer, createCommentTemplate(comment));
   }
 
   const closeDeatailCard = document.querySelector(`.film-details__close-btn`);
