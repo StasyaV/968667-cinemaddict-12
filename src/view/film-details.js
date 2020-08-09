@@ -1,6 +1,20 @@
 export const createfilmDetailsTemplate = (card) => {
-  const {name, img, fullDescription, comments, raiting, director, writers, actors, releaseDay,
-    ageToWatch, runtime, country, genre, id} = card;
+  const {
+    name,
+    img,
+    fullDescription,
+    comments,
+    raiting,
+    director,
+    writers,
+    actors,
+    releaseDay,
+    ageToWatch,
+    runtime,
+    country,
+    genre,
+    id
+  } = card;
 
   return `<section class="film-details" id=${id}>
   <form class="film-details__inner" action="" method="get">

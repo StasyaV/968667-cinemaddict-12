@@ -6,7 +6,7 @@ import {createContentContainer} from "./view/content-container.js";
 import {createFilmCard} from "./view/film-card.js";
 import {createButtonLoaderTemplate} from "./view/button.js";
 import {createStatTemplate} from "./view/stat.js";
-import {getFilmObj, commentsArray} from "./data/data-mock.js";
+import {getFilm, comments} from "./data/data-mock.js";
 import {createfilmDetailsTemplate} from "./view/film-details.js";
 import {createCommentTemplate} from "./view/comment.js";
 
@@ -15,7 +15,6 @@ const CARDS_PER_STEP = 5;
 const header = document.querySelector(`.header`);
 const mainContainter = document.querySelector(`.main`);
 
-
 render(header, createUserTemplate());
 render(mainContainter, createMenuTemplate());
 render(mainContainter, createSortTemplate());
@@ -23,7 +22,7 @@ render(mainContainter, createContentContainer());
 
 const filmListContainer = mainContainter.querySelector(`.films-list__container`);
 
-const filmCards = new Array(RENDER_CARDS_COUNT).fill().map(getFilmObj);
+const filmCards = new Array(RENDER_CARDS_COUNT).fill().map(getFilm);
 
 for (let i = 0; i < CARDS_PER_STEP; i++) {
   render(filmListContainer, createFilmCard(filmCards[i]));
@@ -55,12 +54,34 @@ const footerContainer = document.querySelector(`.footer`);
 
 render(footerContainer, createStatTemplate());
 
-const body = document.querySelector(`body`);
-
-render(body, createfilmDetailsTemplate(filmCards[0]));
-
 const commentsContainer = document.querySelector(`.film-details__comments-list`);
 
-for (let i = 0; i < commentsArray.length; i++) {
-  render(commentsContainer, createCommentTemplate(commentsArray[i]));
+for (let i = 0; i < comments.length; i++) {
+  render(commentsContainer, createCommentTemplate(comments[i]));
 }
+
+const getFilmsInfo = (filmCardId, films) => {
+  return films.find(function (item) {
+    return +item.id === +filmCardId;
+  });
+};
+
+filmListContainer.addEventListener(`click`, function (evt) {
+  let clickedCard = evt.target.closest(`.film-card`);
+
+  if (clickedCard === null) {
+    return;
+  }
+
+  let filmItem = getFilmsInfo(clickedCard.id, filmCards);
+
+  const body = document.querySelector(`body`);
+  render(body, createfilmDetailsTemplate(filmItem));
+
+  const closeDeatailCard = document.querySelector(`.film-details__close-btn`);
+
+  closeDeatailCard.addEventListener(`click`, function () {
+    const filmDetailCard = document.querySelector(`.film-details`);
+    filmDetailCard.remove();
+  });
+});

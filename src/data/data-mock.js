@@ -1,4 +1,4 @@
-import {getRandomNum} from "../util.js";
+import {getRandomNumber} from "../util.js";
 
 const descriptionList = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
@@ -20,9 +20,7 @@ const names = [`Игорь`, `Андрей`, `Саша`, `Дима`, `Валя`,
 const countriesList = [`USA`, `Russia`, `Ukraine`, `Germany`, `Poland`, `Sweden`, `Norway`];
 
 const generateDescriptionLength = () => {
-  const maxLengthDescription = 5;
-  const minLengthDescription = 1;
-  return getRandomNum(minLengthDescription, maxLengthDescription);
+  return getRandomNumber(1, 5);
 };
 
 const generateDescription = () => {
@@ -33,36 +31,39 @@ const generateDescription = () => {
   return description;
 };
 
-export const getCommentObj = function () {
-  const commentObj = {
-    emoji: `/images/emoji/` + emotions[getRandomNum(0, emotions.length)] + `.png`,
-    message: descriptionList[getRandomNum(0, descriptionList.length)],
-    author: names[getRandomNum(0, names)],
+export const getComment = () => {
+  const comment = {
+    emoji: `/images/emoji/` + emotions[getRandomNumber(0, emotions.length)] + `.png`,
+    message: descriptionList[getRandomNumber(0, descriptionList.length)],
+    author: names[getRandomNumber(0, names)],
     date: `2019/12/31 23:59`
   };
-  return commentObj;
+  return comment;
 };
 
-export const commentsArray = new Array(getRandomNum(0, 5)).fill().map(getCommentObj);
+export const comments = new Array(getRandomNumber(0, 5)).fill().map(getComment);
 
-export const getFilmObj = (value, index) => {
-  const filmObj = {
-    name: filmNamesList[getRandomNum(0, filmNamesList.length)],
-    img: `/images/posters/` + filmPosters[getRandomNum(0, filmPosters.length)],
+export const getFilm = (value, index) => {
+  const film = {
+    name: filmNamesList[getRandomNumber(0, filmNamesList.length)],
+    img: `/images/posters/` + filmPosters[getRandomNumber(0, filmPosters.length)],
     shortDescription: generateDescription(),
     fullDescription: generateDescription(),
-    comments: commentsArray.length,
-    raiting: getRandomNum(0, 10),
-    year: getRandomNum(1929, 1964),
-    director: names[getRandomNum(0, names)],
-    writers: names[getRandomNum(0, names)],
-    actors: names[getRandomNum(0, names)],
+    comments: comments.length,
+    raiting: getRandomNumber(0, 10),
+    year: getRandomNumber(1929, 2000),
+    director: names[getRandomNumber(0, names)],
+    writers: names[getRandomNumber(0, names)],
+    actors: names[getRandomNumber(0, names)],
     releaseDay: `01 April 1995`,
-    ageToWatch: getRandomNum(0, 18) + `+`,
+    ageToWatch: getRandomNumber(0, 18) + `+`,
     runtime: `1h 36m`,
-    country: countriesList[getRandomNum(0, countriesList.length)],
-    genre: filmGenres[getRandomNum(0, filmGenres.length)],
-    id: index
+    country: countriesList[getRandomNumber(0, countriesList.length)],
+    genre: filmGenres[getRandomNumber(0, filmGenres.length)],
+    id: index,
+    isFavourite: Boolean(getRandomNumber(0, 2)),
+    isWatched: Boolean(getRandomNumber(0, 2)),
+    watchList: Boolean(getRandomNumber(0, 2))
   };
-  return filmObj;
+  return film;
 };

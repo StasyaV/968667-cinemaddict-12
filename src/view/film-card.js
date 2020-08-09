@@ -1,5 +1,15 @@
 export const createFilmCard = (card) => {
-  const {name, shortDescription, img, comments, raiting, year, runtime, genre, id} = card;
+  const {
+    name,
+    shortDescription,
+    img,
+    comments,
+    raiting,
+    year,
+    runtime,
+    genre,
+    id
+  } = card;
 
   return `<article class="film-card" id=${id}>
   <h3 class="film-card__title">${name}</h3>
