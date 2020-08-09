@@ -63,7 +63,7 @@ export const getFilm = (value, index) => {
     id: index,
     isFavourite: Boolean(getRandomNumber(0, 2)),
     isWatched: Boolean(getRandomNumber(0, 2)),
-    watchList: Boolean(getRandomNumber(0, 2))
+    watchlist: Boolean(getRandomNumber(0, 2))
   };
   return film;
 };
