@@ -1,4 +1,6 @@
-export const createfilmDetailsTemplate = (card) => {
+import {createElement} from "../util.js";
+
+const createFilmPopupTemplate = (card) => {
   const {
     name,
     img,
@@ -136,3 +138,27 @@ export const createfilmDetailsTemplate = (card) => {
   </form>
 </section>`;
 };
+
+export default class FilmPopup {
+  constructor(film) {
+    this._film = film;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmPopupTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
