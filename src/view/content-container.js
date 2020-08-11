@@ -1,28 +1,29 @@
-export const createContentContainer = () => {
+import {createElement} from "../util.js";
+
+const createContentTemplate = () => {
   return `<section class="films">
-  <section class="films-list">
-      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
-
-      <div class="films-list__container">
-      </div>
-    </section>
+    
   </section>`;
 };
 
-export const createTopRatedTemplate = () => {
-  return `<section class="films-list--extra">
-      <h2 class="films-list__title">Top rated</h2>
+export default class MainContent {
+  constructor() {
+    this._element = null;
+  }
 
-    <div class="films-list__container">
-   </div>
-  </section>`;
-};
+  getTemplate() {
+    return createContentTemplate();
+  }
 
-export const createMostCommentedTemplate = () => {
-  return `<section class="films-list--extra">
-      <h2 class="films-list__title">Most commented</h2>
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
 
-    <div class="films-list__container">
-   </div>
-  </section>`;
-};
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

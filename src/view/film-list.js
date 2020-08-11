@@ -1,16 +1,16 @@
 import {createElement} from "../util.js";
 
-const createStatTemplate = () => {
-  return `<p>130 291 movies inside</p>`;
+const createFilmListTemplate = () => {
+  return `<div class="films-list__container"></div>`;
 };
 
-export default class Statistic {
+export default class FilmList {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createStatTemplate();
+    return createFilmListTemplate();
   }
 
   getElement() {
