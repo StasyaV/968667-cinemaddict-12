@@ -6,6 +6,7 @@ import MainContentView from "./view/content-container.js";
 import ListContainerView from "./view/list-container.js";
 import FilmListView from "./view/film-list.js";
 import FilmCardView from "./view/film-card.js";
+import NoFilmsView from "./view/no-films.js";
 import ButtonLoaderView from "./view/button.js";
 import StatisticView from "./view/stat.js";
 import FilmPopupView from "./view/film-details.js";
@@ -31,6 +32,10 @@ const filmListContainer = new ListContainerView();
 render(filmContainer.getElement(), filmListContainer.getElement(), RenderPosition.AFTERBEGIN);
 const filmList = new FilmListView();
 render(filmListContainer.getElement(), filmList.getElement(), RenderPosition.AFTERBEGIN);
+
+if (RENDER_CARDS_COUNT === 0) {
+  render(filmList.getElement(), new NoFilmsView().getElement(), RenderPosition.AFTERBEGIN);
+}
 
 for (let i = 0; i < CARDS_PER_STEP; i++) {
   render(filmList.getElement(), new FilmCardView(filmCards[i]).getElement(), RenderPosition.AFTERBEGIN);
@@ -78,10 +83,21 @@ filmList.getElement().addEventListener(`click`, (evt) => {
 
   const closeDeatailCard = filmPopup.getElement().querySelector(`.film-details__close-btn`);
 
-  closeDeatailCard.addEventListener(`click`, function () {
+  closeDeatailCard.addEventListener(`click`, () => {
     filmPopup.getElement().remove();
     filmPopup.removeElement();
   });
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      filmPopup.getElement().remove();
+      filmPopup.removeElement();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  document.addEventListener(`keydown`, onEscKeyDown);
 });
 
 const statContainer = document.querySelector(`.footer__statistics`);
