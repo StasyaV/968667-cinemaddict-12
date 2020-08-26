@@ -1,4 +1,4 @@
-import {getRandomNumber} from "../util.js";
+import {getRandomNumber} from "../utils/common.js";
 
 const descriptionList = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
