@@ -1,11 +1,14 @@
 import AbstractView from "./abstract.js";
+import CommentView from "./comment.js";
+import {render, RenderPosition} from "../utils/render.js";
+import {comments} from "../mock/film.js";
 
 const createFilmPopupTemplate = (card) => {
   const {
     name,
     img,
     fullDescription,
-    comments,
+    commentsCount,
     raiting,
     director,
     writers,
@@ -97,7 +100,7 @@ const createFilmPopupTemplate = (card) => {
 
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments}</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
 
         <ul class="film-details__comments-list">
 
@@ -149,6 +152,16 @@ export default class FilmPopup extends AbstractView {
 
   getTemplate() {
     return createFilmPopupTemplate(this._film);
+  }
+
+  _renderComment(comment) {
+    const commentsContainer = this.getElement().querySelector(`.film-details__comments-list`);
+    let commentary = new CommentView(comment);
+    render(commentsContainer, commentary, RenderPosition.BEFOREEND);
+  }
+
+  renderComments() {
+    comments.forEach((comment) => this._renderComment(comment));
   }
 
   _closeClickHandler(evt) {
