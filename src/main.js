@@ -25,7 +25,7 @@ render(mainContainter, filmContainer.getElement(), RenderPosition.BEFOREEND);
 
 const movieListPresenter = new MovieListPresenter(filmContainer);
 
-movieListPresenter.init();
+movieListPresenter.init(filmCards);
 
 const statContainer = document.querySelector(`.footer__statistics`);
 render(statContainer, new StatisticView().getElement(), RenderPosition.BEFOREEND);
