@@ -1,11 +1,11 @@
-import {createElement} from "../util.js";
+import AbstractView from "./abstract.js";
 
 const createFilmCardTemplate = (card) => {
   const {
     name,
     shortDescription,
     img,
-    comments,
+    commentsCount,
     raiting,
     year,
     runtime,
@@ -23,7 +23,7 @@ const createFilmCardTemplate = (card) => {
   </p>
   <img src=${img} alt="" class="film-card__poster">
   <p class="film-card__description">${shortDescription}</p>
-  <a class="film-card__comments">${comments} comments</a>
+  <a class="film-card__comments">${commentsCount} comments</a>
   <form class="film-card__controls">
     <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
     <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
@@ -32,26 +32,25 @@ const createFilmCardTemplate = (card) => {
 </article>`;
 };
 
-export default class FilmCard {
+export default class FilmCard extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
 
-    this._element = null;
+    this._openPopupClickHandler = this._openPopupClickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _openPopupClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.openClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setOpenPopupClickHandler(callback) {
+    this._callback.openClick = callback;
+    this.getElement().addEventListener(`click`, this._openPopupClickHandler);
   }
 }

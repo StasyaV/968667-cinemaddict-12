@@ -1,11 +1,14 @@
-import {createElement} from "../util.js";
+import AbstractView from "./abstract.js";
+import CommentView from "./comment.js";
+import {render, RenderPosition} from "../utils/render.js";
+import {comments} from "../mock/film.js";
 
 const createFilmPopupTemplate = (card) => {
   const {
     name,
     img,
     fullDescription,
-    comments,
+    commentsCount,
     raiting,
     director,
     writers,
@@ -97,7 +100,7 @@ const createFilmPopupTemplate = (card) => {
 
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments}</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
 
         <ul class="film-details__comments-list">
 
@@ -139,26 +142,35 @@ const createFilmPopupTemplate = (card) => {
 </section>`;
 };
 
-export default class FilmPopup {
+export default class FilmPopup extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
 
-    this._element = null;
+    this._closeClickHandler = this._closeClickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmPopupTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _renderComment(comment) {
+    const commentsContainer = this.getElement().querySelector(`.film-details__comments-list`);
+    const commentary = new CommentView(comment);
+    render(commentsContainer, commentary, RenderPosition.BEFOREEND);
   }
 
-  removeElement() {
-    this._element = null;
+  renderComments() {
+    comments.forEach((comment) => this._renderComment(comment));
+  }
+
+  _closeClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.closeClick();
+  }
+
+  setClosePopupClickHandler(callback) {
+    this._callback.closeClick = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeClickHandler);
   }
 }

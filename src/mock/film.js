@@ -1,4 +1,4 @@
-import {getRandomNumber} from "../util.js";
+import {getRandomNumber} from "../utils/common.js";
 
 const descriptionList = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
@@ -49,7 +49,7 @@ export const getFilm = (value, index) => {
     img: `/images/posters/` + filmPosters[getRandomNumber(0, filmPosters.length)],
     shortDescription: generateDescription(),
     fullDescription: generateDescription(),
-    comments: comments.length,
+    commentsCount: comments.length,
     raiting: getRandomNumber(0, 10),
     year: getRandomNumber(1929, 2000),
     director: names[getRandomNumber(0, names)],
