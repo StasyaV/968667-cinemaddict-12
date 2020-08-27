@@ -57,7 +57,6 @@ export default class MovieList {
     };
 
     filmCard.setOpenPopupClickHandler(openPopup);
-
     filmPopup.setClosePopupClickHandler(closePopup);
 
     render(this._filmList, filmCard, RenderPosition.BEFOREEND);

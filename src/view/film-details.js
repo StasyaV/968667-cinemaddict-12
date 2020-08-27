@@ -156,7 +156,7 @@ export default class FilmPopup extends AbstractView {
 
   _renderComment(comment) {
     const commentsContainer = this.getElement().querySelector(`.film-details__comments-list`);
-    let commentary = new CommentView(comment);
+    const commentary = new CommentView(comment);
     render(commentsContainer, commentary, RenderPosition.BEFOREEND);
   }
 
