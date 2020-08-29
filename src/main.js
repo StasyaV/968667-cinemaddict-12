@@ -18,7 +18,7 @@ const filters = generateFilter(filmCards);
 
 render(header, new UserView().getElement(), RenderPosition.BEFOREEND);
 render(mainContainter, new MenuView(filters).getElement(), RenderPosition.AFTERBEGIN);
-render(mainContainter, new SortView().getElement(), RenderPosition.BEFOREEND);
+// render(mainContainter, new SortView().getElement(), RenderPosition.BEFOREEND);
 
 const filmContainer = new MainContentView();
 render(mainContainter, filmContainer.getElement(), RenderPosition.BEFOREEND);
