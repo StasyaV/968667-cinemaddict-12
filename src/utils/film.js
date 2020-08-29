@@ -6,7 +6,7 @@ export const sortFilmByDate = (filmA, filmB) => {
   const dateA = new Date(filmA.releaseDay);
   const dateB = new Date(filmB.releaseDay);
 
-  return dateA.getTime() - dateB.getTime();
+  return dateB.getTime() - dateA.getTime();
 };
 
 export const sortFilmByRaiting = (filmA, filmB) => {
