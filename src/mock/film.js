@@ -1,5 +1,7 @@
 import {getRandomNumber} from "../utils/common.js";
+import {formatDate} from "../utils/film.js";
 
+const FIRST_FILM_YEAR = 1895;
 const descriptionList = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
@@ -31,6 +33,29 @@ const generateDescription = () => {
   return description;
 };
 
+const generateFullDate = () => {
+  const date = generateDate();
+  date.setYear(generateYear());
+
+  return date;
+};
+
+const generateYear = () => {
+  return getRandomNumber(FIRST_FILM_YEAR, new Date().getFullYear());
+};
+
+export const generateDate = () => {
+  const maxDaysGap = getRandomNumber(1, 365);
+  const daysGap = getRandomNumber(-maxDaysGap, maxDaysGap);
+  const currentDate = new Date();
+
+  currentDate.setHours(23, 59, 59, 999);
+
+  currentDate.setDate(currentDate.getDate() + daysGap);
+
+  return new Date(currentDate);
+};
+
 export const getComment = () => {
   const comment = {
     emoji: `/images/emoji/` + emotions[getRandomNumber(0, emotions.length)] + `.png`,
@@ -55,7 +80,7 @@ export const getFilm = (value, index) => {
     director: names[getRandomNumber(0, names)],
     writers: names[getRandomNumber(0, names)],
     actors: names[getRandomNumber(0, names)],
-    releaseDay: `01 April 1995`,
+    releaseDay: formatDate(generateFullDate()),
     ageToWatch: getRandomNumber(0, 18) + `+`,
     runtime: `1h 36m`,
     country: countriesList[getRandomNumber(0, countriesList.length)],
