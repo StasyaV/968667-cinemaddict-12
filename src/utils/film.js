@@ -1,3 +1,7 @@
+export const formatDate = (date) => {
+  return date.toLocaleDateString(`en-GB`, {day: `numeric`, month: `long`, year: `numeric`});
+};
+
 const getWeightForNullDate = (dateA, dateB) => {
   if (dateA === null && dateB === null) {
     return 0;
@@ -14,17 +18,13 @@ const getWeightForNullDate = (dateA, dateB) => {
   return null;
 };
 
-// export const sortFilmByDate = () => {
-//   
-// };
+export const sortFilmByDate = (filmA, filmB) => {
+  const dateA = new Date(filmA.releaseDay);
+  const dateB = new Date(filmB.releaseDay);
 
-export const sortFilmByRaiting = (films) => {
-  const sortedFilms = films.slice();
+  return dateA.getTime() - dateB.getTime();
+};
 
-  sortedFilms.sort(function (a, b) {
-    return b.raiting - a.raiting;
-  });
-
-  console.log(sortedFilms);
-  return sortedFilms;
+export const sortFilmByRaiting = (filmA, filmB) => {
+  return filmB.raiting - filmA.raiting;
 };

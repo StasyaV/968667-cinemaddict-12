@@ -36,7 +36,6 @@ export default class MovieList {
     render(this._filmListContainer, this._filmList, RenderPosition.BEFOREEND);
 
     this._renderFilmBoard();
-    // this._renderSort();
   }
 
   _renderFilm(card) {
@@ -77,7 +76,7 @@ export default class MovieList {
         this._films.sort(sortFilmByDate);
         break;
       case SortType.RAITING:
-        sortFilmByRaiting(this._films);
+        this._films.sort(sortFilmByRaiting);
         break;
       default:
         this._films = this._sourcedFilms.slice();
@@ -93,7 +92,7 @@ export default class MovieList {
 
     this._sortFilms(sortType);
     this._clearFilmsList();
-    this._renderFilmBoard();
+    this._renderFilmList();
   }
 
   _renderSort() {
@@ -136,7 +135,7 @@ export default class MovieList {
 
     if (this._films.length > CARDS_PER_STEP) {
       this._renderLoadMoreButton();
-    }  
+    }
   }
 
   _renderFilmBoard() {

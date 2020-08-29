@@ -1,7 +1,6 @@
 import {render, RenderPosition} from "./utils/render.js";
 import UserView from "./view/user.js";
 import MenuView from "./view/menu.js";
-import SortView from "./view/sort.js";
 import MainContentView from "./view/content-container.js";
 import StatisticView from "./view/stat.js";
 import {getFilm} from "./mock/film.js";
@@ -18,7 +17,6 @@ const filters = generateFilter(filmCards);
 
 render(header, new UserView().getElement(), RenderPosition.BEFOREEND);
 render(mainContainter, new MenuView(filters).getElement(), RenderPosition.AFTERBEGIN);
-// render(mainContainter, new SortView().getElement(), RenderPosition.BEFOREEND);
 
 const filmContainer = new MainContentView();
 render(mainContainter, filmContainer.getElement(), RenderPosition.BEFOREEND);
