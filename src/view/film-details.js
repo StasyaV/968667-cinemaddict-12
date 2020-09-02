@@ -2,6 +2,7 @@ import AbstractView from "./abstract.js";
 import CommentView from "./comment.js";
 import {render, RenderPosition} from "../utils/render.js";
 import {comments} from "../mock/film.js";
+import {formatDate, formatTime} from "../utils/film.js";
 
 const createFilmPopupTemplate = (card) => {
   const {
@@ -12,14 +13,17 @@ const createFilmPopupTemplate = (card) => {
     raiting,
     director,
     writers,
-    actors,
     releaseDay,
+    actors,
     ageToWatch,
     runtime,
     country,
     genre,
     id
   } = card;
+
+  const date = formatDate(releaseDay);
+  const time = formatTime(runtime);
 
   return `<section class="film-details" id=${id}>
   <form class="film-details__inner" action="" method="get">
@@ -61,11 +65,11 @@ const createFilmPopupTemplate = (card) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${releaseDay}</td>
+              <td class="film-details__cell">${date}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">${runtime}</td>
+              <td class="film-details__cell">${time}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
@@ -148,6 +152,9 @@ export default class FilmPopup extends AbstractView {
     this._film = film;
 
     this._closeClickHandler = this._closeClickHandler.bind(this);
+    this._favouriteClickHandler = this._favouriteClickHandler.bind(this);
+    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
+    this._historyClickHandler = this._historyClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -172,5 +179,35 @@ export default class FilmPopup extends AbstractView {
   setClosePopupClickHandler(callback) {
     this._callback.closeClick = callback;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeClickHandler);
+  }
+
+  _favouriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
+  _watchlistClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchlistClick();
+  }
+
+  _historyClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.historyClick();
+  }
+
+  setFavouriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favouriteClickHandler);
+  }
+
+  setWatchlistClickHandler(callback) {
+    this._callback.watchlistClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, this._watchlistClickHandler);
+  }
+
+  setHistoryClickHandler(callback) {
+    this._callback.historyClick = callback;
+    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._historyClickHandler);
   }
 }

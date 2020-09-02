@@ -1,5 +1,4 @@
 import {getRandomNumber} from "../utils/common.js";
-import {formatDate} from "../utils/film.js";
 
 const FIRST_FILM_YEAR = 1895;
 const descriptionList = [
@@ -80,9 +79,9 @@ export const getFilm = (value, index) => {
     director: names[getRandomNumber(0, names)],
     writers: names[getRandomNumber(0, names)],
     actors: names[getRandomNumber(0, names)],
-    releaseDay: formatDate(generateFullDate()),
+    releaseDay: generateFullDate(),
     ageToWatch: getRandomNumber(0, 18) + `+`,
-    runtime: `1h 36m`,
+    runtime: getRandomNumber(0, 120),
     country: countriesList[getRandomNumber(0, countriesList.length)],
     genre: filmGenres[getRandomNumber(0, filmGenres.length)],
     id: index,
