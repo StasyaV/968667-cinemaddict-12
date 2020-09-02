@@ -11,7 +11,8 @@ export default class Film {
     this._filmPopup = null;
 
     this._openPopupClickHandler = this._openPopupClickHandler.bind(this);
-    this._escKeyDownHndler = this._escKeyDownHandler.bind(this);
+    this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
+    this._closePopupClickHandler = this._closePopupClickHandler.bind(this);
     this._handleFavouriteClick = this._handleFavouriteClick.bind(this);
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleHistoryClick = this._handleHistoryClick.bind(this);
