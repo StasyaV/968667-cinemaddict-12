@@ -49,7 +49,7 @@ export default class Film {
     }
 
     if (this._mode === Mode.DEFAULT) {
-      replace(this._taskComponent, prevFilmCard);
+      replace(this._filmCard, prevFilmCard);
     }
 
     if (this._mode === Mode.POPUP) {
@@ -67,7 +67,7 @@ export default class Film {
 
   resetView() {
     if (this._mode !== Mode.DEFAULT) {
-      remove(this._filmPopup);
+      this._closePopupClickHandler();
     }
   }
 

@@ -257,9 +257,6 @@ export default class FilmPopup extends SmartView {
         {},
         film,
         {
-          isFavourite: film.isFavourite !== null,
-          isWatched: film.isWatched !== null,
-          watchlist: film.watchlist !== null
         }
     );
   }
