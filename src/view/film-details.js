@@ -1,4 +1,4 @@
-import AbstractView from "./abstract.js";
+import SmartView from "./smart.js";
 import CommentView from "./comment.js";
 import {render, RenderPosition} from "../utils/render.js";
 import {comments} from "../mock/film.js";
@@ -19,7 +19,10 @@ const createFilmPopupTemplate = (card) => {
     runtime,
     country,
     genre,
-    id
+    id,
+    isWatched,
+    isFavourite,
+    watchlist
   } = card;
 
   const date = formatDate(releaseDay);
@@ -91,13 +94,13 @@ const createFilmPopupTemplate = (card) => {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${watchlist ? `checked` : ``}>
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? `checked` : ``}>
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavourite ? `checked` : ``}>
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
@@ -146,19 +149,40 @@ const createFilmPopupTemplate = (card) => {
 </section>`;
 };
 
-export default class FilmPopup extends AbstractView {
+export default class FilmPopup extends SmartView {
   constructor(film) {
     super();
-    this._film = film;
+    this._data = FilmPopup.parseFilmToData(film);
 
     this._closeClickHandler = this._closeClickHandler.bind(this);
     this._favouriteClickHandler = this._favouriteClickHandler.bind(this);
     this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
     this._historyClickHandler = this._historyClickHandler.bind(this);
+    this._commentInputHandler = this._commentInputHandler.bind(this);
+
+    this._setInnerHandlers();
   }
 
   getTemplate() {
-    return createFilmPopupTemplate(this._film);
+    return createFilmPopupTemplate(this._data);
+  }
+
+  restoreHandlers() {
+    this._setInnerHandlers();
+  }
+
+  reset(film) {
+    this.updateData(
+        FilmPopup.parseFilmToData(film)
+    );
+  }
+
+  _setInnerHandlers() {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeClickHandler);
+    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favouriteClickHandler);
+    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, this._watchlistClickHandler);
+    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._historyClickHandler);
+    this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`textarea`, this._commentInputHandler);
   }
 
   _renderComment(comment) {
@@ -196,6 +220,18 @@ export default class FilmPopup extends AbstractView {
     this._callback.historyClick();
   }
 
+  _commentInputHandler(evt) {
+    evt.preventDefault();
+    this.updateData({
+      message: evt.target.value
+    }, true);
+  }
+
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit(FilmPopup.parseDataToFilm(this._data));
+  }
+
   setFavouriteClickHandler(callback) {
     this._callback.favoriteClick = callback;
     this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._favouriteClickHandler);
@@ -209,5 +245,27 @@ export default class FilmPopup extends AbstractView {
   setHistoryClickHandler(callback) {
     this._callback.historyClick = callback;
     this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._historyClickHandler);
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
+  }
+
+  static parseFilmToData(film) {
+    return Object.assign(
+        {},
+        film,
+        {
+          isFavourite: film.isFavourite !== null,
+          isWatched: film.isWatched !== null,
+          watchlist: film.watchlist !== null
+        }
+    );
+  }
+
+  static parseDataToFilm(data) {
+    data = Object.assign({}, data);
+    return data;
   }
 }
