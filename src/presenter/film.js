@@ -54,6 +54,7 @@ export default class Film {
 
     if (this._mode === Mode.POPUP) {
       replace(this._filmPopup, prevFilmPopup);
+      this._filmPopup.renderComments();
     }
 
     remove(prevFilmCard);
@@ -77,6 +78,7 @@ export default class Film {
       this._filmPopup.reset(this._film);
       remove(this._filmPopup);
       document.removeEventListener(`keydown`, this._escKeyDownHandler);
+      this._mode = Mode.DEFAULT;
     }
   }
 
