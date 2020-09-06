@@ -188,6 +188,7 @@ export default class FilmPopup extends SmartView {
     this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._historyClickHandler);
     this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`textarea`, this._commentInputHandler);
     this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`click`, this._emojiListClickHandler);
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 
   _renderComment(comment) {
