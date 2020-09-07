@@ -1,13 +1,13 @@
+import FilmPresenter from "./film.js";
 import {render, RenderPosition, remove} from "../utils/render.js";
 import ListContainerView from "../view/list-container.js";
 import FilmListView from "../view/film-list.js";
-import FilmCardView from "../view/film-card.js";
-import FilmPopupView from "../view/film-details.js";
 import NoFilmsView from "../view/no-films.js";
 import ButtonLoaderView from "../view/button.js";
 import SortView from "../view/sort.js";
 import {SortType} from "../const.js";
 import {sortFilmByDate, sortFilmByRaiting} from "../utils/film.js";
+import {updateItem} from "../utils/common.js";
 
 const CARDS_PER_STEP = 5;
 
@@ -16,6 +16,7 @@ export default class MovieList {
     this._filmContainer = filmContainer;
     this._renderedFilmsCards = CARDS_PER_STEP;
     this._currentSortType = SortType.DEFAULT;
+    this._filmPresenter = {};
 
 
     this._filmListContainer = new ListContainerView();
@@ -24,8 +25,10 @@ export default class MovieList {
     this._loadMoreButton = new ButtonLoaderView();
     this._sort = new SortView();
 
+    this._handleFilmChange = this._handleFilmChange.bind(this);
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
   }
 
   init(films) {
@@ -38,36 +41,16 @@ export default class MovieList {
     this._renderFilmBoard();
   }
 
+  _handleFilmChange(updatedFilm) {
+    this._films = updateItem(this._films, updatedFilm);
+    this._sourcedFilms = updateItem(this._sourcedFilms, updatedFilm);
+    this._filmPresenter[updatedFilm.id].init(updatedFilm);
+  }
+
   _renderFilm(card) {
-    const filmCard = new FilmCardView(card);
-    const filmPopup = new FilmPopupView(card);
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        evt.preventDefault();
-        remove(filmPopup);
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-
-    const openPopup = () => {
-      const body = document.querySelector(`body`);
-      render(body, filmPopup, RenderPosition.BEFOREEND);
-
-      filmPopup.renderComments();
-
-      document.addEventListener(`keydown`, onEscKeyDown);
-    };
-
-    const closePopup = () => {
-      remove(filmPopup);
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    };
-
-    filmCard.setOpenPopupClickHandler(openPopup);
-    filmPopup.setClosePopupClickHandler(closePopup);
-
-    render(this._filmList, filmCard, RenderPosition.BEFOREEND);
+    const filmPresenter = new FilmPresenter(this._filmList, this._handleFilmChange, this._handleModeChange);
+    filmPresenter.init(card);
+    this._filmPresenter[card.id] = filmPresenter;
   }
 
   _sortFilms(sortType) {
@@ -101,7 +84,10 @@ export default class MovieList {
   }
 
   _clearFilmsList() {
-    this._filmList.getElement().innerHTML = ``;
+    Object
+    .values(this._filmPresenter)
+    .forEach((presenter) => presenter.destroy());
+    this._filmPresenter = {};
     this._renderedFilmsCards = CARDS_PER_STEP;
   }
 
@@ -146,6 +132,12 @@ export default class MovieList {
 
     this._renderFilmList();
     this._renderSort();
+  }
+
+  _handleModeChange() {
+    Object
+      .values(this._filmPresenter)
+      .forEach((presenter) => presenter.resetView());
   }
 }
 

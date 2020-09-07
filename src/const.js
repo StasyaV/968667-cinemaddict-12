@@ -3,3 +3,10 @@ export const SortType = {
   DATE: `date`,
   RAITING: `raiting`
 };
+
+export const Emoji = {
+  SMILE: `smile`,
+  SLEEPING: `sleeping`,
+  PUKE: `puke`,
+  ANGRY: `angry`
+};
