@@ -1,17 +1,21 @@
-export const formatDate = (date) => {
-  return date.toLocaleDateString(`en-GB`, {day: `numeric`, month: `long`, year: `numeric`});
+import moment from 'moment';
+
+export const formatDuration = (minutes) => {
+  const duration = moment.duration(minutes, `minutes`);
+  const format = minutes > 60 ? `H[h] mm[m]` : `mm[m]`;
+  return moment.utc(duration.as(`milliseconds`)).format(format).toString();
 };
 
-export const formatTime = (minutes) => {
-  let time = minutes;
-  let hours = time / 60 ^ 0;
-  if (hours) {
-    let min = time % 60;
-    time = hours + ` h ` + min + ` min`;
+export const formatReleaseDate = (date, isFullDate = false) => {
+  if (isFullDate) {
+    return moment(date).format(`DD MMMM YYYY`);
   } else {
-    time = time + ` min`;
+    return moment(date).format(`YYYY`);
   }
-  return time;
+};
+
+export const getCommentDate = (date) => {
+  return moment(date).fromNow();
 };
 
 export const sortFilmByDate = (filmA, filmB) => {

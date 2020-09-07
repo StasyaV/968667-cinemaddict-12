@@ -2,7 +2,7 @@ import SmartView from "./smart.js";
 import CommentView from "./comment.js";
 import {render, RenderPosition, renderTemplate} from "../utils/render.js";
 import {comments} from "../mock/film.js";
-import {formatDate, formatTime} from "../utils/film.js";
+import {formatReleaseDate, formatDuration} from "../utils/film.js";
 import {Emoji} from "../const.js";
 
 const createFilmPopupTemplate = (card, currentEmoji) => {
@@ -26,8 +26,8 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
     watchlist
   } = card;
 
-  const date = formatDate(releaseDay);
-  const time = formatTime(runtime);
+  const date = formatReleaseDate(releaseDay, true);
+  const time = formatDuration(runtime);
 
   return `<section class="film-details" id=${id}>
   <form class="film-details__inner" action="" method="get">
