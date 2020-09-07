@@ -1,6 +1,6 @@
 import SmartView from "./smart.js";
 import CommentView from "./comment.js";
-import {render, RenderPosition} from "../utils/render.js";
+import {render, RenderPosition, renderTemplate} from "../utils/render.js";
 import {comments} from "../mock/film.js";
 import {formatDate, formatTime} from "../utils/film.js";
 import {Emoji} from "../const.js";
@@ -241,11 +241,11 @@ export default class FilmPopup extends SmartView {
   }
 
   _emojiListClickHandler(evt) {
-    let clickedElement = evt.target.value;
+    const chosenEmoji = evt.target.value;
     this.getElement().querySelector(`.film-details__add-emoji-label`).textContent = ``;
-    if (clickedElement === Emoji.SMILE || clickedElement === Emoji.SLEEPING || clickedElement === Emoji.PUKE || clickedElement === Emoji.ANGRY) {
-      let imgElement = `<img src="./images/emoji/${clickedElement}.png" width="55" height="55" alt="emoji-smile">`;
-      this.getElement().querySelector(`.film-details__add-emoji-label`).insertAdjacentHTML(RenderPosition.AFTERBEGIN, imgElement);
+    if (chosenEmoji === Emoji.SMILE || chosenEmoji === Emoji.SLEEPING || chosenEmoji === Emoji.PUKE || chosenEmoji === Emoji.ANGRY) {
+      const imgElement = `<img src="./images/emoji/${chosenEmoji}.png" width="55" height="55" alt="emoji-smile">`;
+      renderTemplate(this.getElement().querySelector(`.film-details__add-emoji-label`), imgElement, RenderPosition.AFTERBEGIN);
     }
   }
 
