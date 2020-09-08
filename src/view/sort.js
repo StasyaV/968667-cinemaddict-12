@@ -1,23 +1,24 @@
 import AbstractView from "./abstract.js";
 import {SortType} from "../const.js";
 
-const createSortTemplate = () => {
+const createSortTemplate = (currentSortType) => {
   return `<ul class="sort">
-    <li><a href="#" class="sort__button" data-sort-type="${SortType.DEFAULT}">Sort by default</a></li>
-    <li><a href="#" class="sort__button" data-sort-type="${SortType.DATE}">Sort by date</a></li>
-    <li><a href="#" class="sort__button" data-sort-type="${SortType.RAITING}">Sort by rating</a></li>
+    <li><a href="#" class="sort__button ${currentSortType === SortType.DEFAULT ? `sort__button--active` : ``}" data-sort-type="${SortType.DEFAULT}">Sort by default</a></li>
+    <li><a href="#" class="sort__button ${currentSortType === SortType.DATE ? `sort__button--active` : ``}" data-sort-type="${SortType.DATE}">Sort by date</a></li>
+    <li><a href="#" class="sort__button ${currentSortType === SortType.RAITING ? `sort__button--active` : ``}" data-sort-type="${SortType.RAITING}">Sort by rating</a></li>
   </ul>`;
 };
 
 export default class Sort extends AbstractView {
-  constructor() {
+  constructor(currentSortType) {
     super();
 
+    this._currentSortType = currentSortType;
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
   }
 
   getTemplate() {
-    return createSortTemplate();
+    return createSortTemplate(this._currentSortType);
   }
 
   _sortTypeChangeHandler(evt) {
@@ -25,15 +26,7 @@ export default class Sort extends AbstractView {
       return;
     }
 
-    const activeClass = `sort__button--active`;
-    let activeElement = this.getElement().querySelector(`.sort__button--active`);
-
-    if (activeElement) {
-      activeElement.classList.remove(activeClass);
-    }
-
     evt.preventDefault();
-    evt.target.classList.toggle(activeClass);
     this._callback.sortTypeChange(evt.target.dataset.sortType);
   }
 

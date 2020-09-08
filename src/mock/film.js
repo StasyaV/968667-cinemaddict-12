@@ -55,8 +55,9 @@ export const generateDate = () => {
   return new Date(currentDate);
 };
 
-export const getComment = () => {
+export const getComment = (value, index) => {
   const comment = {
+    id: index,
     emoji: `/images/emoji/` + emotions[getRandomNumber(0, emotions.length)] + `.png`,
     message: descriptionList[getRandomNumber(0, descriptionList.length)],
     author: names[getRandomNumber(0, names)],
