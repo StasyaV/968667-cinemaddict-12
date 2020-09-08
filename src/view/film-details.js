@@ -163,6 +163,7 @@ export default class FilmPopup extends SmartView {
     this._historyClickHandler = this._historyClickHandler.bind(this);
     this._commentInputHandler = this._commentInputHandler.bind(this);
     this._emojiListClickHandler = this._emojiListClickHandler.bind(this);
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
 
     this._setInnerHandlers();
   }
@@ -235,9 +236,15 @@ export default class FilmPopup extends SmartView {
 
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    if (evt.key === `ENTER` && evt.key === `CTRL`) {
-      this._callback.formSubmit(FilmPopup.parseDataToFilm(this._data));
+    if (evt.ctrlKey && evt.key === `Enter`) {
+      evt.preventDefault();
+      this._callback.submitComment();
     }
+  }
+
+  setSubmitCommentHandler(callback) {
+    this._callback.submitComment = callback;
+    this.getElement().addEventListener(`keydown`, this._formSubmitHandler);
   }
 
   _emojiListClickHandler(evt) {
