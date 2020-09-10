@@ -44,7 +44,7 @@ export default class Film {
     this._filmPopup.setFavouriteClickHandler(this._handleFavouriteClick);
     this._filmPopup.setHistoryClickHandler(this._handleHistoryClick);
     this._filmPopup.setWatchlistClickHandler(this._handleWatchlistClick);
-    this._filmPopup.setSubmitCommentHandler(this._handleFormSubmit);
+    // this._filmPopup.setSubmitCommentHandler(this._handleFormSubmit);
 
     if (prevFilmPopup === null || prevFilmCard === null) {
       render(this._filmListContainer, this._filmCard, RenderPosition.BEFOREEND);

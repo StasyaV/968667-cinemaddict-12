@@ -37,7 +37,7 @@ export default class Menu extends AbstractView {
   }
 
   getTemplate() {
-    return createMenuTemplate(this._filters, this._currentFilter);
+    return createMenuTemplate(this._filters, this._currentFilterType);
   }
 
   _filterTypeChangeHandler(evt) {
