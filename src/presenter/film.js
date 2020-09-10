@@ -24,6 +24,7 @@ export default class Film {
     this._handleFavouriteClick = this._handleFavouriteClick.bind(this);
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleHistoryClick = this._handleHistoryClick.bind(this);
+    this._handleFormSubmit = this._handleFormSubmit.bind(this);
   }
 
   init(film) {
@@ -43,6 +44,7 @@ export default class Film {
     this._filmPopup.setFavouriteClickHandler(this._handleFavouriteClick);
     this._filmPopup.setHistoryClickHandler(this._handleHistoryClick);
     this._filmPopup.setWatchlistClickHandler(this._handleWatchlistClick);
+    this._filmPopup.setSubmitCommentHandler(this._handleFormSubmit);
 
     if (prevFilmPopup === null || prevFilmCard === null) {
       render(this._filmListContainer, this._filmCard, RenderPosition.BEFOREEND);
@@ -98,6 +100,40 @@ export default class Film {
     remove(this._filmPopup);
     document.removeEventListener(`keydown`, this._escKeyDownHandler);
     this._mode = Mode.DEFAULT;
+  }
+
+  _handleFormSubmit(update) {
+    this._changeData(
+        UserAction.UPDATE_FILM,
+        UpdateType.PATCH,
+        update
+    );
+
+    this._filmPopup.init();
+  }
+
+  addComment(updateType, update) {
+    this._film.comments = [
+      update,
+      ...this._film.comments
+    ];
+
+    this._notify(updateType, update);
+  }
+
+  deleteComment(updateType, update) {
+    const index = this._film.comments.findIndex((comment) => comment.id === update.id);
+
+    if (index === -1) {
+      throw new Error(`Can't delete unexisting task`);
+    }
+
+    this._film = [
+      ...this._film.comments.slice(0, index),
+      ...this._film.comments.slice(index + 1)
+    ];
+
+    this._notify(updateType);
   }
 
   _handleFavouriteClick() {

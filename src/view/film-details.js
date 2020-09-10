@@ -236,7 +236,8 @@ export default class FilmPopup extends SmartView {
 
   _formSubmitHandler(evt) {
     evt.preventDefault();
-    if (evt.ctrlKey && evt.key === `Enter`) {
+    if (evt.keyCode === `13` && evt.ctrlKey) {
+      console.log('submit');
       evt.preventDefault();
       this._callback.submitComment();
     }
@@ -274,11 +275,6 @@ export default class FilmPopup extends SmartView {
   setHistoryClickHandler(callback) {
     this._callback.historyClick = callback;
     this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._historyClickHandler);
-  }
-
-  setFormSubmitHandler(callback) {
-    this._callback.formSubmit = callback;
-    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 
   static parseFilmToData(film) {
