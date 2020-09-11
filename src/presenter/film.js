@@ -18,13 +18,14 @@ export default class Film {
     this._filmPopup = null;
     this._mode = Mode.DEFAULT;
 
-    this._openPopupClickHandler = this._openPopupClickHandler.bind(this);
+    this.openPopupClickHandler = this.openPopupClickHandler.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
     this._closePopupClickHandler = this._closePopupClickHandler.bind(this);
     this._handleFavouriteClick = this._handleFavouriteClick.bind(this);
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleHistoryClick = this._handleHistoryClick.bind(this);
-    this._handleFormSubmit = this._handleFormSubmit.bind(this);
+    this._handleAddComment = this._handleAddComment.bind(this);
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
   }
 
   init(film) {
@@ -36,7 +37,7 @@ export default class Film {
     this._filmCard = new FilmCardView(film);
     this._filmPopup = new FilmPopupView(film);
 
-    this._filmCard.setOpenPopupClickHandler(this._openPopupClickHandler);
+    this._filmCard.setOpenPopupClickHandler(this.openPopupClickHandler);
     this._filmCard.setFavouriteClickHandler(this._handleFavouriteClick);
     this._filmCard.setHistoryClickHandler(this._handleHistoryClick);
     this._filmCard.setWatchlistClickHandler(this._handleWatchlistClick);
@@ -44,7 +45,7 @@ export default class Film {
     this._filmPopup.setFavouriteClickHandler(this._handleFavouriteClick);
     this._filmPopup.setHistoryClickHandler(this._handleHistoryClick);
     this._filmPopup.setWatchlistClickHandler(this._handleWatchlistClick);
-    // this._filmPopup.setSubmitCommentHandler(this._handleFormSubmit);
+    this._filmPopup.setAddCommentHandler(this._handleAddComment);
 
     if (prevFilmPopup === null || prevFilmCard === null) {
       render(this._filmListContainer, this._filmCard, RenderPosition.BEFOREEND);
@@ -85,11 +86,11 @@ export default class Film {
     }
   }
 
-  _openPopupClickHandler() {
+  openPopupClickHandler() {
     const body = document.querySelector(`body`);
     render(body, this._filmPopup, RenderPosition.BEFOREEND);
 
-    this._filmPopup.renderComments();
+    this._filmPopup.renderComments(this._film.commentsCount);
 
     document.addEventListener(`keydown`, this._escKeyDownHandler);
     this._changeMode();
@@ -102,38 +103,48 @@ export default class Film {
     this._mode = Mode.DEFAULT;
   }
 
-  _handleFormSubmit(update) {
-    this._changeData(
-        UserAction.UPDATE_FILM,
-        UpdateType.PATCH,
-        update
-    );
-
-    this._filmPopup.init();
-  }
-
-  addComment(updateType, update) {
-    this._film.comments = [
-      update,
-      ...this._film.comments
-    ];
-
-    this._notify(updateType, update);
-  }
-
-  deleteComment(updateType, update) {
-    const index = this._film.comments.findIndex((comment) => comment.id === update.id);
-
-    if (index === -1) {
-      throw new Error(`Can't delete unexisting task`);
-    }
-
-    this._film = [
+  _handleDeleteClick(commentId) {
+    const index = this._film.comments.findIndex((comment) => comment.id === Number(commentId));
+    const updatedComments = [
       ...this._film.comments.slice(0, index),
       ...this._film.comments.slice(index + 1)
     ];
 
-    this._notify(updateType);
+    this._changeData(
+        UserAction.DELETE_COMMENT,
+        UpdateType.POPUP,
+        Object.assign(
+            {},
+            this._film,
+            {
+              comments: updatedComments
+            }
+        )
+    );
+  }
+
+  _handleAddComment(newComment, newEmoji) {
+    const updatedComments = this._film.comments.slice();
+    console.log(updatedComments);
+    updatedComments.push({
+      id: this._film.commentsCount + 1,
+      emoji: newEmoji,
+      comment: newComment,
+      nickname: `Alexa M`,
+      dateComment: new Date(),
+    });
+
+    this._changeData(
+        UserAction.ADD_COMMENT,
+        UpdateType.POPUP,
+        Object.assign(
+            {},
+            this._film,
+            {
+              comments: updatedComments
+            }
+        )
+    );
   }
 
   _handleFavouriteClick() {

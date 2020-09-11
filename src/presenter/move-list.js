@@ -49,7 +49,6 @@ export default class MovieList {
   _getFilms() {
     const filterType = this._filterModel.getFilter();
     const films = this._moviesModel.getFilms();
-    console.log(filter[filterType](films));
     const filtredFilms = filter[filterType](films);
 
     switch (this._currentSortType) {
@@ -87,6 +86,13 @@ export default class MovieList {
       case UpdateType.MAJOR:
         this._clearFilmBoard({resetRenderedFilmCount: true, resetSortType: true});
         this._renderFilmBoard();
+        break;
+      case UpdateType.POPUP:
+        this._clearFilmBoard({resetRenderedFilmCount: true, resetSortType: true});
+        this._renderFilmBoard();
+        if (this._filmPresenter[data.id]) {
+          this._filmPresenter[data.id].openPopupClickHandler();
+        }
         break;
     }
   }

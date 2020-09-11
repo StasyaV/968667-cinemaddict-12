@@ -66,6 +66,10 @@ export const getComment = (value, index) => {
   return comment;
 };
 
+export const generateComments = () => {
+  return new Array(getRandomNumber(0, 5)).fill().map(getComment);
+};
+
 export const comments = new Array(getRandomNumber(0, 5)).fill().map(getComment);
 
 export const getFilm = (value, index) => {
@@ -74,7 +78,8 @@ export const getFilm = (value, index) => {
     img: `/images/posters/` + filmPosters[getRandomNumber(0, filmPosters.length)],
     shortDescription: generateDescription(),
     fullDescription: generateDescription(),
-    commentsCount: comments.length,
+    commentsCount: generateComments().length,
+    comments: generateComments(),
     raiting: getRandomNumber(0, 10),
     year: getRandomNumber(1929, 2000),
     director: names[getRandomNumber(0, names)],
