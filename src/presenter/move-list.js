@@ -24,7 +24,6 @@ export default class MovieList {
     this._loadMoreButton = null;
     this._sort = null;
 
-
     this._filmListContainer = new ListContainerView();
     this._filmList = new FilmListView();
     this._noFilms = new NoFilmsView();
@@ -56,6 +55,8 @@ export default class MovieList {
         return filtredFilms.sort(sortFilmByDate);
       case SortType.RAITING:
         return filtredFilms.sort(sortFilmByRaiting);
+      case SortType.DEFAULT:
+        return films;
     }
     return filtredFilms;
   }
@@ -198,10 +199,7 @@ export default class MovieList {
   }
 
   _renderFilmBoard() {
-    const films = this._getFilms();
-    const filmsCount = films.length;
-
-    if (filmsCount === 0) {
+    if (this._getFilms().length === 0) {
       this._renderNoFilms();
       return;
     }

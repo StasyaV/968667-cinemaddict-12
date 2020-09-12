@@ -103,11 +103,7 @@ export default class Film {
   }
 
   _handleDeleteClick(commentId) {
-    const index = this._film.comments.findIndex((comment) => comment.id === Number(commentId));
-    const updatedComments = [
-      ...this._film.comments.slice(0, index),
-      ...this._film.comments.slice(index + 1)
-    ];
+    const updatedComments = this._film.comments.filter((comment) => comment.id !== Number(commentId));
 
     this._changeData(
         UserAction.DELETE_COMMENT,
