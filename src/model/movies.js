@@ -37,7 +37,7 @@ export default class Movies extends Observer {
     if (indexFilm === -1 || indexComment === -1) {
       throw new Error(`Can't update unexisting comment`);
     }
-    
+
     this._films[indexFilm].comments = update.comments.slice();
 
     this._films[indexFilm].comments = [

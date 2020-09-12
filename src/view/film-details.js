@@ -252,7 +252,7 @@ export default class FilmPopup extends SmartView {
   _addCommentClickHandler(evt) {
     if (evt.key === `Enter` && evt.ctrlKey) {
       evt.preventDefault();
-      this._callback.addComment(this.getElement().querySelector(`.film-details__comment-input`).value, this._emoji ? this._emoji.alt : `smile`);
+      this._callback.addComment(this.getElement().querySelector(`.film-details__comment-input`).value, this._emoji ? this._emoji : `smile`);
     }
   }
 
