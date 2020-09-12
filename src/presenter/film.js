@@ -46,6 +46,7 @@ export default class Film {
     this._filmPopup.setHistoryClickHandler(this._handleHistoryClick);
     this._filmPopup.setWatchlistClickHandler(this._handleWatchlistClick);
     this._filmPopup.setAddCommentHandler(this._handleAddComment);
+    this._filmPopup.setDeleteClickHandler(this._handleDeleteClick);
 
     if (prevFilmPopup === null || prevFilmCard === null) {
       render(this._filmListContainer, this._filmCard, RenderPosition.BEFOREEND);
@@ -123,7 +124,6 @@ export default class Film {
 
   _handleAddComment(newComment, newEmoji) {
     const updatedComments = this._film.comments.slice();
-    console.log(updatedComments);
     updatedComments.push({
       id: this._film.comments.length + 1,
       emoji: `/images/emoji/${newEmoji}.png`,

@@ -44,7 +44,7 @@ export default class Movies extends Observer {
 
   deleteComment(updateType, update) {
     const indexFilm = this._films.findIndex((film) => film.id === update.id);
-    
+
     if (indexFilm === -1) {
       throw new Error(`Can't update unexisting comment`);
     }

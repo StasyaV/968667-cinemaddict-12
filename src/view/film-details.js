@@ -1,7 +1,6 @@
 import SmartView from "./smart.js";
 import CommentView from "./comment.js";
 import {render, RenderPosition, renderTemplate} from "../utils/render.js";
-import {generateComments} from "../mock/film.js";
 import {formatReleaseDate, formatDuration} from "../utils/film.js";
 import {Emoji} from "../const.js";
 
@@ -163,7 +162,7 @@ export default class FilmPopup extends SmartView {
     this._historyClickHandler = this._historyClickHandler.bind(this);
     this._commentInputHandler = this._commentInputHandler.bind(this);
     this._emojiListClickHandler = this._emojiListClickHandler.bind(this);
-    this._buttonDeleteClickHandler = this._buttonDeleteClickHandler.bind(this);
+    this._deleteCommentClickHandler = this._deleteCommentClickHandler.bind(this);
     this._addCommentClickHandler = this._addCommentClickHandler.bind(this);
 
     this._setInnerHandlers();
@@ -192,6 +191,7 @@ export default class FilmPopup extends SmartView {
     this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`input`, this._commentInputHandler);
     this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`click`, this._emojiListClickHandler);
     this.getElement().querySelector(`.film-details__comment-input`).addEventListener(`keydown`, this._addCommentClickHandler);
+    this.getElement().querySelector(`.film-details__comments-list`).addEventListener(`click`, this._deleteCommentClickHandler);
   }
 
   _renderComment(comment) {
@@ -237,7 +237,7 @@ export default class FilmPopup extends SmartView {
     }, true);
   }
 
-  _buttonDeleteClickHandler(evt) {
+  _deleteCommentClickHandler(evt) {
     evt.preventDefault();
 
     if (evt.target.tagName !== `BUTTON`) {
@@ -245,7 +245,6 @@ export default class FilmPopup extends SmartView {
     }
 
     const commentId = evt.target.closest(`.film-details__comment`).getAttribute(`id`);
-    console.log(commentId);
     this._callback.deleteComment(commentId);
   }
 
@@ -259,8 +258,7 @@ export default class FilmPopup extends SmartView {
   setDeleteClickHandler(callback) {
     this._callback.deleteComment = callback;
 
-    const commentsList = this.getElement().querySelector(`.film-details__comments-list`);
-    commentsList.addEventListener(`click`, this._buttonDeleteClickHandler);
+    this.getElement().querySelector(`.film-details__comments-list`).addEventListener(`click`, this._deleteCommentClickHandler);
   }
 
   setAddCommentHandler(callback) {
@@ -275,7 +273,6 @@ export default class FilmPopup extends SmartView {
       const imgElement = `<img src="./images/emoji/${chosenEmoji}.png" width="55" height="55" alt="emoji-smile">`;
       renderTemplate(this.getElement().querySelector(`.film-details__add-emoji-label`), imgElement, RenderPosition.AFTERBEGIN);
       this._emoji = chosenEmoji;
-      console.log(this._emoji);
     }
   }
 
