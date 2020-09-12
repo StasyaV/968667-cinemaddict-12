@@ -101,31 +101,18 @@ export default class Film {
     this._mode = Mode.DEFAULT;
   }
 
-  _handleDeleteClick(commentId) {
-    const index = this._film.comments.findIndex((comment) => comment.id === Number(commentId));
-    const updatedComments = [
-      ...this._film.comments.slice(0, index),
-      ...this._film.comments.slice(index + 1)
-    ];
-
+  _handleDeleteClick(film) {
     this._changeData(
         UserAction.DELETE_COMMENT,
         UpdateType.POPUP,
-        Object.assign(
-            {},
-            this._film,
-            {
-              comments: updatedComments
-            }
-        )
+        film
     );
   }
 
   _handleAddComment(newComment, newEmoji) {
     const updatedComments = this._film.comments.slice();
-    console.log(updatedComments);
     updatedComments.push({
-      id: this._film.commentsCount + 1,
+      id: this._film.comments.length + 1,
       emoji: `/images/emoji/${newEmoji}.png`,
       message: newComment,
       author: `Alexa M`,

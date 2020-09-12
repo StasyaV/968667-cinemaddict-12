@@ -34,11 +34,11 @@ export default class Movies extends Observer {
     const indexFilm = this._films.findIndex((film) => film.id === update.id);
     const indexComment = this._films[indexFilm].comments.findIndex((comment) => comment.id === update.id);
 
-    console.log(this._films[indexFilm].comments);
-
     if (indexFilm === -1 || indexComment === -1) {
       throw new Error(`Can't update unexisting comment`);
     }
+    
+    this._films[indexFilm].comments = update.comments.slice();
 
     this._films[indexFilm].comments = [
       ...this._films[indexFilm].comments.slice(0, indexComment),
@@ -52,16 +52,15 @@ export default class Movies extends Observer {
   deleteComment(updateType, update) {
     const indexFilm = this._films.findIndex((film) => film.id === update.id);
     const indexComment = this._films[indexFilm].comments.findIndex((comment) => comment.id === update.id);
-
-    console.log(this._films[indexFilm].comments);
     
     if (indexFilm === -1 || indexComment === -1) {
       throw new Error(`Can't update unexisting comment`);
     }
 
+    this._films[indexFilm].comments = update.comments.slice();
+
     this._films[indexFilm].comments = [
       ...this._films[indexFilm].comments.slice(0, indexComment),
-      update,
       ...this._films[indexFilm].comments.slice(indexComment + 1)
     ];
 

@@ -275,6 +275,7 @@ export default class FilmPopup extends SmartView {
       const imgElement = `<img src="./images/emoji/${chosenEmoji}.png" width="55" height="55" alt="emoji-smile">`;
       renderTemplate(this.getElement().querySelector(`.film-details__add-emoji-label`), imgElement, RenderPosition.AFTERBEGIN);
       this._emoji = chosenEmoji;
+      console.log(this._emoji);
     }
   }
 
