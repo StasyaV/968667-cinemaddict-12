@@ -10,7 +10,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
     name,
     img,
     fullDescription,
-    commentsCount,
+    comments,
     raiting,
     director,
     writers,
@@ -108,7 +108,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
 
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
         <ul class="film-details__comments-list">
 
@@ -167,6 +167,7 @@ export default class FilmPopup extends SmartView {
     this._addCommentClickHandler = this._addCommentClickHandler.bind(this);
 
     this._setInnerHandlers();
+    this._renderComments();
   }
 
   getTemplate() {
@@ -199,8 +200,8 @@ export default class FilmPopup extends SmartView {
     render(commentsContainer, commentary, RenderPosition.BEFOREEND);
   }
 
-  renderComments(count) {
-    const comments = generateComments().slice(0, count);
+  _renderComments() {
+    const comments = this._data.comments;
     return comments.forEach((comment) => this._renderComment(comment));
   }
 
@@ -273,6 +274,7 @@ export default class FilmPopup extends SmartView {
     if (chosenEmoji === Emoji.SMILE || chosenEmoji === Emoji.SLEEPING || chosenEmoji === Emoji.PUKE || chosenEmoji === Emoji.ANGRY) {
       const imgElement = `<img src="./images/emoji/${chosenEmoji}.png" width="55" height="55" alt="emoji-smile">`;
       renderTemplate(this.getElement().querySelector(`.film-details__add-emoji-label`), imgElement, RenderPosition.AFTERBEGIN);
+      this._emoji = chosenEmoji;
     }
   }
 

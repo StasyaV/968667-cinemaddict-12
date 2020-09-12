@@ -90,8 +90,6 @@ export default class Film {
     const body = document.querySelector(`body`);
     render(body, this._filmPopup, RenderPosition.BEFOREEND);
 
-    this._filmPopup.renderComments(this._film.commentsCount);
-
     document.addEventListener(`keydown`, this._escKeyDownHandler);
     this._changeMode();
     this._mode = Mode.POPUP;
@@ -128,10 +126,10 @@ export default class Film {
     console.log(updatedComments);
     updatedComments.push({
       id: this._film.commentsCount + 1,
-      emoji: newEmoji,
-      comment: newComment,
-      nickname: `Alexa M`,
-      dateComment: new Date(),
+      emoji: `/images/emoji/${newEmoji}.png`,
+      message: newComment,
+      author: `Alexa M`,
+      date: new Date(),
     });
 
     this._changeData(
