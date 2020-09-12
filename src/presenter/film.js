@@ -1,6 +1,7 @@
 import {render, RenderPosition, remove, replace} from "../utils/render.js";
 import FilmPopupView from "../view/film-details.js";
 import FilmCardView from "../view/film-card.js";
+import {UserAction, UpdateType} from "../const.js";
 
 const Mode = {
   DEFAULT: `DEFAULT`,
@@ -17,12 +18,14 @@ export default class Film {
     this._filmPopup = null;
     this._mode = Mode.DEFAULT;
 
-    this._openPopupClickHandler = this._openPopupClickHandler.bind(this);
+    this.openPopupClickHandler = this.openPopupClickHandler.bind(this);
     this._escKeyDownHandler = this._escKeyDownHandler.bind(this);
     this._closePopupClickHandler = this._closePopupClickHandler.bind(this);
     this._handleFavouriteClick = this._handleFavouriteClick.bind(this);
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleHistoryClick = this._handleHistoryClick.bind(this);
+    this._handleAddComment = this._handleAddComment.bind(this);
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
   }
 
   init(film) {
@@ -34,7 +37,7 @@ export default class Film {
     this._filmCard = new FilmCardView(film);
     this._filmPopup = new FilmPopupView(film);
 
-    this._filmCard.setOpenPopupClickHandler(this._openPopupClickHandler);
+    this._filmCard.setOpenPopupClickHandler(this.openPopupClickHandler);
     this._filmCard.setFavouriteClickHandler(this._handleFavouriteClick);
     this._filmCard.setHistoryClickHandler(this._handleHistoryClick);
     this._filmCard.setWatchlistClickHandler(this._handleWatchlistClick);
@@ -42,6 +45,8 @@ export default class Film {
     this._filmPopup.setFavouriteClickHandler(this._handleFavouriteClick);
     this._filmPopup.setHistoryClickHandler(this._handleHistoryClick);
     this._filmPopup.setWatchlistClickHandler(this._handleWatchlistClick);
+    this._filmPopup.setAddCommentHandler(this._handleAddComment);
+    this._filmPopup.setDeleteClickHandler(this._handleDeleteClick);
 
     if (prevFilmPopup === null || prevFilmCard === null) {
       render(this._filmListContainer, this._filmCard, RenderPosition.BEFOREEND);
@@ -82,11 +87,9 @@ export default class Film {
     }
   }
 
-  _openPopupClickHandler() {
+  openPopupClickHandler() {
     const body = document.querySelector(`body`);
     render(body, this._filmPopup, RenderPosition.BEFOREEND);
-
-    this._filmPopup.renderComments();
 
     document.addEventListener(`keydown`, this._escKeyDownHandler);
     this._changeMode();
@@ -99,8 +102,49 @@ export default class Film {
     this._mode = Mode.DEFAULT;
   }
 
+  _handleDeleteClick(commentId) {
+    const updatedComments = this._film.comments.filter((comment) => comment.id !== Number(commentId));
+
+    this._changeData(
+        UserAction.DELETE_COMMENT,
+        UpdateType.POPUP,
+        Object.assign(
+            {},
+            this._film,
+            {
+              comments: updatedComments
+            }
+        )
+    );
+  }
+
+  _handleAddComment(newComment, newEmoji) {
+    const updatedComments = this._film.comments.slice();
+    updatedComments.push({
+      id: this._film.comments.length + 1,
+      emoji: `/images/emoji/${newEmoji}.png`,
+      message: newComment,
+      author: `Alexa M`,
+      date: new Date(),
+    });
+
+    this._changeData(
+        UserAction.ADD_COMMENT,
+        UpdateType.POPUP,
+        Object.assign(
+            {},
+            this._film,
+            {
+              comments: updatedComments
+            }
+        )
+    );
+  }
+
   _handleFavouriteClick() {
     this._changeData(
+        UserAction.UPDATE_FILM,
+        UpdateType.PATCH,
         Object.assign(
             {},
             this._film,
@@ -113,6 +157,8 @@ export default class Film {
 
   _handleHistoryClick() {
     this._changeData(
+        UserAction.UPDATE_FILM,
+        UpdateType.PATCH,
         Object.assign(
             {},
             this._film,
@@ -125,6 +171,8 @@ export default class Film {
 
   _handleWatchlistClick() {
     this._changeData(
+        UserAction.UPDATE_FILM,
+        UpdateType.PATCH,
         Object.assign(
             {},
             this._film,

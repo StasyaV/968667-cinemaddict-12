@@ -1,26 +1,26 @@
 import AbstractView from "./abstract.js";
 
-const createMenuItemTemplate = (filter) => {
+const createMenuItemTemplate = (filter, currentFilterType) => {
   const {
+    type,
     name,
     count
   } = filter;
 
   return (
-    `<a href="#${name}" class="main-navigation__item">${name}
-      <span class="main-navigation__item-count">${count}</span>
+    `<a href="#${name}" class="main-navigation__item  ${type === currentFilterType ? `main-navigation__item--active` : ``}" name="${type}">${name}
+    ${count > 5 || type === `All` ? `` : `<span class="main-navigation__item-count">${count}</span>`}
     </a>`
   );
 };
 
-const createMenuTemplate = (filterItems) => {
+const createMenuTemplate = (filterItems, currentFilterType) => {
   const menuItemsTemplate = filterItems
-    .map((filter) => createMenuItemTemplate(filter))
+    .map((filter) => createMenuItemTemplate(filter, currentFilterType))
     .join(``);
 
   return `<nav class="main-navigation">
   <div class="main-navigation__items">
-  <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
     ${menuItemsTemplate}
   </div>
     <a href="#stats" class="main-navigation__additional">Stats</a>
@@ -28,12 +28,25 @@ const createMenuTemplate = (filterItems) => {
 };
 
 export default class Menu extends AbstractView {
-  constructor(filters) {
+  constructor(filters, currentFilterType) {
     super();
     this._filters = filters;
+    this._currentFilterType = currentFilterType;
+
+    this._filterTypeChangeHandler = this._filterTypeChangeHandler.bind(this);
   }
 
   getTemplate() {
-    return createMenuTemplate(this._filters);
+    return createMenuTemplate(this._filters, this._currentFilterType);
+  }
+
+  _filterTypeChangeHandler(evt) {
+    evt.preventDefault();
+    this._callback.filterTypeChange(evt.target.name);
+  }
+
+  setFilterTypeChangeHandler(callback) {
+    this._callback.filterTypeChange = callback;
+    this.getElement().addEventListener(`click`, this._filterTypeChangeHandler);
   }
 }

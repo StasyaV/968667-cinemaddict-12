@@ -55,25 +55,31 @@ export const generateDate = () => {
   return new Date(currentDate);
 };
 
-export const getComment = () => {
+export const getComment = (value, index) => {
   const comment = {
+    id: index,
     emoji: `/images/emoji/` + emotions[getRandomNumber(0, emotions.length)] + `.png`,
     message: descriptionList[getRandomNumber(0, descriptionList.length)],
     author: names[getRandomNumber(0, names)],
-    date: `2019/12/31 23:59`
+    date: generateDate()
   };
   return comment;
 };
 
-export const comments = new Array(getRandomNumber(0, 5)).fill().map(getComment);
+export const generateComments = () => {
+  return new Array(getRandomNumber(0, 5)).fill().map(getComment);
+};
+
+// export const comments = new Array(getRandomNumber(0, 5)).fill().map(getComment);
 
 export const getFilm = (value, index) => {
+  const comments = generateComments();
   const film = {
     name: filmNamesList[getRandomNumber(0, filmNamesList.length)],
     img: `/images/posters/` + filmPosters[getRandomNumber(0, filmPosters.length)],
     shortDescription: generateDescription(),
     fullDescription: generateDescription(),
-    commentsCount: comments.length,
+    comments,
     raiting: getRandomNumber(0, 10),
     year: getRandomNumber(1929, 2000),
     director: names[getRandomNumber(0, names)],
