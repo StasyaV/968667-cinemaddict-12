@@ -32,7 +32,6 @@ const filterPresenter = new FilterPresenter(mainContainter, filterModel, moviesM
 
 movieListPresenter.init();
 filterPresenter.init();
-statisticPresenter.init();
 
 const statContainer = document.querySelector(`.footer__statistics`);
 render(statContainer, new StatisticView().getElement(), RenderPosition.BEFOREEND);

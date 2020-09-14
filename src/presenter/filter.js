@@ -89,28 +89,28 @@ export default class Filter {
   _handleSiteMenuClick(menuItem) {
     switch (menuItem) {
       case MenuItem.ALL:
+        this._statsPresenter.destroy();
         this._movieListPresenter.init();
         this._filter.setFilter(UpdateType.MAJOR, FilterType.ALL);
-        this._statsPresenter.destroy();
         break;
       case MenuItem.WATCHLIST:
+        this._statsPresenter.destroy();
         this._movieListPresenter.init();
         this._filter.setFilter(UpdateType.MAJOR, FilterType.WATCHLIST);
-        this._statsPresenter.destroy();
         break;
       case MenuItem.HISTORY:
+        this._statsPresenter.destroy();
         this._movieListPresenter.init();
         this._filter.setFilter(UpdateType.MAJOR, FilterType.HISTORY);
-        this._statsPresenter.destroy();
         break;
       case MenuItem.FAVORITES:
+        this._statsPresenter.destroy();
         this._movieListPresenter.init();
         this._filter.setFilter(UpdateType.MAJOR, FilterType.FAVORITES);
-        this._statsPresenter.destroy();
         break;
       case MenuItem.STATS:
         this._movieListPresenter.destroy();
-        this._statsPresenter.destroy();
+        this._statsPresenter.init();
         break;
     }
   }

@@ -12,10 +12,10 @@ export default class Filter {
 
     render(this._statContainer, this._statistic.getElement(), RenderPosition.BEFOREEND);
 
-    if (prevStatistic === null) {
-      render(this._statContainer, this._statistic.getElement(), RenderPosition.BEFOREEND);
-      return;
-    }
+    // if (prevStatistic === null) {
+    //   render(this._statContainer, this._statistic.getElement(), RenderPosition.BEFOREEND);
+    //   return;
+    // }
 
     // replace(this._statistic, prevStatistic);
     // remove(prevStatistic);
