@@ -30,3 +30,11 @@ export const FilterType = {
   HISTORY: `History`,
   FAVORITES: `Favorites`
 };
+
+export const MenuItem = {
+  ALL: `ALL_MOVIES`,
+  WATCHLIST: `WATCHLIST`,
+  HISTORY: `HISTORY`,
+  FAVORITES: `FAVORITES`,
+  STATS: `STATS`
+};

@@ -1,7 +1,8 @@
 import {render, RenderPosition} from "./utils/render.js";
 import UserView from "./view/user.js";
-import MainContentView from "./view/content-container.js";
 import StatisticView from "./view/stat.js";
+import MainContentView from "./view/content-container.js";
+import StatisticPresenter from "./presenter/statistic.js";
 import {getFilm} from "./mock/film.js";
 import MovieListPresenter from "./presenter/move-list.js";
 import FilterPresenter from "./presenter/filter.js";
@@ -26,10 +27,12 @@ const filmContainer = new MainContentView();
 render(mainContainter, filmContainer.getElement(), RenderPosition.BEFOREEND);
 
 const movieListPresenter = new MovieListPresenter(filmContainer, moviesModel, filterModel);
-const filterPresenter = new FilterPresenter(mainContainter, filterModel, moviesModel);
+const statisticPresenter = new StatisticPresenter(mainContainter);
+const filterPresenter = new FilterPresenter(mainContainter, filterModel, moviesModel, movieListPresenter, statisticPresenter);
 
 movieListPresenter.init();
 filterPresenter.init();
+statisticPresenter.init();
 
 const statContainer = document.querySelector(`.footer__statistics`);
 render(statContainer, new StatisticView().getElement(), RenderPosition.BEFOREEND);
