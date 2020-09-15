@@ -65,8 +65,6 @@ export default class MovieList {
         return filtredFilms.sort(sortFilmByDate);
       case SortType.RAITING:
         return filtredFilms.sort(sortFilmByRaiting);
-      case SortType.DEFAULT:
-        return films;
     }
     return filtredFilms;
   }

@@ -23,7 +23,7 @@ const createMenuTemplate = (filterItems, currentFilterType) => {
   <div class="main-navigation__items">
     ${menuItemsTemplate}
   </div>
-    <a href="#stats" class="main-navigation__additional">Stats</a>
+    <a href="#stats" id="stats" class="main-navigation__additional">Stats</a>
   </nav>`;
 };
 
@@ -44,6 +44,11 @@ export default class Menu extends AbstractView {
 
   _filterTypeChangeHandler(evt) {
     evt.preventDefault();
+
+    if (evt.target.tagName !== `A` || evt.target.id === `stats`) {
+      return;
+    }
+
     this._callback.filterTypeChange(evt.target.name);
   }
 
@@ -60,6 +65,8 @@ export default class Menu extends AbstractView {
   _statsButtonClickHandler(evt) {
     evt.preventDefault();
 
-    this._callback.statsButton(evt.target.name);
+    if (evt.target.id === `stats`) {
+      this._callback.statsButton(evt.target.id);
+    }
   }
 }

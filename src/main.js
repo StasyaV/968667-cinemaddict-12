@@ -27,8 +27,8 @@ const filmContainer = new MainContentView();
 render(mainContainter, filmContainer.getElement(), RenderPosition.BEFOREEND);
 
 const movieListPresenter = new MovieListPresenter(filmContainer, moviesModel, filterModel);
-const statisticPresenter = new StatisticPresenter(mainContainter);
-const filterPresenter = new FilterPresenter(mainContainter, filterModel, moviesModel, movieListPresenter, statisticPresenter);
+const statisticPresenter = new StatisticPresenter(mainContainter, moviesModel);
+const filterPresenter = new FilterPresenter(mainContainter, filterModel, moviesModel, statisticPresenter, movieListPresenter);
 
 movieListPresenter.init();
 filterPresenter.init();

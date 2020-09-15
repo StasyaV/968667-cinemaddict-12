@@ -53,7 +53,7 @@ export default class Filter {
 
     if (this._isStats === true) {
       this._statsPresenter.destroy();
-      this._boardPresenter.init();
+      this._movieListPresenter.init();
       this._isStats = false;
     }
 
@@ -87,31 +87,33 @@ export default class Filter {
   }
 
   _handleSiteMenuClick(menuItem) {
-    switch (menuItem) {
-      case MenuItem.ALL:
-        this._statsPresenter.destroy();
-        this._movieListPresenter.init();
-        this._filter.setFilter(UpdateType.MAJOR, FilterType.ALL);
-        break;
-      case MenuItem.WATCHLIST:
-        this._statsPresenter.destroy();
-        this._movieListPresenter.init();
-        this._filter.setFilter(UpdateType.MAJOR, FilterType.WATCHLIST);
-        break;
-      case MenuItem.HISTORY:
-        this._statsPresenter.destroy();
-        this._movieListPresenter.init();
-        this._filter.setFilter(UpdateType.MAJOR, FilterType.HISTORY);
-        break;
-      case MenuItem.FAVORITES:
-        this._statsPresenter.destroy();
-        this._movieListPresenter.init();
-        this._filter.setFilter(UpdateType.MAJOR, FilterType.FAVORITES);
-        break;
-      case MenuItem.STATS:
-        this._movieListPresenter.destroy();
-        this._statsPresenter.init();
-        break;
-    }
+    this._movieListPresenter.destroy();
+    this._statsPresenter.init();
+  //   switch (menuItem) {
+  //     case MenuItem.ALL:
+  //       this._statsPresenter.destroy();
+  //       this._movieListPresenter.init();
+  //       this._filter.setFilter(UpdateType.MAJOR, FilterType.ALL);
+  //       break;
+  //     case MenuItem.WATCHLIST:
+  //       this._statsPresenter.destroy();
+  //       this._movieListPresenter.init();
+  //       this._filter.setFilter(UpdateType.MAJOR, FilterType.WATCHLIST);
+  //       break;
+  //     case MenuItem.HISTORY:
+  //       this._statsPresenter.destroy();
+  //       this._movieListPresenter.init();
+  //       this._filter.setFilter(UpdateType.MAJOR, FilterType.HISTORY);
+  //       break;
+  //     case MenuItem.FAVORITES:
+  //       this._statsPresenter.destroy();
+  //       this._movieListPresenter.init();
+  //       this._filter.setFilter(UpdateType.MAJOR, FilterType.FAVORITES);
+  //       break;
+  //     case MenuItem.STATS:
+  //       this._movieListPresenter.destroy();
+  //       this._statsPresenter.init();
+  //       break;
+  //   }
   }
 }

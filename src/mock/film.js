@@ -1,4 +1,5 @@
 import {getRandomNumber} from "../utils/common.js";
+import {GENRES} from "../const.js";
 
 const FIRST_FILM_YEAR = 1895;
 const descriptionList = [
@@ -15,7 +16,6 @@ const descriptionList = [
 ];
 const filmNamesList = [`The Dance of Life`, `Sagebrush Trail`, `The Man with the Golden Arm`, `Santa Claus Conquers the Martians`, `Popeye the Sailor Meets Sindbad the Sailor`];
 const filmPosters = [`made-for-each-other.png`, `popeye-meets-sinbad.png`, `sagebrush-trail.jpg`, `santa-claus-conquers-the-martians.jpg`, `the-dance-of-life.jpg`, `the-great-flamarion.jpg`, `the-man-with-the-golden-arm.jpg`];
-const filmGenres = [`Musical`, `Comedy`, `Drama`, `Cartoon`, `Western`, `Horror`, `Fantasy`];
 const emotions = [`smile`, `sleeping`, `puke`, `angry`];
 const names = [`Игорь`, `Андрей`, `Саша`, `Дима`, `Валя`, `Коля`, `Евгений`, `Марина`, `Лера`, `Лора`, `Вика`, `Миша`];
 const countriesList = [`USA`, `Russia`, `Ukraine`, `Germany`, `Poland`, `Sweden`, `Norway`];
@@ -89,7 +89,7 @@ export const getFilm = (value, index) => {
     ageToWatch: getRandomNumber(0, 18) + `+`,
     runtime: getRandomNumber(0, 120),
     country: countriesList[getRandomNumber(0, countriesList.length)],
-    genre: filmGenres[getRandomNumber(0, filmGenres.length)],
+    genre: GENRES[getRandomNumber(0, GENRES.length)],
     id: index,
     isFavourite: Boolean(getRandomNumber(0, 2)),
     isWatched: Boolean(getRandomNumber(0, 2)),
