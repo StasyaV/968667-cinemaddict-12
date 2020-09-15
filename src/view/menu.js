@@ -23,7 +23,7 @@ const createMenuTemplate = (filterItems, currentFilterType) => {
   <div class="main-navigation__items">
     ${menuItemsTemplate}
   </div>
-    <a href="#stats" id="stats" class="main-navigation__additional">Stats</a>
+    <a href="#stats" id="stats" class="main-navigation__additional" name="stats">Stats</a>
   </nav>`;
 };
 
@@ -36,6 +36,7 @@ export default class Menu extends AbstractView {
 
     this._filterTypeChangeHandler = this._filterTypeChangeHandler.bind(this);
     this._statsButtonClickHandler = this._statsButtonClickHandler.bind(this);
+    this._closeStatisticClickHandler = this._closeStatisticClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -68,5 +69,19 @@ export default class Menu extends AbstractView {
     if (evt.target.id === `stats`) {
       this._callback.statsButton(evt.target.id);
     }
+  }
+
+  _closeStatisticClickHandler(evt) {
+    evt.preventDefault();
+    if (evt.target.name === `stats`) {
+      return;
+    }
+
+    this._callback.closeckStatistic(evt.target.name);
+  }
+
+  setCloseStatisticClick(callback) {
+    this._callback.closeckStatistic = callback;
+    this.getElement().addEventListener(`click`, this._closeStatisticClickHandler);
   }
 }

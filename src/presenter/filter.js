@@ -17,7 +17,8 @@ export default class Filter {
 
     this._handleModelEvent = this._handleModelEvent.bind(this);
     this._handleFilterTypeChange = this._handleFilterTypeChange.bind(this);
-    this._handleSiteMenuClick = this._handleSiteMenuClick.bind(this);
+    this._handleOpenStatisticClick = this._handleOpenStatisticClick.bind(this);
+    this._handleMenuClick = this._handleMenuClick.bind(this);
 
     this._moviesModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
@@ -31,7 +32,8 @@ export default class Filter {
 
     this._filter = new MenuView(filters, this._currentFilter);
     this._filter.setFilterTypeChangeHandler(this._handleFilterTypeChange);
-    this._filter.setStatsButtonClickHandler(this._handleSiteMenuClick);
+    this._filter.setStatsButtonClickHandler(this._handleOpenStatisticClick);
+    this._filter.setCloseStatisticClick(this._handleMenuClick);
 
     if (prevFilter === null) {
       render(this._filterContainer, this._filter, RenderPosition.AFTERBEGIN);
@@ -86,34 +88,34 @@ export default class Filter {
     ];
   }
 
-  _handleSiteMenuClick(menuItem) {
+  _handleOpenStatisticClick() {
     this._movieListPresenter.destroy();
     this._statsPresenter.init();
-  //   switch (menuItem) {
-  //     case MenuItem.ALL:
-  //       this._statsPresenter.destroy();
-  //       this._movieListPresenter.init();
-  //       this._filter.setFilter(UpdateType.MAJOR, FilterType.ALL);
-  //       break;
-  //     case MenuItem.WATCHLIST:
-  //       this._statsPresenter.destroy();
-  //       this._movieListPresenter.init();
-  //       this._filter.setFilter(UpdateType.MAJOR, FilterType.WATCHLIST);
-  //       break;
-  //     case MenuItem.HISTORY:
-  //       this._statsPresenter.destroy();
-  //       this._movieListPresenter.init();
-  //       this._filter.setFilter(UpdateType.MAJOR, FilterType.HISTORY);
-  //       break;
-  //     case MenuItem.FAVORITES:
-  //       this._statsPresenter.destroy();
-  //       this._movieListPresenter.init();
-  //       this._filter.setFilter(UpdateType.MAJOR, FilterType.FAVORITES);
-  //       break;
-  //     case MenuItem.STATS:
-  //       this._movieListPresenter.destroy();
-  //       this._statsPresenter.init();
-  //       break;
-  //   }
+  }
+
+  _handleMenuClick(menuItem) {
+    console.log(`click`, menuItem);
+    switch (menuItem) {
+      case MenuItem.ALL:
+        this._statsPresenter.destroy();
+        this._movieListPresenter.init();
+        this._filter.setFilter(UpdateType.MAJOR, FilterType.ALL);
+        break;
+      case MenuItem.WATCHLIST:
+        this._statsPresenter.destroy();
+        this._movieListPresenter.init();
+        this._filter.setFilter(UpdateType.MAJOR, FilterType.WATCHLIST);
+        break;
+      case MenuItem.HISTORY:
+        this._statsPresenter.destroy();
+        this._movieListPresenter.init();
+        this._filter.setFilter(UpdateType.MAJOR, FilterType.HISTORY);
+        break;
+      case MenuItem.FAVORITES:
+        this._statsPresenter.destroy();
+        this._movieListPresenter.init();
+        this._filter.setFilter(UpdateType.MAJOR, FilterType.FAVORITES);
+        break;
+    }
   }
 }
