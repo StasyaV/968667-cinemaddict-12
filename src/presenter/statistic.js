@@ -28,7 +28,7 @@ export default class Statistic {
 
     render(this._statContainer, this._statistic.getElement(), RenderPosition.BEFOREEND);
 
-    if (prevStatistic === null) {
+    if (!prevStatistic) {
       render(this._statContainer, this._statistic.getElement(), RenderPosition.BEFOREEND);
       return;
     }

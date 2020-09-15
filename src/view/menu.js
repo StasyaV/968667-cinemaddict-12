@@ -36,7 +36,6 @@ export default class Menu extends AbstractView {
 
     this._filterTypeChangeHandler = this._filterTypeChangeHandler.bind(this);
     this._statsButtonClickHandler = this._statsButtonClickHandler.bind(this);
-    this._closeStatisticClickHandler = this._closeStatisticClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -66,22 +65,6 @@ export default class Menu extends AbstractView {
   _statsButtonClickHandler(evt) {
     evt.preventDefault();
 
-    if (evt.target.id === `stats`) {
-      this._callback.statsButton(evt.target.id);
-    }
-  }
-
-  _closeStatisticClickHandler(evt) {
-    evt.preventDefault();
-    if (evt.target.name === `stats`) {
-      return;
-    }
-
-    this._callback.closeclickStatistic(evt.target.name);
-  }
-
-  setCloseStatisticClick(callback) {
-    this._callback.closeclickStatistic = callback;
-    this.getElement().addEventListener(`click`, this._closeStatisticClickHandler);
+    this._callback.statsButton(evt.target.name);
   }
 }

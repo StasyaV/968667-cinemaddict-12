@@ -35,11 +35,11 @@ export const FilterType = {
 };
 
 export const MenuItem = {
-  ALL: `ALL_MOVIES`,
-  WATCHLIST: `WATCHLIST`,
-  HISTORY: `HISTORY`,
-  FAVORITES: `FAVORITES`,
-  STATS: `STATS`
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITES: `favorites`,
+  STATS: `stats`
 };
 
 export const StatsType = {

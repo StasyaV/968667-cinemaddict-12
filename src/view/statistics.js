@@ -144,7 +144,7 @@ export default class Statistic extends SmartView {
 
     this._changePeriodClickHandler = this._changePeriodClickHandler.bind(this);
 
-    this._setCharts();
+    this._setCharts(this._genresCount);
   }
 
   removeElement() {
@@ -156,12 +156,12 @@ export default class Statistic extends SmartView {
   }
 
   restoreHandlers() {
-    this._setCharts();
+    this._setCharts(this._genresCount);
   }
 
-  _setCharts() {
+  _setCharts(genresCount) {
     const ctx = this.getElement().querySelector(`.statistic__chart`);
-    renderChart(ctx, this._genresCount);
+    renderChart(ctx, genresCount);
   }
 
   _changePeriodClickHandler(evt) {
