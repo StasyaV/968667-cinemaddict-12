@@ -165,13 +165,12 @@ export default class Statistic extends SmartView {
   }
 
   _changePeriodClickHandler(evt) {
-    evt.preventDefault();
     console.log(`click`);
-    this._callback.changePeriod(evt.target.value);
+    this._callback.changePeriodClick(evt.target.value);
   }
 
   setChangePeriodClickHandler(callback) {
-    this._callback.changePeriod = callback;
+    this._callback.changePeriodClick = callback;
     this.getElement().querySelector(`.statistic__filters`).addEventListener(`click`, this._changePeriodClickHandler);
   }
 }

@@ -149,10 +149,6 @@ export default class MovieList {
       .forEach((presenter) => presenter.destroy());
     this._filmPresenter = {};
 
-    remove(this._sort);
-    remove(this._noFilms);
-    remove(this._loadMoreButton);
-
     if (resetRenderedFilmCount) {
       this._renderedFilmCount = CARDS_PER_STEP;
     } else {
@@ -162,6 +158,10 @@ export default class MovieList {
     if (resetSortType) {
       this._currentSortType = SortType.DEFAULT;
     }
+    
+    remove(this._sort);
+    remove(this._noFilms);
+    remove(this._loadMoreButton);
   }
 
   _renderFilms(films) {

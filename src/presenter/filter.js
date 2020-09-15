@@ -93,29 +93,30 @@ export default class Filter {
     this._statsPresenter.init();
   }
 
-  _handleMenuClick(menuItem) {
-    console.log(`click`, menuItem);
-    switch (menuItem) {
-      case MenuItem.ALL:
-        this._statsPresenter.destroy();
-        this._movieListPresenter.init();
-        this._filter.setFilter(UpdateType.MAJOR, FilterType.ALL);
-        break;
-      case MenuItem.WATCHLIST:
-        this._statsPresenter.destroy();
-        this._movieListPresenter.init();
-        this._filter.setFilter(UpdateType.MAJOR, FilterType.WATCHLIST);
-        break;
-      case MenuItem.HISTORY:
-        this._statsPresenter.destroy();
-        this._movieListPresenter.init();
-        this._filter.setFilter(UpdateType.MAJOR, FilterType.HISTORY);
-        break;
-      case MenuItem.FAVORITES:
-        this._statsPresenter.destroy();
-        this._movieListPresenter.init();
-        this._filter.setFilter(UpdateType.MAJOR, FilterType.FAVORITES);
-        break;
-    }
+  _handleMenuClick() {
+    this._statsPresenter.destroy();
+    this._movieListPresenter.init();
+    // switch (menuItem) {
+    //   case MenuItem.ALL:
+    //     this._statsPresenter.destroy();
+    //     this._movieListPresenter.init();
+    //     this._filter.setFilter(UpdateType.MAJOR, FilterType.ALL);
+    //     break;
+    //   case MenuItem.WATCHLIST:
+    //     this._statsPresenter.destroy();
+    //     this._movieListPresenter.init();
+    //     this._filter.setFilter(UpdateType.MAJOR, FilterType.WATCHLIST);
+    //     break;
+    //   case MenuItem.HISTORY:
+    //     this._statsPresenter.destroy();
+    //     this._movieListPresenter.init();
+    //     this._filter.setFilter(UpdateType.MAJOR, FilterType.HISTORY);
+    //     break;
+    //   case MenuItem.FAVORITES:
+    //     this._statsPresenter.destroy();
+    //     this._movieListPresenter.init();
+    //     this._filter.setFilter(UpdateType.MAJOR, FilterType.FAVORITES);
+    //     break;
+    // }
   }
 }

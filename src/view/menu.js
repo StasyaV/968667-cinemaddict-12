@@ -77,11 +77,11 @@ export default class Menu extends AbstractView {
       return;
     }
 
-    this._callback.closeckStatistic(evt.target.name);
+    this._callback.closeclickStatistic(evt.target.name);
   }
 
   setCloseStatisticClick(callback) {
-    this._callback.closeckStatistic = callback;
+    this._callback.closeclickStatistic = callback;
     this.getElement().addEventListener(`click`, this._closeStatisticClickHandler);
   }
 }

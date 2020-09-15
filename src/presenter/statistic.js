@@ -11,6 +11,8 @@ export default class Statistic {
     this._currentStat = StatsType.ALL;
     this._prevStatsComponent = null;
     this._filmsStats = null;
+
+    this._handleStatsPeriodChange = this._handleStatsPeriodChange.bind(this);
   }
 
   init() {
@@ -43,7 +45,6 @@ export default class Statistic {
   }
 
   _handleStatsPeriodChange() {
-    remove(this._statistic);
     this._statistic.init();
   }
 }
