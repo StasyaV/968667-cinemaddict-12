@@ -17,7 +17,7 @@ const countFilmsByGenre = (films, genre) => {
   return films.filter((film) => film.genre === genre).length;
 };
 
-export const getRank = (watchedFilms) => {
+const getRank = (watchedFilms) => {
   for (let i = 0; i < RANKS.length; i++) {
     if (watchedFilms <= Object.values(RANKS[i])) {
       return Object.keys(RANKS[i])[0];
@@ -26,7 +26,7 @@ export const getRank = (watchedFilms) => {
   return ``;
 };
 
-export const getTotalCountGenre = (films, genres) => {
+const getTotalCountGenre = (films, genres) => {
   let totalCountGenre = [];
   if (films.length > 0) {
     for (let i = 0; i < genres.length; i++) {
@@ -36,7 +36,7 @@ export const getTotalCountGenre = (films, genres) => {
   return totalCountGenre;
 };
 
-export const getTopGenre = (films, genres) => {
+const getTopGenre = (films, genres) => {
   if (films.length > 0) {
     let maxNum = Math.max.apply(null, getTotalCountGenre(films, genres));
     let index = getTotalCountGenre(films, genres).indexOf(maxNum);
@@ -45,11 +45,11 @@ export const getTopGenre = (films, genres) => {
   return ``;
 };
 
-export const getCountWatchedFilms = (films) => {
+const getCountWatchedFilms = (films) => {
   return films.filter((film) => film.isWatched === true);
 };
 
-export const getTotalDuration = (films) => {
+const getTotalDuration = (films) => {
   let totalDuration = 0;
   for (let i = 0; i < films.length; i++) {
     totalDuration += films[i].runtime;
