@@ -51,7 +51,7 @@ export default class Filter {
       return;
     }
 
-    if (this._isStats === true) {
+    if (this._isStats) {
       this._statsPresenter.destroy();
       this._movieListPresenter.init();
       this._isStats = false;

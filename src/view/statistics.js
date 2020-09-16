@@ -4,11 +4,12 @@ import SmartView from "./smart.js";
 import {StatsType, BASE_COLOR, GENRES} from "../const.js";
 
 const BAR_HEIGHT = 50;
+const MINUTES_IN_HOUR = 60;
 
 const getDurationTemplate = (time) => {
-  let hours = time / 60 ^ 0;
+  const hours = time / MINUTES_IN_HOUR ^ 0;
   if (hours) {
-    let minutes = time % 60;
+    let minutes = time % MINUTES_IN_HOUR;
 
     if (minutes < 10) {
       minutes = `0` + minutes;

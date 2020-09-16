@@ -18,19 +18,19 @@ const countFilmsByGenre = (films, genre) => {
 };
 
 const getRank = (watchedFilms) => {
-  for (let i = 0; i < RANKS.length; i++) {
-    if (watchedFilms <= Object.values(RANKS[i])) {
-      return Object.keys(RANKS[i])[0];
+  for (let rank of RANKS) {
+    if (watchedFilms <= Object.values(rank)) {
+      return Object.keys(rank)[0];
     }
   }
   return ``;
 };
 
-const getTotalCountGenre = (films, genres) => {
+const getPopularGenres = (films, genres) => {
   let totalCountGenre = [];
   if (films.length > 0) {
-    for (let i = 0; i < genres.length; i++) {
-      totalCountGenre.push(countFilmsByGenre(films, genres[i]));
+    for (let genre of genres) {
+      totalCountGenre.push(countFilmsByGenre(films, genre));
     }
   }
   return totalCountGenre;
@@ -38,29 +38,26 @@ const getTotalCountGenre = (films, genres) => {
 
 const getTopGenre = (films, genres) => {
   if (films.length > 0) {
-    let maxNum = Math.max.apply(null, getTotalCountGenre(films, genres));
-    let index = getTotalCountGenre(films, genres).indexOf(maxNum);
+    const maxNum = Math.max.apply(null, getPopularGenres(films, genres));
+    const index = getPopularGenres(films, genres).indexOf(maxNum);
     return genres[index];
   }
   return ``;
 };
 
-const getCountWatchedFilms = (films) => {
-  return films.filter((film) => film.isWatched === true);
+const getWatchedFilms = (films) => {
+  return films.filter((film) => film.isWatched);
 };
 
 const getTotalDuration = (films) => {
-  let totalDuration = 0;
-  for (let i = 0; i < films.length; i++) {
-    totalDuration += films[i].runtime;
-  }
-
+  let duration = 0;
+  let totalDuration = films.reduce((num, film) => num + film.runtime, duration);
   return totalDuration;
 };
 
 export const getFilmStats = (films, genres) => {
-  const watchedFilms = getCountWatchedFilms(films);
-  const genresCount = getTotalCountGenre(watchedFilms, genres);
+  const watchedFilms = getWatchedFilms(films);
+  const genresCount = getPopularGenres(watchedFilms, genres);
   const totalDuration = getTotalDuration(watchedFilms);
   const rank = getRank(watchedFilms.length);
   const topGenre = getTopGenre(watchedFilms, genres);
