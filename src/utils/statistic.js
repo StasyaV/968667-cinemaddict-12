@@ -50,9 +50,7 @@ const getWatchedFilms = (films) => {
 };
 
 const getTotalDuration = (films) => {
-  let duration = 0;
-  let totalDuration = films.reduce((num, film) => num + film.runtime, duration);
-  return totalDuration;
+  return films.reduce((num, film) => num + film.runtime, 0);
 };
 
 export const getFilmStats = (films, genres) => {
