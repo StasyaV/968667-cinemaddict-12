@@ -65,6 +65,8 @@ export default class Menu extends AbstractView {
   _statsButtonClickHandler(evt) {
     evt.preventDefault();
 
+    this.getElement().querySelector(`.main-navigation__item--active`).classList.remove(`main-navigation__item--active`);
+    this.getElement().querySelector(`.main-navigation__additional`).classList.add(`main-navigation__item--active`);
     this._callback.statsButton(evt.target.name);
   }
 }

@@ -83,45 +83,45 @@ const renderChart = (ctx, genresCount) => {
   return chart;
 };
 
-const createStatisticTemplate = (watchedFilms, duration, rank, topGenre) => {
+const createStatisticTemplate = (filmStats, currentStat) => {
   return `<section class="statistic">
   <p class="statistic__rank">
     Your rank
     <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-    <span class="statistic__rank-label">${rank}</span>
+    <span class="statistic__rank-label">${filmStats.rank}</span>
   </p>
 
   <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
     <p class="statistic__filters-description">Show stats:</p>
 
-    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-all-time" value="all-time" checked>
-    <label for="statistic-all-time" class="statistic__filters-label">All time</label>
+    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-all-time" value="all-time" ${currentStat === StatsType.ALL ? `checked` : ``}>
+    <label for="statistic-all-time" class="statistic__filters-label" id="${StatsType.ALL}">All time</label>
 
-    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-today" value="today">
-    <label for="statistic-today" class="statistic__filters-label">Today</label>
+    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-today" value="today" ${currentStat === StatsType.TODAY ? `checked` : ``}>
+    <label for="statistic-today" class="statistic__filters-label" id="${StatsType.TODAY}">Today</label>
 
-    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-week" value="week">
-    <label for="statistic-week" class="statistic__filters-label">Week</label>
+    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-week" value="week" ${currentStat === StatsType.WEEK ? `checked` : ``}>
+    <label for="statistic-week" class="statistic__filters-label" id="${StatsType.WEEK}">Week</label>
 
-    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-month" value="month">
-    <label for="statistic-month" class="statistic__filters-label">Month</label>
+    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-month" value="month" ${currentStat === StatsType.MONTH ? `checked` : ``}>
+    <label for="statistic-month" class="statistic__filters-label" id="${StatsType.MONTH}">Month</label>
 
-    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-year" value="year">
-    <label for="statistic-year" class="statistic__filters-label">Year</label>
+    <input type="radio" class="statistic__filters-input visually-hidden" name="statistic-filter" id="statistic-year" value="year" ${currentStat === StatsType.YEAR ? `checked` : ``}>
+    <label for="statistic-year" class="statistic__filters-label" id="${StatsType.YEAR}">Year</label>
   </form>
 
   <ul class="statistic__text-list">
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">You watched</h4>
-      <p class="statistic__item-text">${watchedFilms} <span class="statistic__item-description">movies</span></p>
+      <p class="statistic__item-text">${filmStats.watchedFilms.length} <span class="statistic__item-description">movies</span></p>
     </li>
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">Total duration</h4>
-      <p class="statistic__item-text">${getDurationTemplate(duration)}</p>
+      <p class="statistic__item-text">${getDurationTemplate(filmStats.totalDuration)}</p>
     </li>
     <li class="statistic__text-item">
       <h4 class="statistic__item-title">Top genre</h4>
-      <p class="statistic__item-text">${topGenre}</p>
+      <p class="statistic__item-text">${filmStats.topGenre}</p>
     </li>
   </ul>
 
@@ -133,18 +133,15 @@ const createStatisticTemplate = (watchedFilms, duration, rank, topGenre) => {
 };
 
 export default class Statistic extends SmartView {
-  constructor(genresCount, watchedFilms, totalDurtion, rank, topGenre) {
+  constructor(filmStats, currentStat) {
     super();
 
-    this._genresCount = genresCount;
-    this._watchedFilms = watchedFilms;
-    this._totalDuration = totalDurtion;
-    this._rank = rank;
-    this._topGenre = topGenre;
+    this._filmStats = filmStats;
+    this._currentStat = currentStat;
 
     this._changePeriodClickHandler = this._changePeriodClickHandler.bind(this);
 
-    this._setCharts(this._genresCount);
+    this._setCharts(this._filmStats.genresCount);
   }
 
   removeElement() {
@@ -152,7 +149,7 @@ export default class Statistic extends SmartView {
   }
 
   getTemplate() {
-    return createStatisticTemplate(this._watchedFilms, this._totalDuration, this._rank, this._topGenre);
+    return createStatisticTemplate(this._filmStats, this._currentStat);
   }
 
   restoreHandlers() {
@@ -165,8 +162,7 @@ export default class Statistic extends SmartView {
   }
 
   _changePeriodClickHandler(evt) {
-    console.log(`click`);
-    this._callback.changePeriodClick(evt.target.value);
+    this._callback.changePeriodClick(evt.target.id);
   }
 
   setChangePeriodClickHandler(callback) {

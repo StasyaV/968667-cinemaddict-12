@@ -64,4 +64,3 @@ export const RANKS = [
     'Movie buff': Infinity
   }
 ];
-
