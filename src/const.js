@@ -1,3 +1,6 @@
+export const BASE_COLOR = `#ffe800`;
+export const GENRES = [`Sci-Fi`, `Animation`, `Fantasy`, `Comedy`, `TV Series`];
+
 export const SortType = {
   DEFAULT: `default`,
   DATE: `date`,
@@ -30,3 +33,34 @@ export const FilterType = {
   HISTORY: `History`,
   FAVORITES: `Favorites`
 };
+
+export const MenuItem = {
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITES: `favorites`,
+  STATS: `stats`
+};
+
+export const StatsType = {
+  ALL: `ALL`,
+  TODAY: `TODAY`,
+  WEEK: `WEEK`,
+  MONTH: `MONTH`,
+  YEAR: `YEAR`
+};
+
+export const RANKS = [
+  {
+    '': 0
+  },
+  {
+    'Novice': 10
+  },
+  {
+    'Fan': 20
+  },
+  {
+    'Movie buff': Infinity
+  }
+];

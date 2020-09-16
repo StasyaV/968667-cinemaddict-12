@@ -1,19 +1,23 @@
 import MenuView from "../view/menu.js";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
 import {filter} from "../utils/filter.js";
-import {FilterType, UpdateType} from "../const.js";
+import {FilterType, UpdateType, MenuItem} from "../const.js";
 
 export default class Filter {
-  constructor(filterContainer, filterModel, moviesModel) {
+  constructor(filterContainer, filterModel, moviesModel, statsPresenter, movieListPresenter) {
     this._filterContainer = filterContainer;
     this._filterModel = filterModel;
     this._moviesModel = moviesModel;
     this._currentFilter = null;
 
     this._filter = null;
+    this._isStats = false;
+    this._movieListPresenter = movieListPresenter;
+    this._statsPresenter = statsPresenter;
 
     this._handleModelEvent = this._handleModelEvent.bind(this);
     this._handleFilterTypeChange = this._handleFilterTypeChange.bind(this);
+    this._handleMenuClick = this._handleMenuClick.bind(this);
 
     this._moviesModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
@@ -27,6 +31,7 @@ export default class Filter {
 
     this._filter = new MenuView(filters, this._currentFilter);
     this._filter.setFilterTypeChangeHandler(this._handleFilterTypeChange);
+    this._filter.setStatsButtonClickHandler(this._handleMenuClick);
 
     if (prevFilter === null) {
       render(this._filterContainer, this._filter, RenderPosition.AFTERBEGIN);
@@ -42,8 +47,14 @@ export default class Filter {
   }
 
   _handleFilterTypeChange(filterType) {
-    if (this._currentFilter === filterType) {
+    if (this._currentFilter === filterType && !this._isStats === true) {
       return;
+    }
+
+    if (this._isStats) {
+      this._statsPresenter.destroy();
+      this._movieListPresenter.init();
+      this._isStats = false;
     }
 
     this._filterModel.setFilter(UpdateType.MAJOR, filterType);
@@ -73,5 +84,16 @@ export default class Filter {
         count: filter[FilterType.FAVORITES](films).length
       }
     ];
+  }
+
+  _handleMenuClick(menuItem) {
+    if (menuItem === MenuItem.STATS) {
+      this._movieListPresenter.destroy();
+      this._statsPresenter.init();
+    } else {
+      this._statsPresenter.destroy();
+      this._movieListPresenter.destroy();
+      this._movieListPresenter.init();
+    }
   }
 }

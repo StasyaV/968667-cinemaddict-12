@@ -23,7 +23,7 @@ const createMenuTemplate = (filterItems, currentFilterType) => {
   <div class="main-navigation__items">
     ${menuItemsTemplate}
   </div>
-    <a href="#stats" class="main-navigation__additional">Stats</a>
+    <a href="#stats" id="stats" class="main-navigation__additional" name="stats">Stats</a>
   </nav>`;
 };
 
@@ -32,8 +32,10 @@ export default class Menu extends AbstractView {
     super();
     this._filters = filters;
     this._currentFilterType = currentFilterType;
+    this._isStatsActive = false;
 
     this._filterTypeChangeHandler = this._filterTypeChangeHandler.bind(this);
+    this._statsButtonClickHandler = this._statsButtonClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -42,11 +44,29 @@ export default class Menu extends AbstractView {
 
   _filterTypeChangeHandler(evt) {
     evt.preventDefault();
+
+    if (evt.target.tagName !== `A` || evt.target.id === `stats`) {
+      return;
+    }
+
     this._callback.filterTypeChange(evt.target.name);
   }
 
   setFilterTypeChangeHandler(callback) {
     this._callback.filterTypeChange = callback;
     this.getElement().addEventListener(`click`, this._filterTypeChangeHandler);
+  }
+
+  setStatsButtonClickHandler(callback) {
+    this._callback.statsButton = callback;
+    this.getElement().addEventListener(`click`, this._statsButtonClickHandler);
+  }
+
+  _statsButtonClickHandler(evt) {
+    evt.preventDefault();
+
+    this.getElement().querySelector(`.main-navigation__item--active`).classList.remove(`main-navigation__item--active`);
+    this.getElement().querySelector(`.main-navigation__additional`).classList.add(`main-navigation__item--active`);
+    this._callback.statsButton(evt.target.name);
   }
 }

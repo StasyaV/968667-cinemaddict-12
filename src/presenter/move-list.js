@@ -33,9 +33,6 @@ export default class MovieList {
     this._handleLoadMoreButtonClick = this._handleLoadMoreButtonClick.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
-
-    this._moviesModel.addObserver(this._handleModelEvent);
-    this._filterModel.addObserver(this._handleModelEvent);
   }
 
   init() {
@@ -43,6 +40,19 @@ export default class MovieList {
     render(this._filmListContainer, this._filmList, RenderPosition.BEFOREEND);
 
     this._renderFilmBoard();
+
+    this._moviesModel.addObserver(this._handleModelEvent);
+    this._filterModel.addObserver(this._handleModelEvent);
+  }
+
+  destroy() {
+    this._clearFilmBoard({resetRenderedFilmCount: true, resetSortType: true});
+
+    remove(this._filmListContainer);
+    remove(this._filmList);
+
+    this._moviesModel.removeObserver(this._handleModelEvent);
+    this._moviesModel.removeObserver(this._handleModelEvent);
   }
 
   _getFilms() {
@@ -55,8 +65,6 @@ export default class MovieList {
         return filtredFilms.sort(sortFilmByDate);
       case SortType.RAITING:
         return filtredFilms.sort(sortFilmByRaiting);
-      case SortType.DEFAULT:
-        return films;
     }
     return filtredFilms;
   }
@@ -141,10 +149,6 @@ export default class MovieList {
       .forEach((presenter) => presenter.destroy());
     this._filmPresenter = {};
 
-    remove(this._sort);
-    remove(this._noFilms);
-    remove(this._loadMoreButton);
-
     if (resetRenderedFilmCount) {
       this._renderedFilmCount = CARDS_PER_STEP;
     } else {
@@ -154,6 +158,10 @@ export default class MovieList {
     if (resetSortType) {
       this._currentSortType = SortType.DEFAULT;
     }
+
+    remove(this._sort);
+    remove(this._noFilms);
+    remove(this._loadMoreButton);
   }
 
   _renderFilms(films) {
