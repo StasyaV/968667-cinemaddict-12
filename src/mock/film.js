@@ -76,6 +76,7 @@ export const getFilm = (value, index) => {
   const comments = generateComments();
   const film = {
     name: filmNamesList[getRandomNumber(0, filmNamesList.length)],
+    alternativeName: name,
     img: `/images/posters/` + filmPosters[getRandomNumber(0, filmPosters.length)],
     shortDescription: generateDescription(),
     fullDescription: generateDescription(),

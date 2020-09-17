@@ -4,6 +4,7 @@ import ListContainerView from "../view/list-container.js";
 import FilmListView from "../view/film-list.js";
 import NoFilmsView from "../view/no-films.js";
 import ButtonLoaderView from "../view/button.js";
+import LoadingView from "../view/loading.js";
 import SortView from "../view/sort.js";
 import {SortType, UpdateType, UserAction} from "../const.js";
 import {sortFilmByDate, sortFilmByRaiting} from "../utils/film.js";
@@ -12,14 +13,15 @@ import {filter} from "../utils/filter.js";
 const CARDS_PER_STEP = 5;
 
 export default class MovieList {
-  constructor(filmContainer, moviesModel, filterModel) {
+  constructor(filmContainer, moviesModel, filterModel, api) {
     this._moviesModel = moviesModel;
     this._filterModel = filterModel;
     this._filmContainer = filmContainer;
     this._renderedFilmsCards = CARDS_PER_STEP;
     this._currentSortType = SortType.DEFAULT;
     this._filmPresenter = {};
-
+    this._isLoading = true;
+    this._api = api;
 
     this._loadMoreButton = null;
     this._sort = null;
@@ -27,6 +29,7 @@ export default class MovieList {
     this._filmListContainer = new ListContainerView();
     this._filmList = new FilmListView();
     this._noFilms = new NoFilmsView();
+    this._loadingList = new LoadingView();
 
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
@@ -72,7 +75,9 @@ export default class MovieList {
   _handleViewAction(actionType, updateType, update) {
     switch (actionType) {
       case UserAction.UPDATE_FILM:
-        this._moviesModel.updateFilm(updateType, update);
+        this._api.updateFilm(update).then((response) => {
+          this._moviesModel.updateFilm(updateType, response);
+        });
         break;
       case UserAction.ADD_COMMENT:
         this._moviesModel.addComment(updateType, update);
@@ -102,6 +107,11 @@ export default class MovieList {
         if (this._filmPresenter[data.id]) {
           this._filmPresenter[data.id].openPopupClickHandler();
         }
+        break;
+      case UpdateType.INIT:
+        this._isLoading = false;
+        remove(this._loadingList);
+        this._renderFilmBoard();
         break;
     }
   }
@@ -162,10 +172,15 @@ export default class MovieList {
     remove(this._sort);
     remove(this._noFilms);
     remove(this._loadMoreButton);
+    remove(this._loadingList);
   }
 
   _renderFilms(films) {
     films.forEach((film) => this._renderFilm(film));
+  }
+
+  _renderLoading() {
+    render(this._filmList, this._loadingList, RenderPosition.AFTERBEGIN);
   }
 
   _renderNoFilms() {
@@ -207,6 +222,11 @@ export default class MovieList {
   }
 
   _renderFilmBoard() {
+    if (this._isLoading) {
+      this._renderLoading();
+      return;
+    }
+
     if (this._getFilms().length === 0) {
       this._renderNoFilms();
       return;
