@@ -93,11 +93,13 @@ export default class Movies extends Observer {
         {},
         comment,
         {
-          message: comment.comment
+          message: comment.comment,
+          emoji: comment.emotion
         }
     );
 
     delete adaptedComment.comment;
+    delete adaptedComment.emotion;
 
     return adaptedComment;
   }
