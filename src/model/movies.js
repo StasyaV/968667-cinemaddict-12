@@ -66,7 +66,6 @@ export default class Movies extends Observer {
           img: film.film_info.poster,
           shortDescription: film.film_info.description,
           fullDescription: film.film_info.description,
-          comments: film.comments.length,
           raiting: film.film_info.total_rating,
           year: new Date(film.film_info.release.date).getFullYear(),
           director: film.film_info.director,
@@ -84,10 +83,8 @@ export default class Movies extends Observer {
         }
     );
 
-    delete adaptedFilm.comments;
     delete adaptedFilm.film_info;
     delete adaptedFilm.user_details;
-
     return adaptedFilm;
   }
 

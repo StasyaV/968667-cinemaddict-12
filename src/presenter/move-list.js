@@ -214,7 +214,6 @@ export default class MovieList {
   _renderFilmList() {
     const filmCount = this._getFilms().length;
     const films = this._getFilms().slice(0, Math.min(filmCount, CARDS_PER_STEP));
-    console.log(films);
     this._renderFilms(films);
 
     if (filmCount > CARDS_PER_STEP) {
