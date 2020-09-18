@@ -121,7 +121,6 @@ export default class MovieList {
     this._api.getComments(card.id)
       .then((comments) => {
         card.comments = comments.slice();
-        console.log(card.comments);
         filmPresenter.init(card);
         this._filmPresenter[card.id] = filmPresenter;
       })

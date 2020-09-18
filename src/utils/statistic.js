@@ -14,7 +14,7 @@ export const getFiltredFilmsByDate = (films, mode) => {
 };
 
 const countFilmsByGenre = (films, genre) => {
-  return films.filter((film) => film.genre === genre).length;
+  return films.filter((film) => film.genre.has(genre)).length;
 };
 
 const getRank = (watchedFilms) => {
