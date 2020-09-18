@@ -1,5 +1,6 @@
 export const BASE_COLOR = `#ffe800`;
 export const GENRES = [`Sci-Fi`, `Animation`, `Fantasy`, `Comedy`, `TV Series`];
+export const MAX_DESCRIPTION_LENGTH = 140;
 
 export const SortType = {
   DEFAULT: `default`,

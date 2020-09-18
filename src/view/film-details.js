@@ -4,6 +4,14 @@ import {render, RenderPosition, renderTemplate} from "../utils/render.js";
 import {formatReleaseDate, formatDuration} from "../utils/film.js";
 import {Emoji} from "../const.js";
 
+const getGenresTemplate = (genres) => {
+  let result = ``;
+  for (const genre of genres) {
+    result += `<span class="film-details__genre">${genre}</span>`;
+  }
+  return result;
+};
+
 const createFilmPopupTemplate = (card, currentEmoji) => {
   const {
     name,
@@ -80,11 +88,10 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
               <td class="film-details__cell">${country}</td>
             </tr>
             <tr class="film-details__row">
-              <td class="film-details__term">Genres</td>
+              <td class="film-details__term">${genre.size > 1 ? `Genres` : `Genre`}</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">${genre}</span>
-                <span class="film-details__genre">${genre}</span>
-                <span class="film-details__genre">${genre}</span></td>
+                ${getGenresTemplate(genre)}
+              </td>
             </tr>
           </table>
 
@@ -108,7 +115,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
 
     <div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments}</span></h3>
 
         <ul class="film-details__comments-list">
 
@@ -167,7 +174,7 @@ export default class FilmPopup extends SmartView {
     this._addCommentClickHandler = this._addCommentClickHandler.bind(this);
 
     this._setInnerHandlers();
-    this._renderComments();
+    // this._renderComments();
   }
 
   getTemplate() {

@@ -70,8 +70,6 @@ export const generateComments = () => {
   return new Array(getRandomNumber(0, 5)).fill().map(getComment);
 };
 
-// export const comments = new Array(getRandomNumber(0, 5)).fill().map(getComment);
-
 export const getFilm = (value, index) => {
   const comments = generateComments();
   const film = {

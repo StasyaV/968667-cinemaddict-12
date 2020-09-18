@@ -1,4 +1,5 @@
 import AbstractView from "./abstract.js";
+import {formatDuration, getShortDescription} from "../utils/film.js";
 
 const createFilmCardTemplate = (card) => {
   const {
@@ -21,12 +22,12 @@ const createFilmCardTemplate = (card) => {
   <p class="film-card__rating">${raiting}</p>
   <p class="film-card__info">
     <span class="film-card__year">${year}</span>
-    <span class="film-card__duration">${runtime}</span>
-    <span class="film-card__genre">${genre}</span>
+    <span class="film-card__duration">${formatDuration(runtime)}</span>
+    <span class="film-card__genre">${genre.size > 0 ? genre.values().next().value : ``}</span>
   </p>
   <img src=${img} alt="" class="film-card__poster">
-  <p class="film-card__description">${shortDescription}</p>
-  <a class="film-card__comments">${comments.length} comments</a>
+  <p class="film-card__description">${getShortDescription(shortDescription)}</p>
+  <a class="film-card__comments">${comments} comments</a>
   <form class="film-card__controls">
     <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${watchlist ? `film-card__controls-item--active` : ``}">Add to watchlist</button>
     <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${isWatched ? `film-card__controls-item--active` : ``}">Mark as watched</button>
