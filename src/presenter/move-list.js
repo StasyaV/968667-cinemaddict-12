@@ -117,9 +117,18 @@ export default class MovieList {
   }
 
   _renderFilm(card) {
-    const filmPresenter = new FilmPresenter(this._filmList, this._handleViewAction, this._handleModeChange);
+    const filmPresenter = new FilmPresenter(this._filmList, this._handleViewAction, this._handleModeChange, this._api);
     filmPresenter.init(card);
     this._filmPresenter[card.id] = filmPresenter;
+
+    this._api.getComments(card.id)
+      .then((comments) => {
+        card.comments = comments.slice();
+      })
+      .catch(() => {
+        card.comments = [];
+      });
+
   }
 
   _handleSortTypeChange(sortType) {

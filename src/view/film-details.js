@@ -174,7 +174,7 @@ export default class FilmPopup extends SmartView {
     this._addCommentClickHandler = this._addCommentClickHandler.bind(this);
 
     this._setInnerHandlers();
-    // this._renderComments();
+    this._renderComments();
   }
 
   getTemplate() {
@@ -251,6 +251,8 @@ export default class FilmPopup extends SmartView {
     if (evt.target.tagName !== `BUTTON`) {
       return;
     }
+
+    evt.target.textContent = `Deleting...`;
 
     const commentId = evt.target.closest(`.film-details__comment`).getAttribute(`id`);
     this._callback.deleteComment(commentId);

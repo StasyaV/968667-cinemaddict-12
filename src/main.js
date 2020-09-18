@@ -36,7 +36,7 @@ filterPresenter.init();
 api.getFilms()
   .then((films) => {
     moviesModel.setFilms(UpdateType.INIT, films);
-  })
-  .catch(() => {
-    moviesModel.setFilms(UpdateType.INIT, []);
   });
+// .catch(() => {
+//   moviesModel.setFilms(UpdateType.INIT, []);
+// });
