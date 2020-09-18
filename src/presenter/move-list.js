@@ -120,9 +120,15 @@ export default class MovieList {
     const filmPresenter = new FilmPresenter(this._filmList, this._handleViewAction, this._handleModeChange, this._api);
     this._api.getComments(card.id)
       .then((comments) => {
-        card.comments = comments.slice();
-        filmPresenter.init(card);
-        this._filmPresenter[card.id] = filmPresenter;
+        const film = Object.assign(
+            {},
+            card,
+            {
+              comments: comments.slice(),
+            }
+        );
+        filmPresenter.init(film);
+        this._filmPresenter[film.id] = filmPresenter;
       })
       .catch(() => {
         card.comments = [];

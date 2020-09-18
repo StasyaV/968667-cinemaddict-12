@@ -109,44 +109,45 @@ export default class Movies extends Observer {
         {},
         comment,
         {
-          comment: comment.message
+          comment: comment.message,
+          emotion: comment.emoji
         }
     );
 
     delete adaptedComment.message;
+    delete adaptedComment.emoji; 
 
     return adaptedComment;
   }
 
   static adaptFilmToServer(film) {
-    /* eslint-disable camelcase */
     const adaptedFilm = Object.assign(
         {},
         film,
         {
-          comments: film.comments,
-          film_info: {
-            actors: film.actors.split(`, `),
-            age_rating: film.ageToWatch,
-            alternative_title: film.alternativeName,
-            description: film.description,
-            director: film.director,
-            genre: Array.from(film.genre),
-            poster: film.img,
-            release: {
-              date: film.releaseDay.toISOString(),
-              release_country: film.country,
+          "comments": film.comments,
+          "film_info": {
+            "actors": film.actors.split(`, `),
+            "age_rating": film.ageToWatch,
+            "alternative_title": film.alternativeName,
+            "description": film.fullDescription,
+            "director": film.director,
+            "genre": Array.from(film.genre),
+            "poster": film.img,
+            "release": {
+              "date": film.releaseDay.toISOString(),
+              "release_country": film.country,
             },
-            runtime: film.runtime,
-            title: film.name,
-            total_rating: film.rating,
-            writers: film.writers.split(`, `),
+            "runtime": film.runtime,
+            "title": film.name,
+            "total_rating": film.rating,
+            "writers": film.writers.split(`, `),
           },
-          user_details: {
-            already_watched: film.isWatched,
-            favorite: film.isFavorite,
-            watching_date: (film.watchingDate === null) ? null : film.watchingDate.toISOString(),
-            watchlist: film.watchlist,
+          "user_details": {
+            "already_watched": film.isWatched,
+            "favorite": film.isFavorite,
+            "watching_date": (film.watchingDate === null) ? null : film.watchingDate.toISOString(),
+            "watchlist": film.watchlist,
           }
         }
     );
