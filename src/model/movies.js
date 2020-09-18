@@ -115,7 +115,7 @@ export default class Movies extends Observer {
     );
 
     delete adaptedComment.message;
-    delete adaptedComment.emoji; 
+    delete adaptedComment.emoji;
 
     return adaptedComment;
   }
