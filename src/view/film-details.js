@@ -174,7 +174,6 @@ export default class FilmPopup extends SmartView {
     this._addCommentClickHandler = this._addCommentClickHandler.bind(this);
 
     this._setInnerHandlers();
-    this._renderComments();
   }
 
   getTemplate() {
@@ -208,7 +207,7 @@ export default class FilmPopup extends SmartView {
     render(commentsContainer, commentary, RenderPosition.BEFOREEND);
   }
 
-  _renderComments() {
+  renderComments() {
     const comments = this._data.comments;
     return comments.forEach((comment) => this._renderComment(comment));
   }

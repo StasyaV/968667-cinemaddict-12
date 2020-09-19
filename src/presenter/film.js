@@ -90,6 +90,7 @@ export default class Film {
   openPopupClickHandler() {
     const body = document.querySelector(`body`);
     render(body, this._filmPopup, RenderPosition.BEFOREEND);
+    this._filmPopup.renderComments();
 
     document.addEventListener(`keydown`, this._escKeyDownHandler);
     this._changeMode();
