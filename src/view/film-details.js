@@ -4,9 +4,18 @@ import {render, RenderPosition, renderTemplate} from "../utils/render.js";
 import {formatReleaseDate, formatDuration} from "../utils/film.js";
 import {Emoji} from "../const.js";
 
+const getGenresTemplate = (genres) => {
+  let result = ``;
+  for (const genre of genres) {
+    result += `<span class="film-details__genre">${genre}</span>`;
+  }
+  return result;
+};
+
 const createFilmPopupTemplate = (card, currentEmoji) => {
   const {
     name,
+    alternativeName,
     img,
     fullDescription,
     comments,
@@ -45,7 +54,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
               <h3 class="film-details__title">${name}</h3>
-              <p class="film-details__title-original">Original: ${name}</p>
+              <p class="film-details__title-original">Original: ${alternativeName}</p>
             </div>
 
             <div class="film-details__rating">
@@ -79,11 +88,10 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
               <td class="film-details__cell">${country}</td>
             </tr>
             <tr class="film-details__row">
-              <td class="film-details__term">Genres</td>
+              <td class="film-details__term">${genre.size > 1 ? `Genres` : `Genre`}</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">${genre}</span>
-                <span class="film-details__genre">${genre}</span>
-                <span class="film-details__genre">${genre}</span></td>
+                ${getGenresTemplate(genre)}
+              </td>
             </tr>
           </table>
 
@@ -166,7 +174,6 @@ export default class FilmPopup extends SmartView {
     this._addCommentClickHandler = this._addCommentClickHandler.bind(this);
 
     this._setInnerHandlers();
-    this._renderComments();
   }
 
   getTemplate() {
@@ -200,7 +207,7 @@ export default class FilmPopup extends SmartView {
     render(commentsContainer, commentary, RenderPosition.BEFOREEND);
   }
 
-  _renderComments() {
+  renderComments() {
     const comments = this._data.comments;
     return comments.forEach((comment) => this._renderComment(comment));
   }
@@ -243,6 +250,8 @@ export default class FilmPopup extends SmartView {
     if (evt.target.tagName !== `BUTTON`) {
       return;
     }
+
+    evt.target.textContent = `Deleting...`;
 
     const commentId = evt.target.closest(`.film-details__comment`).getAttribute(`id`);
     this._callback.deleteComment(commentId);
