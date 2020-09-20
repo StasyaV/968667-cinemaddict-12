@@ -42,7 +42,7 @@ export default class Api {
 
   addComment(comment) {
     return this._load({
-      url: `comments/${comment.id}`,
+      url: `comments/`,
       method: Method.POST,
       body: JSON.stringify(),
       headers: new Headers({"Content-Type": `application/json`})
@@ -50,9 +50,9 @@ export default class Api {
       .then(Api.toJSON);
   }
 
-  deleteComment(comment) {
+  deleteComment(data) {
     return this._load({
-      url: `comments/${comment.id}`,
+      url: `comments/${data.commentToDelete}`,
       method: Method.DELETE
     });
   }

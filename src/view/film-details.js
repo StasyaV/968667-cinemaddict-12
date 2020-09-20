@@ -253,7 +253,7 @@ export default class FilmPopup extends SmartView {
 
     evt.target.textContent = `Deleting...`;
 
-    const commentId = evt.target.closest(`.film-details__comment`).getAttribute(`id`);
+    const commentId = evt.target.closest(`.film-details__comment`).id;
     this._callback.deleteComment(commentId);
   }
 

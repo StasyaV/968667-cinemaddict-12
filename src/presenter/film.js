@@ -106,16 +106,24 @@ export default class Film {
   _handleDeleteClick(commentId) {
     const updatedComments = this._film.comments.filter((comment) => comment.id !== Number(commentId));
 
+    const updatedFilm = Object.assign(
+        {},
+        this._film,
+        {
+          comments: updatedComments
+        }
+    );
+
+    const filmToUpdate = {
+      commentToDelete: commentId,
+      updatedFilm,
+      filmId: updatedFilm.id,
+    };
+
     this._changeData(
         UserAction.DELETE_COMMENT,
         UpdateType.POPUP,
-        Object.assign(
-            {},
-            this._film,
-            {
-              comments: updatedComments
-            }
-        )
+        filmToUpdate
     );
   }
 
@@ -164,7 +172,8 @@ export default class Film {
             {},
             this._film,
             {
-              isWatched: !this._film.isWatched
+              isWatched: !this._film.isWatched,
+              watchingDate: (this._film.isWatched) ? null : new Date()
             }
         )
     );
