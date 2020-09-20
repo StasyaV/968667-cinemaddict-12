@@ -33,6 +33,8 @@ export default class Movies extends Observer {
   }
 
   addComment(updateType, update) {
+    console.log(updateType);
+    console.log(update);
     const indexFilm = this._films.findIndex((film) => film.id === update.id);
 
     if (indexFilm === -1) {

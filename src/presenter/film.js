@@ -122,12 +122,12 @@ export default class Film {
   _handleAddComment(newComment, newEmoji) {
     const updatedComments = this._film.comments.slice();
     updatedComments.push({
-      id: this._film.comments.length + 1,
-      emotion: `/images/emoji/${newEmoji}.png`,
-      comment: newComment,
-      author: `Alexa M`,
-      date: new Date(),
+      "id": this._film.id,
+      "comment": newComment,
+      "date": (new Date()).toISOString(),
+      "emotion": newEmoji
     });
+    console.log(updatedComments);
 
     this._changeData(
         UserAction.ADD_COMMENT,
