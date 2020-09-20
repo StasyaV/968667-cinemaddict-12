@@ -52,7 +52,8 @@ export default class Movies extends Observer {
       throw new Error(`Can't update unexisting comment`);
     }
 
-    this._films[indexFilm].comments = update.commentToDelete;
+    this._films[indexFilm].comments = update.updatedFilm.comments;
+    this._films[indexFilm].commentToDelete = update.commentToDelete;
 
     this._notify(updateType, update);
   }

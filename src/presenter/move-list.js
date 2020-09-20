@@ -106,11 +106,7 @@ export default class MovieList {
         this._renderFilmBoard();
         break;
       case UpdateType.POPUP:
-        this._clearFilmBoard({resetRenderedFilmCount: true, resetSortType: true});
-        this._renderFilmBoard();
-        if (this._filmPresenter[data.id]) {
-          this._filmPresenter[data.id].openPopupClickHandler();
-        }
+        this._filmPresenter[parseInt(data.filmId, 10)].init(data.updatedFilm);
         break;
       case UpdateType.INIT:
         this._isLoading = false;

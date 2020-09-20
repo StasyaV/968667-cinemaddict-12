@@ -49,6 +49,8 @@ export default class Film {
     this._filmPopup.setAddCommentHandler(this._handleAddComment);
     this._filmPopup.setDeleteClickHandler(this._handleDeleteClick);
 
+    this._filmPopup.renderComments();
+
     if (prevFilmPopup === null || prevFilmCard === null) {
       render(this._filmListContainer, this._filmCard, RenderPosition.BEFOREEND);
       return;
@@ -90,7 +92,6 @@ export default class Film {
   openPopupClickHandler() {
     const body = document.querySelector(`body`);
     render(body, this._filmPopup, RenderPosition.BEFOREEND);
-    this._filmPopup.renderComments();
 
     document.addEventListener(`keydown`, this._escKeyDownHandler);
     this._changeMode();
@@ -104,8 +105,7 @@ export default class Film {
   }
 
   _handleDeleteClick(commentId) {
-    const updatedComments = this._film.comments.filter((comment) => comment.id !== Number(commentId));
-
+    const updatedComments = this._film.comments.filter((comment) => comment.id !== commentId);
     const updatedFilm = Object.assign(
         {},
         this._film,
