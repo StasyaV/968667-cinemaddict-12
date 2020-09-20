@@ -128,25 +128,18 @@ export default class Film {
   }
 
   _handleAddComment(newComment, newEmoji) {
-    const updatedComments = this._film.comments.slice();
-    updatedComments.push({
-      "id": this._film.id,
-      "comment": newComment,
-      "date": (new Date()).toISOString(),
-      "emotion": newEmoji
-    });
-    console.log(updatedComments);
-
+    const comment = {
+      commentBody: {
+        "filmId": this._film.id,
+        "comment": newComment,
+        "date": (new Date()).toISOString(),
+        "emotion": newEmoji,
+      }
+    };
     this._changeData(
         UserAction.ADD_COMMENT,
         UpdateType.POPUP,
-        Object.assign(
-            {},
-            this._film,
-            {
-              comments: updatedComments
-            }
-        )
+        comment
     );
   }
 

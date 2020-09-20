@@ -41,8 +41,9 @@ export default class Api {
   }
 
   addComment(comment) {
+    console.log(comment);
     return this._load({
-      url: `comments/`,
+      url: `comments/${comment.filmId}`,
       method: Method.POST,
       body: JSON.stringify(),
       headers: new Headers({"Content-Type": `application/json`})

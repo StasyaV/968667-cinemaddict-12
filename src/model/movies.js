@@ -33,9 +33,8 @@ export default class Movies extends Observer {
   }
 
   addComment(updateType, update) {
-    console.log(updateType);
     console.log(update);
-    const indexFilm = this._films.findIndex((film) => film.id === update.id);
+    const indexFilm = this._films.findIndex((film) => film.id === update.filmId);
 
     if (indexFilm === -1) {
       throw new Error(`Can't update unexisting comment`);
