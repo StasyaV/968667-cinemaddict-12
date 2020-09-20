@@ -64,8 +64,7 @@ export default class Movies extends Observer {
           name: film.film_info.title,
           alternativeName: film.film_info.alternative_title,
           img: film.film_info.poster,
-          shortDescription: film.film_info.description,
-          fullDescription: film.film_info.description,
+          description: film.film_info.description,
           raiting: film.film_info.total_rating,
           year: new Date(film.film_info.release.date).getFullYear(),
           director: film.film_info.director,
@@ -88,38 +87,6 @@ export default class Movies extends Observer {
     return adaptedFilm;
   }
 
-  static adaptCommentsToClient(comment) {
-    const adaptedComment = Object.assign(
-        {},
-        comment,
-        {
-          message: comment.comment,
-          emoji: comment.emotion
-        }
-    );
-
-    delete adaptedComment.comment;
-    delete adaptedComment.emotion;
-
-    return adaptedComment;
-  }
-
-  static adaptCommentToServer(comment) {
-    const adaptedComment = Object.assign(
-        {},
-        comment,
-        {
-          comment: comment.message,
-          emotion: comment.emoji
-        }
-    );
-
-    delete adaptedComment.message;
-    delete adaptedComment.emoji;
-
-    return adaptedComment;
-  }
-
   static adaptFilmToServer(film) {
     const adaptedFilm = Object.assign(
         {},
@@ -130,7 +97,7 @@ export default class Movies extends Observer {
             "actors": film.actors.split(`, `),
             "age_rating": film.ageToWatch,
             "alternative_title": film.alternativeName,
-            "description": film.fullDescription,
+            "description": film.description,
             "director": film.director,
             "genre": Array.from(film.genre),
             "poster": film.img,

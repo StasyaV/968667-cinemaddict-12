@@ -2,15 +2,15 @@ import AbstractView from "./abstract.js";
 import {getCommentDate} from "../utils/film.js";
 import he from "he";
 
-const createCommentTemplate = (comment) => {
-  const {emoji, message, author, date, id} = comment;
+const createCommentTemplate = (commentary) => {
+  const {emotion, comment, author, date, id} = commentary;
 
   return `<li class="film-details__comment" id=${id}>
   <span class="film-details__comment-emoji">
-    <img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji-smile">
+    <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
   </span>
   <div>
-    <p class="film-details__comment-text">${he.encode(message)}</p>
+    <p class="film-details__comment-text">${he.encode(comment)}</p>
     <p class="film-details__comment-info">
       <span class="film-details__comment-author">${author}</span>
       <span class="film-details__comment-day">${getCommentDate(date)}</span>

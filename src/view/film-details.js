@@ -17,7 +17,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
     name,
     alternativeName,
     img,
-    fullDescription,
+    description,
     comments,
     raiting,
     director,
@@ -96,7 +96,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
           </table>
 
           <p class="film-details__film-description">
-            ${fullDescription}
+            ${description}
           </p>
         </div>
       </div>

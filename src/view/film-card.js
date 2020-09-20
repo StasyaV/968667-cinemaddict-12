@@ -4,7 +4,7 @@ import {formatDuration, getShortDescription} from "../utils/film.js";
 const createFilmCardTemplate = (card) => {
   const {
     name,
-    shortDescription,
+    description,
     img,
     comments,
     raiting,
@@ -26,7 +26,7 @@ const createFilmCardTemplate = (card) => {
     <span class="film-card__genre">${genre.size > 0 ? genre.values().next().value : ``}</span>
   </p>
   <img src=${img} alt="" class="film-card__poster">
-  <p class="film-card__description">${getShortDescription(shortDescription)}</p>
+  <p class="film-card__description">${getShortDescription(description)}</p>
   <a class="film-card__comments">${comments.length} comments</a>
   <form class="film-card__controls">
     <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${watchlist ? `film-card__controls-item--active` : ``}">Add to watchlist</button>

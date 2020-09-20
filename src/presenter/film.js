@@ -123,8 +123,8 @@ export default class Film {
     const updatedComments = this._film.comments.slice();
     updatedComments.push({
       id: this._film.comments.length + 1,
-      emoji: `/images/emoji/${newEmoji}.png`,
-      message: newComment,
+      emotion: `/images/emoji/${newEmoji}.png`,
+      comment: newComment,
       author: `Alexa M`,
       date: new Date(),
     });
