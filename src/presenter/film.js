@@ -121,7 +121,7 @@ export default class Film {
 
     this._changeData(
         UserAction.DELETE_COMMENT,
-        UpdateType.POPUP,
+        UpdateType.DELETE,
         filmToUpdate
     );
   }
@@ -151,11 +151,9 @@ export default class Film {
 
     this._changeData(
         UserAction.ADD_COMMENT,
-        UpdateType.POPUP,
+        UpdateType.ADD,
         filmToUpdate
     );
-
-    console.log(filmToUpdate, `уходит`);
   }
 
   _handleFavouriteClick() {

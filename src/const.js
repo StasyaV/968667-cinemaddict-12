@@ -25,7 +25,8 @@ export const UpdateType = {
   PATCH: `PATCH`,
   MINOR: `MINOR`,
   MAJOR: `MAJOR`,
-  POPUP: `POPUP`,
+  ADD: `ADD`,
+  DELETE: `DELETE`,
   INIT: `INIT`
 };
 

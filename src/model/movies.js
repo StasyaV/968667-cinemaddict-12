@@ -34,7 +34,6 @@ export default class Movies extends Observer {
   }
 
   addComment(updateType, update) {
-    console.log(update.movie.id);
     const indexFilm = this._films.findIndex((film) => film.id === update.movie.id);
 
     if (indexFilm === -1) {
@@ -92,57 +91,32 @@ export default class Movies extends Observer {
   }
 
   static adaptFilmToServer(film) {
-    const adaptedFilm = Object.assign(
-        {},
-        film,
-        {
-          "comments": film.comments,
-          "film_info": {
-            "actors": film.actors.split(`, `),
-            "age_rating": film.ageToWatch,
-            "alternative_title": film.alternativeName,
-            "description": film.description,
-            "director": film.director,
-            "genre": Array.from(film.genre),
-            "poster": film.img,
-            "release": {
-              "date": film.releaseDay.toISOString(),
-              "release_country": film.country,
-            },
-            "runtime": film.runtime,
-            "title": film.name,
-            "total_rating": film.rating,
-            "writers": film.writers.split(`, `),
-          },
-          "user_details": {
-            "already_watched": film.isWatched,
-            "favorite": film.isFavorite,
-            "watching_date": (film.watchingDate === null) ? null : film.watchingDate.toISOString(),
-            "watchlist": film.watchlist,
-          }
-        }
-    );
-
-    delete adaptedFilm.ageToWatch;
-    delete adaptedFilm.actors;
-    delete adaptedFilm.comments;
-    delete adaptedFilm.country;
-    delete adaptedFilm.description;
-    delete adaptedFilm.director;
-    delete adaptedFilm.runtime;
-    delete adaptedFilm.releaseDay;
-    delete adaptedFilm.genre;
-    delete adaptedFilm.isFavorite;
-    delete adaptedFilm.watchlist;
-    delete adaptedFilm.isWatched;
-    delete adaptedFilm.img;
-    delete adaptedFilm.rating;
-    delete adaptedFilm.name;
-    delete adaptedFilm.alternativeName;
-    delete adaptedFilm.watchingDate;
-    delete adaptedFilm.writers;
-
-    return adaptedFilm;
+    return {
+      "id": film.id,
+      "comments": [],
+      "film_info": {
+        "actors": film.actors.split(`, `),
+        "age_rating": film.ageToWatch,
+        "alternative_title": film.alternativeName,
+        "description": film.description,
+        "director": film.director,
+        "genre": Array.from(film.genre),
+        "poster": film.img,
+        "release": {
+          "date": film.releaseDay.toISOString(),
+          "release_country": film.country,
+        },
+        "runtime": film.runtime,
+        "title": film.name,
+        "total_rating": film.rating,
+        "writers": film.writers.split(`, `),
+      },
+      "user_details": {
+        "already_watched": film.isWatched,
+        "favorite": film.isFavourite,
+        "watching_date": (film.watchingDate === null) ? null : film.watchingDate.toISOString(),
+        "watchlist": film.watchlist,
+      }
+    };
   }
 }
-

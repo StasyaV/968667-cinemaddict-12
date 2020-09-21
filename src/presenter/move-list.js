@@ -105,8 +105,33 @@ export default class MovieList {
         this._clearFilmBoard({resetRenderedFilmCount: true, resetSortType: true});
         this._renderFilmBoard();
         break;
-      case UpdateType.POPUP:
-        console.log(data);
+      case UpdateType.ADD:
+        console.log(data, `приходит`);
+        const film = {
+          comments: data.comments,
+          name: data.movie.film_info.title,
+          alternativeName: data.movie.film_info.alternative_title,
+          img: data.movie.film_info.poster,
+          description: data.movie.film_info.description,
+          raiting: data.movie.film_info.total_rating,
+          year: new Date(data.movie.film_info.release.date).getFullYear(),
+          director: data.movie.film_info.director,
+          writers: data.movie.film_info.writers.join(`, `),
+          actors: data.movie.film_info.actors.join(`, `),
+          releaseDay: new Date(data.movie.film_info.release.date),
+          ageToWatch: data.movie.film_info.age_rating,
+          runtime: data.movie.film_info.runtime,
+          country: data.movie.film_info.release.release_country,
+          genre: new Set(data.movie.film_info.genre),
+          isFavourite: data.movie.user_details.favorite,
+          isWatched: data.movie.user_details.already_watched,
+          watchlist: data.movie.user_details.watchlist,
+          watchingDate: new Date(data.movie.user_details.watching_date)
+        };
+
+        this._filmPresenter[parseInt(data.movie.id, 10)].init(film);
+        break;
+      case UpdateType.DELETE:
         this._filmPresenter[parseInt(data.movie.id, 10)].init(data.movie);
         break;
       case UpdateType.INIT:
