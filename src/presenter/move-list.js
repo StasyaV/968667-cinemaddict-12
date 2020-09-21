@@ -106,7 +106,8 @@ export default class MovieList {
         this._renderFilmBoard();
         break;
       case UpdateType.POPUP:
-        this._filmPresenter[parseInt(data.filmId, 10)].init(data.updatedFilm);
+        console.log(data);
+        this._filmPresenter[parseInt(data.movie.id, 10)].init(data.movie);
         break;
       case UpdateType.INIT:
         this._isLoading = false;

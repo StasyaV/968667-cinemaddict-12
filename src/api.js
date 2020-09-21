@@ -40,12 +40,11 @@ export default class Api {
     .then(MoviesModel.adaptToClient);
   }
 
-  addComment(comment) {
-    console.log(comment);
+  addComment(data) {
     return this._load({
-      url: `comments/${comment.filmId}`,
+      url: `comments/${parseInt(data.movie.id, 10)}`,
       method: Method.POST,
-      body: JSON.stringify(),
+      body: JSON.stringify(data.comment),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then(Api.toJSON);

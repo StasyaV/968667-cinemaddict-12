@@ -106,7 +106,7 @@ export default class Film {
 
   _handleDeleteClick(commentId) {
     const updatedComments = this._film.comments.filter((comment) => comment.id !== commentId);
-    const updatedFilm = Object.assign(
+    const movie = Object.assign(
         {},
         this._film,
         {
@@ -116,8 +116,7 @@ export default class Film {
 
     const filmToUpdate = {
       commentToDelete: commentId,
-      updatedFilm,
-      filmId: updatedFilm.id,
+      movie
     };
 
     this._changeData(
@@ -128,19 +127,35 @@ export default class Film {
   }
 
   _handleAddComment(newComment, newEmoji) {
+    const updatedComments = this._film.comments.slice();
     const comment = {
-      commentBody: {
-        "filmId": this._film.id,
-        "comment": newComment,
-        "date": (new Date()).toISOString(),
-        "emotion": newEmoji,
-      }
+      "comment": newComment,
+      "date": (new Date()).toISOString(),
+      "emotion": newEmoji
     };
+
+    updatedComments.push(comment);
+
+    const movie = Object.assign(
+        {},
+        this._film,
+        {
+          comments: updatedComments
+        }
+    );
+
+    const filmToUpdate = {
+      movie,
+      comment
+    };
+
     this._changeData(
         UserAction.ADD_COMMENT,
         UpdateType.POPUP,
-        comment
+        filmToUpdate
     );
+
+    console.log(filmToUpdate, `уходит`);
   }
 
   _handleFavouriteClick() {
