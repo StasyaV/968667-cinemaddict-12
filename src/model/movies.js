@@ -33,13 +33,13 @@ export default class Movies extends Observer {
   }
 
   addComment(updateType, update) {
-    const indexFilm = this._films.findIndex((film) => film.id === update.movie.id);
+    const indexFilm = this._films.findIndex((film) => film.id === update.id);
 
     if (indexFilm === -1) {
       throw new Error(`Can't update unexisting comment`);
     }
 
-    this._films[indexFilm].comments = update.movie.comments;
+    this._films[indexFilm].comments = update.comments.slice();
     this._films[indexFilm].newComment = update.comment;
 
     this._notify(updateType, update);
@@ -52,8 +52,8 @@ export default class Movies extends Observer {
       throw new Error(`Can't update unexisting comment`);
     }
 
-    this._films[indexFilm].comments = update.movie.comments;
-    this._films[indexFilm].commentToDelete = update.commentToDelete;
+    this._films[indexFilm].comments = update.movie.comments.slice();
+    this._films[indexFilm].commentIdToDelete = update.commentIdToDelete;
 
     this._notify(updateType, update);
   }
@@ -117,6 +117,31 @@ export default class Movies extends Observer {
         "watching_date": (film.watchingDate === null) ? null : film.watchingDate.toISOString(),
         "watchlist": film.watchlist,
       }
+    };
+  }
+
+  static adaptFilmForAddComment(data) {
+    return {
+      id: data.movie.id,
+      comments: data.comments,
+      name: data.movie.film_info.title,
+      alternativeName: data.movie.film_info.alternative_title,
+      img: data.movie.film_info.poster,
+      description: data.movie.film_info.description,
+      rating: data.movie.film_info.total_rating,
+      year: new Date(data.movie.film_info.release.date).getFullYear(),
+      director: data.movie.film_info.director,
+      writers: data.movie.film_info.writers.join(`, `),
+      actors: data.movie.film_info.actors.join(`, `),
+      releaseDay: new Date(data.movie.film_info.release.date),
+      ageToWatch: data.movie.film_info.age_rating,
+      runtime: data.movie.film_info.runtime,
+      country: data.movie.film_info.release.release_country,
+      genre: new Set(data.movie.film_info.genre),
+      isFavourite: data.movie.user_details.favorite,
+      isWatched: data.movie.user_details.already_watched,
+      watchlist: data.movie.user_details.watchlist,
+      watchingDate: new Date(data.movie.user_details.watching_date)
     };
   }
 }

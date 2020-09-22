@@ -115,7 +115,7 @@ export default class Film {
     );
 
     const filmToUpdate = {
-      commentToDelete: commentId,
+      commentIdToDelete: commentId,
       movie
     };
 
