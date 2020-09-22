@@ -7,7 +7,7 @@ const createFilmCardTemplate = (card) => {
     description,
     img,
     comments,
-    raiting,
+    rating,
     year,
     runtime,
     genre,
@@ -19,7 +19,7 @@ const createFilmCardTemplate = (card) => {
 
   return `<article class="film-card" id=${id}>
   <h3 class="film-card__title">${name}</h3>
-  <p class="film-card__rating">${raiting}</p>
+  <p class="film-card__rating">${rating}</p>
   <p class="film-card__info">
     <span class="film-card__year">${year}</span>
     <span class="film-card__duration">${formatDuration(runtime)}</span>

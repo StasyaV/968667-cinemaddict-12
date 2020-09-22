@@ -19,7 +19,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
     img,
     description,
     comments,
-    raiting,
+    rating,
     director,
     writers,
     releaseDay,
@@ -47,7 +47,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
         <div class="film-details__poster">
           <img class="film-details__poster-img" src=${img} alt="">
 
-          <p class="film-details__age">${ageToWatch}</p>
+          <p class="film-details__age">+${ageToWatch}</p>
         </div>
 
         <div class="film-details__info">
@@ -58,7 +58,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
             </div>
 
             <div class="film-details__rating">
-              <p class="film-details__total-rating">${raiting}</p>
+              <p class="film-details__total-rating">${rating}</p>
             </div>
           </div>
 

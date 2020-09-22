@@ -7,7 +7,7 @@ import ButtonLoaderView from "../view/button.js";
 import LoadingView from "../view/loading.js";
 import SortView from "../view/sort.js";
 import {SortType, UpdateType, UserAction} from "../const.js";
-import {sortFilmByDate, sortFilmByRaiting} from "../utils/film.js";
+import {sortFilmByDate, sortFilmByRating} from "../utils/film.js";
 import {filter} from "../utils/filter.js";
 
 const CARDS_PER_STEP = 5;
@@ -66,8 +66,8 @@ export default class MovieList {
     switch (this._currentSortType) {
       case SortType.DATE:
         return filtredFilms.sort(sortFilmByDate);
-      case SortType.RAITING:
-        return filtredFilms.sort(sortFilmByRaiting);
+      case SortType.RATING:
+        return filtredFilms.sort(sortFilmByRating);
     }
     return filtredFilms;
   }
@@ -106,14 +106,14 @@ export default class MovieList {
         this._renderFilmBoard();
         break;
       case UpdateType.ADD:
-        console.log(data, `приходит`);
         const film = {
-          comments: data.comments,
+          id: data.movie.id,
+          comments: data.comments.map((comment) => comment.id),
           name: data.movie.film_info.title,
           alternativeName: data.movie.film_info.alternative_title,
           img: data.movie.film_info.poster,
           description: data.movie.film_info.description,
-          raiting: data.movie.film_info.total_rating,
+          rating: data.movie.film_info.total_rating,
           year: new Date(data.movie.film_info.release.date).getFullYear(),
           director: data.movie.film_info.director,
           writers: data.movie.film_info.writers.join(`, `),
@@ -129,10 +129,10 @@ export default class MovieList {
           watchingDate: new Date(data.movie.user_details.watching_date)
         };
 
-        this._filmPresenter[parseInt(data.movie.id, 10)].init(film);
+        this._filmPresenter[+data.movie.id].init(film);
         break;
       case UpdateType.DELETE:
-        this._filmPresenter[parseInt(data.movie.id, 10)].init(data.movie);
+        this._filmPresenter[+data.movie.id].init(data.movie);
         break;
       case UpdateType.INIT:
         this._isLoading = false;

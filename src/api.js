@@ -30,7 +30,6 @@ export default class Api {
   }
 
   updateFilm(movie) {
-    console.log(movie);
     return this._load({
       url: `movies/${movie.id}`,
       method: Method.PUT,
@@ -38,12 +37,12 @@ export default class Api {
       headers: new Headers({"Content-Type": `application/json`})
     })
     .then(Api.toJSON)
-    .then(MoviesModel.adaptToClient);
+    .then((filmFromClient) => MoviesModel.adaptFilmToClient(filmFromClient, movie));
   }
 
   addComment(data) {
     return this._load({
-      url: `comments/${parseInt(data.movie.id, 10)}`,
+      url: `comments/${+data.movie.id}`,
       method: Method.POST,
       body: JSON.stringify(data.comment),
       headers: new Headers({"Content-Type": `application/json`})

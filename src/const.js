@@ -5,7 +5,7 @@ export const MAX_DESCRIPTION_LENGTH = 140;
 export const SortType = {
   DEFAULT: `default`,
   DATE: `date`,
-  RAITING: `raiting`
+  RATING: `rating`
 };
 
 export const Emoji = {

@@ -17,7 +17,6 @@ export default class Movies extends Observer {
   }
 
   updateFilm(updateType, update) {
-    console.log(update);
     const index = this._films.findIndex((film) => film.id === update.id);
 
     if (index === -1) {
@@ -59,7 +58,7 @@ export default class Movies extends Observer {
     this._notify(updateType, update);
   }
 
-  static adaptFilmToClient(film) {
+  static adaptFilmToClient(film, filmFromClient) {
     const adaptedFilm = Object.assign(
         {},
         film,
@@ -68,7 +67,7 @@ export default class Movies extends Observer {
           alternativeName: film.film_info.alternative_title,
           img: film.film_info.poster,
           description: film.film_info.description,
-          raiting: film.film_info.total_rating,
+          rating: film.film_info.total_rating,
           year: new Date(film.film_info.release.date).getFullYear(),
           director: film.film_info.director,
           writers: film.film_info.writers.join(`, `),
@@ -81,7 +80,8 @@ export default class Movies extends Observer {
           isFavourite: film.user_details.favorite,
           isWatched: film.user_details.already_watched,
           watchlist: film.user_details.watchlist,
-          watchingDate: new Date(film.user_details.watching_date)
+          watchingDate: new Date(film.user_details.watching_date),
+          comments: filmFromClient.comments
         }
     );
 

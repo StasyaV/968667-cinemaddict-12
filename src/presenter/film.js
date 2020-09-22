@@ -35,8 +35,8 @@ export default class Film {
     const prevFilmPopup = this._filmPopup;
     const prevFilmCard = this._filmCard;
 
-    this._filmCard = new FilmCardView(film);
-    this._filmPopup = new FilmPopupView(film);
+    this._filmCard = new FilmCardView(this._film);
+    this._filmPopup = new FilmPopupView(this._film);
 
     this._filmCard.setOpenPopupClickHandler(this.openPopupClickHandler);
     this._filmCard.setFavouriteClickHandler(this._handleFavouriteClick);
