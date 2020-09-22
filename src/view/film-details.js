@@ -251,7 +251,7 @@ export default class FilmPopup extends SmartView {
       return;
     }
 
-    if (evt.target.disabled === true) {
+    if (evt.target.disabled) {
       return;
     }
 

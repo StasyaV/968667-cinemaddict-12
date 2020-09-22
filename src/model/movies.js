@@ -40,7 +40,6 @@ export default class Movies extends Observer {
     }
 
     this._films[indexFilm].comments = update.comments.slice();
-    this._films[indexFilm].newComment = update.comment;
 
     this._notify(updateType, update);
   }
