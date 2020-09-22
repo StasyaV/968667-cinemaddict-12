@@ -61,7 +61,7 @@ export default class Film {
     if (this._mode === Mode.POPUP) {
       replace(this._filmPopup, prevFilmPopup);
     }
-    
+
     this._filmPopup.renderComments();
 
     remove(prevFilmCard);
