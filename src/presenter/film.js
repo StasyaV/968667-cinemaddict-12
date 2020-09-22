@@ -156,6 +156,26 @@ export default class Film {
     );
   }
 
+  deletingErrorHandler(commentId) {
+    const errorComment = this._filmPopup.getElement().querySelector(`li[id="${commentId}"]`);
+    this._filmPopup.errorAnimation(errorComment, () => {
+      errorComment.style.animation = ``;
+      const deletingButton = errorComment.querySelector(`button`);
+      deletingButton.textContent = `Delete`;
+      deletingButton.disabled = false;
+    });
+  }
+
+  addingErrorHandler() {
+    const commentInput = this._filmPopup.getElement().querySelector(`.film-details__comment-input`);
+    this._filmPopup.errorAnimation(commentInput, () => {
+      commentInput.style.animation = ``;
+      commentInput.disabled = false;
+      commentInput.style.color = `black`;
+      commentInput.textContent = ``;
+    });
+  }
+
   _handleFavouriteClick() {
     this._changeData(
         UserAction.UPDATE_FILM,

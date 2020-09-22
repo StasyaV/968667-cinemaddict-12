@@ -1,4 +1,6 @@
 export const BASE_COLOR = `#ffe800`;
+export const DISABLE_COLOR = `#878787`;
+export const ERROR_ANIMATION_TIMEOUT = 600;
 export const GENRES = [`Sci-Fi`, `Animation`, `Fantasy`, `Comedy`, `TV Series`];
 export const MAX_DESCRIPTION_LENGTH = 140;
 
