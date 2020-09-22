@@ -35,8 +35,8 @@ export default class Film {
     const prevFilmPopup = this._filmPopup;
     const prevFilmCard = this._filmCard;
 
-    this._filmCard = new FilmCardView(film);
-    this._filmPopup = new FilmPopupView(film);
+    this._filmCard = new FilmCardView(this._film);
+    this._filmPopup = new FilmPopupView(this._film);
 
     this._filmCard.setOpenPopupClickHandler(this.openPopupClickHandler);
     this._filmCard.setFavouriteClickHandler(this._handleFavouriteClick);
@@ -61,6 +61,8 @@ export default class Film {
     if (this._mode === Mode.POPUP) {
       replace(this._filmPopup, prevFilmPopup);
     }
+
+    this._filmPopup.renderComments();
 
     remove(prevFilmCard);
     remove(prevFilmPopup);
@@ -104,42 +106,75 @@ export default class Film {
   }
 
   _handleDeleteClick(commentId) {
-    const updatedComments = this._film.comments.filter((comment) => comment.id !== Number(commentId));
+    const updatedComments = this._film.comments.filter((comment) => comment.id !== commentId);
+    const movie = Object.assign(
+        {},
+        this._film,
+        {
+          comments: updatedComments
+        }
+    );
+
+    const filmToUpdate = {
+      commentIdToDelete: commentId,
+      movie
+    };
 
     this._changeData(
         UserAction.DELETE_COMMENT,
-        UpdateType.POPUP,
-        Object.assign(
-            {},
-            this._film,
-            {
-              comments: updatedComments
-            }
-        )
+        UpdateType.DELETE,
+        filmToUpdate
     );
   }
 
   _handleAddComment(newComment, newEmoji) {
     const updatedComments = this._film.comments.slice();
-    updatedComments.push({
-      id: this._film.comments.length + 1,
-      emoji: `/images/emoji/${newEmoji}.png`,
-      message: newComment,
-      author: `Alexa M`,
-      date: new Date(),
-    });
+    const comment = {
+      "comment": newComment,
+      "date": (new Date()).toISOString(),
+      "emotion": newEmoji
+    };
+
+    updatedComments.push(comment);
+
+    const movie = Object.assign(
+        {},
+        this._film,
+        {
+          comments: updatedComments
+        }
+    );
+
+    const filmToUpdate = {
+      movie,
+      comment
+    };
 
     this._changeData(
         UserAction.ADD_COMMENT,
-        UpdateType.POPUP,
-        Object.assign(
-            {},
-            this._film,
-            {
-              comments: updatedComments
-            }
-        )
+        UpdateType.ADD,
+        filmToUpdate
     );
+  }
+
+  deletingErrorHandler(commentId) {
+    const errorComment = this._filmPopup.getElement().querySelector(`li[id="${commentId}"]`);
+    this._filmPopup.errorAnimation(errorComment, () => {
+      errorComment.style.animation = ``;
+      const deletingButton = errorComment.querySelector(`button`);
+      deletingButton.textContent = `Delete`;
+      deletingButton.disabled = false;
+    });
+  }
+
+  addingErrorHandler() {
+    const commentInput = this._filmPopup.getElement().querySelector(`.film-details__comment-input`);
+    this._filmPopup.errorAnimation(commentInput, () => {
+      commentInput.style.animation = ``;
+      commentInput.disabled = false;
+      commentInput.style.color = `black`;
+      commentInput.textContent = ``;
+    });
   }
 
   _handleFavouriteClick() {
@@ -164,7 +199,8 @@ export default class Film {
             {},
             this._film,
             {
-              isWatched: !this._film.isWatched
+              isWatched: !this._film.isWatched,
+              watchingDate: (this._film.isWatched) ? null : new Date()
             }
         )
     );

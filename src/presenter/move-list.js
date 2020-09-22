@@ -7,7 +7,7 @@ import ButtonLoaderView from "../view/button.js";
 import LoadingView from "../view/loading.js";
 import SortView from "../view/sort.js";
 import {SortType, UpdateType, UserAction} from "../const.js";
-import {sortFilmByDate, sortFilmByRaiting} from "../utils/film.js";
+import {sortFilmByDate, sortFilmByRating} from "../utils/film.js";
 import {filter} from "../utils/filter.js";
 
 const CARDS_PER_STEP = 5;
@@ -66,8 +66,8 @@ export default class MovieList {
     switch (this._currentSortType) {
       case SortType.DATE:
         return filtredFilms.sort(sortFilmByDate);
-      case SortType.RAITING:
-        return filtredFilms.sort(sortFilmByRaiting);
+      case SortType.RATING:
+        return filtredFilms.sort(sortFilmByRating);
     }
     return filtredFilms;
   }
@@ -80,10 +80,20 @@ export default class MovieList {
         });
         break;
       case UserAction.ADD_COMMENT:
-        this._moviesModel.addComment(updateType, update);
+        this._api.addComment(update).then((response) => {
+          this._moviesModel.addComment(updateType, response);
+        })
+          .catch(() => {
+            this._filmPresenter[+update.movie.id].addingErrorHandler();
+          });
         break;
       case UserAction.DELETE_COMMENT:
-        this._moviesModel.deleteComment(updateType, update);
+        this._api.deleteComment(update).then(() => {
+          this._moviesModel.deleteComment(updateType, update);
+        })
+          .catch(() => {
+            this._filmPresenter[+update.movie.id].deletingErrorHandler(update.commentIdToDelete);
+          });
         break;
     }
   }
@@ -101,12 +111,11 @@ export default class MovieList {
         this._clearFilmBoard({resetRenderedFilmCount: true, resetSortType: true});
         this._renderFilmBoard();
         break;
-      case UpdateType.POPUP:
-        this._clearFilmBoard({resetRenderedFilmCount: true, resetSortType: true});
-        this._renderFilmBoard();
-        if (this._filmPresenter[data.id]) {
-          this._filmPresenter[data.id].openPopupClickHandler();
-        }
+      case UpdateType.ADD:
+        this._filmPresenter[+data.id].init(data);
+        break;
+      case UpdateType.DELETE:
+        this._filmPresenter[+data.movie.id].init(data.movie);
         break;
       case UpdateType.INIT:
         this._isLoading = false;

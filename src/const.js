@@ -1,11 +1,13 @@
 export const BASE_COLOR = `#ffe800`;
+export const DISABLE_COLOR = `#878787`;
+export const ERROR_ANIMATION_TIMEOUT = 600;
 export const GENRES = [`Sci-Fi`, `Animation`, `Fantasy`, `Comedy`, `TV Series`];
 export const MAX_DESCRIPTION_LENGTH = 140;
 
 export const SortType = {
   DEFAULT: `default`,
   DATE: `date`,
-  RAITING: `raiting`
+  RATING: `rating`
 };
 
 export const Emoji = {
@@ -25,7 +27,8 @@ export const UpdateType = {
   PATCH: `PATCH`,
   MINOR: `MINOR`,
   MAJOR: `MAJOR`,
-  POPUP: `POPUP`,
+  ADD: `ADD`,
+  DELETE: `DELETE`,
   INIT: `INIT`
 };
 

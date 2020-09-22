@@ -2,7 +2,7 @@ import SmartView from "./smart.js";
 import CommentView from "./comment.js";
 import {render, RenderPosition, renderTemplate} from "../utils/render.js";
 import {formatReleaseDate, formatDuration} from "../utils/film.js";
-import {Emoji} from "../const.js";
+import {Emoji, DISABLE_COLOR, ERROR_ANIMATION_TIMEOUT} from "../const.js";
 
 const getGenresTemplate = (genres) => {
   let result = ``;
@@ -17,9 +17,9 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
     name,
     alternativeName,
     img,
-    fullDescription,
+    description,
     comments,
-    raiting,
+    rating,
     director,
     writers,
     releaseDay,
@@ -47,7 +47,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
         <div class="film-details__poster">
           <img class="film-details__poster-img" src=${img} alt="">
 
-          <p class="film-details__age">${ageToWatch}</p>
+          <p class="film-details__age">+${ageToWatch}</p>
         </div>
 
         <div class="film-details__info">
@@ -58,7 +58,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
             </div>
 
             <div class="film-details__rating">
-              <p class="film-details__total-rating">${raiting}</p>
+              <p class="film-details__total-rating">${rating}</p>
             </div>
           </div>
 
@@ -96,7 +96,7 @@ const createFilmPopupTemplate = (card, currentEmoji) => {
           </table>
 
           <p class="film-details__film-description">
-            ${fullDescription}
+            ${description}
           </p>
         </div>
       </div>
@@ -251,18 +251,59 @@ export default class FilmPopup extends SmartView {
       return;
     }
 
-    evt.target.textContent = `Deleting...`;
+    if (evt.target.disabled) {
+      return;
+    }
 
-    const commentId = evt.target.closest(`.film-details__comment`).getAttribute(`id`);
+    evt.target.disabled = true;
+    evt.target.textContent = `Deleting...`;
+    evt.target.closest(`.film-details__comment`).style.opacity = `0.5`;
+
+    const commentId = evt.target.closest(`.film-details__comment`).id;
     this._callback.deleteComment(commentId);
   }
 
   _addCommentClickHandler(evt) {
     if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey)) {
       evt.preventDefault();
-      this._callback.addComment(this.getElement().querySelector(`.film-details__comment-input`).value, this._emoji ? this._emoji : `smile`);
+
+      const commentInput = this.getElement().querySelector(`.film-details__comment-input`);
+      const emojiField = this.getElement().querySelector(`.film-details__add-emoji-label`);
+
+      if (!this._emoji) {
+        this._userWarning(emojiField);
+        return;
+      }
+
+      if (!commentInput.value) {
+        this._userWarning(commentInput);
+        return;
+      }
+
+      commentInput.disabled = true;
+      commentInput.style.color = DISABLE_COLOR;
+      emojiField.style.opacity = `0.5`;
+
+      this._callback.addComment(commentInput.value, this._emoji ? this._emoji : `smile`);
     }
   }
+
+  errorAnimation(errorElement, afterErrFunc) {
+    errorElement.style.animation = `shake ${ERROR_ANIMATION_TIMEOUT / 1000}s`;
+    errorElement.style.boxShadow = `1px 1px 8px red`;
+    errorElement.onanimationend = () => {
+      afterErrFunc();
+    };
+  }
+
+  _userWarning(element) {
+    this.errorAnimation(element, () => {
+      element.style.outline = `none`;
+      element.style.animation = ``;
+      element.style.boxShadow = `none`;
+    });
+  }
+
 
   setDeleteClickHandler(callback) {
     this._callback.deleteComment = callback;
