@@ -82,10 +82,10 @@ export default class MovieList {
       case UserAction.ADD_COMMENT:
         this._api.addComment(update).then((response) => {
           this._moviesModel.addComment(updateType, response);
-        })
-          .catch(() => {
-            this._filmPresenter[+update.movie.id].addingErrorHandler();
-          });
+        });
+          // .catch(() => {
+          //   this._filmPresenter[+update.movie.id].addingErrorHandler();
+          // });
         break;
       case UserAction.DELETE_COMMENT:
         this._api.deleteComment(update).then(() => {
