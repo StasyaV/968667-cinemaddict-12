@@ -42,7 +42,7 @@ export default class Api {
 
   addComment(data) {
     return this._load({
-      url: `comments/${data.movie.id}`,
+      url: `comments/${+data.movie.id}`,
       method: Method.POST,
       body: JSON.stringify(data.comment),
       headers: new Headers({"Content-Type": `application/json`})
@@ -58,11 +58,11 @@ export default class Api {
     });
   }
 
-  sync(data) {
+  sync(movies) {
     return this._load({
       url: `movies/sync`,
       method: Method.POST,
-      body: JSON.stringify(data),
+      body: JSON.stringify(movies),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then(Api.toJSON);
