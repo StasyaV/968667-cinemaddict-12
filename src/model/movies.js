@@ -92,7 +92,7 @@ export default class Movies extends Observer {
   static adaptFilmToServer(film) {
     return {
       "id": film.id,
-      "comments": [],
+      "comments": film.comments.map((comment) => comment.id),
       "film_info": {
         "actors": film.actors.split(`, `),
         "age_rating": film.ageToWatch,
