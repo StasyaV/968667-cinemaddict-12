@@ -41,7 +41,6 @@ export default class Api {
   }
 
   addComment(data) {
-    console.log(data.movie.id);
     return this._load({
       url: `comments/${data.movie.id}`,
       method: Method.POST,

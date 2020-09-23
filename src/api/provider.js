@@ -56,13 +56,12 @@ export default class Provider {
   }
 
   addComment(data) {
-    console.log(data.movie.id);
     const movieId = data.movie.id;
     if (Provider.isOnline()) {
-      return this._api.addComment(data.comment)
+      return this._api.addComment(data)
       .then((newComment) => {
         this._store.setItem(newComment.id, newComment);
-        return {newComment, movieId};
+        return newComment;
       });
     }
 
