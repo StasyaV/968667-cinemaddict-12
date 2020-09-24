@@ -32,7 +32,6 @@ export default class Provider {
     if (Provider.isOnline()) {
       return this._api.getComments(movieId)
         .then((comments) => {
-          this._store.setItem(movieId);
           return comments;
         });
     }

@@ -80,7 +80,7 @@ export default class Movies extends Observer {
           isWatched: film.user_details.already_watched,
           watchlist: film.user_details.watchlist,
           watchingDate: new Date(film.user_details.watching_date),
-          comments: filmFromClient.comments
+          comments: filmFromClient.comments || film.comments
         }
     );
 
@@ -92,7 +92,7 @@ export default class Movies extends Observer {
   static adaptFilmToServer(film) {
     return {
       "id": film.id,
-      "comments": film.comments.map((comment) => comment.id),
+      "comments": [],
       "film_info": {
         "actors": film.actors.split(`, `),
         "age_rating": film.ageToWatch,
