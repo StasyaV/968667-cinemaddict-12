@@ -80,7 +80,7 @@ export default class Movies extends Observer {
           isWatched: film.user_details.already_watched,
           watchlist: film.user_details.watchlist,
           watchingDate: new Date(film.user_details.watching_date),
-          comments: filmFromClient.comments
+          comments: filmFromClient.comments || film.comments
         }
     );
 
