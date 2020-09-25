@@ -1,5 +1,5 @@
-import SmartView from "./smart.js";
-import CommentView from "./comment.js";
+import SmartView from "./smart-view.js";
+import CommentView from "./comment-view.js";
 import {render, RenderPosition, renderTemplate} from "../utils/render.js";
 import {formatReleaseDate, formatDuration} from "../utils/film.js";
 import {Emoji, DISABLE_COLOR, ERROR_ANIMATION_TIMEOUT} from "../const.js";

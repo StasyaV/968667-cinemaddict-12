@@ -1,4 +1,4 @@
-import MenuView from "../view/menu.js";
+import MenuView from "../view/menu-view.js";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
 import {filter} from "../utils/filter.js";
 import {FilterType, UpdateType, MenuItem} from "../const.js";
@@ -91,9 +91,11 @@ export default class Filter {
       this._movieListPresenter.destroy();
       this._statsPresenter.init();
     } else {
-      this._statsPresenter.destroy();
-      this._movieListPresenter.destroy();
-      this._movieListPresenter.init();
+      if (document.querySelector(`.statistic`)) {
+        this._statsPresenter.destroy();
+        this._movieListPresenter.destroy();
+        this._movieListPresenter.init();
+      }
     }
   }
 }

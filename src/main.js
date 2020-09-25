@@ -1,13 +1,13 @@
 import {UpdateType} from "./const.js";
 import {render, RenderPosition} from "./utils/render.js";
-import UserView from "./view/user.js";
-import StatisticView from "./view/stat.js";
-import MainContentView from "./view/content-container.js";
-import StatisticPresenter from "./presenter/statistic.js";
-import MovieListPresenter from "./presenter/move-list.js";
-import FilterPresenter from "./presenter/filter.js";
-import MoviesModel from "./model/movies.js";
-import FilterModel from "./model/filter.js";
+import UserView from "./view/user-view.js";
+import StatisticView from "./view/stat-view.js";
+import MainContentView from "./view/content-container-view.js";
+import StatisticPresenter from "./presenter/statistic-presenter.js";
+import MovieListPresenter from "./presenter/move-list-presenter.js";
+import FilterPresenter from "./presenter/filter-presenter.js";
+import MoviesModel from "./model/movies-model.js";
+import FilterModel from "./model/filter-model.js";
 import Api from "./api/api.js";
 import Store from "./api/store.js";
 import Provider from "./api/provider.js";
@@ -42,7 +42,22 @@ filterPresenter.init();
 
 apiWithProvider.getFilms()
   .then((films) => {
-    moviesModel.setFilms(UpdateType.INIT, films);
+    const filmIds = films.map((film) => film.id);
+    const promises = filmIds.map((id) => apiWithProvider.getComments(id));
+
+    Promise.all(promises).then((commentsList) => {
+      const filmWithComments = films.map((film, index) => {
+        return Object.assign(
+            {},
+            film,
+            {
+              comments: commentsList[index]
+            }
+        );
+      });
+
+      moviesModel.setFilms(UpdateType.INIT, filmWithComments);
+    });
   })
   .catch(() => {
     moviesModel.setFilms(UpdateType.INIT, []);

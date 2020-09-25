@@ -1,4 +1,4 @@
-import AbstractView from "./abstract.js";
+import AbstractView from "./abstract-view.js";
 import {getCommentDate} from "../utils/film.js";
 import he from "he";
 

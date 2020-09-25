@@ -1,5 +1,5 @@
 import {nanoid} from "nanoid";
-import MoviesModel from "../model/movies.js";
+import MoviesModel from "../model/movies-model.js";
 
 const createStoreStructure = (items) => {
   return items.reduce((acc, current) => {

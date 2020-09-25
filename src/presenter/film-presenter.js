@@ -1,6 +1,6 @@
 import {render, RenderPosition, remove, replace} from "../utils/render.js";
-import FilmPopupView from "../view/film-details.js";
-import FilmCardView from "../view/film-card.js";
+import FilmPopupView from "../view/film-popup-view.js";
+import FilmCardView from "../view/film-card-view.js";
 import {UserAction, UpdateType} from "../const.js";
 
 const Mode = {
@@ -56,16 +56,15 @@ export default class Film {
 
     if (this._mode === Mode.DEFAULT) {
       replace(this._filmCard, prevFilmCard);
+      remove(prevFilmCard);
     }
 
     if (this._mode === Mode.POPUP) {
       replace(this._filmPopup, prevFilmPopup);
+      remove(prevFilmPopup);
     }
 
     this._filmPopup.renderComments();
-
-    remove(prevFilmCard);
-    remove(prevFilmPopup);
   }
 
   destroy() {
