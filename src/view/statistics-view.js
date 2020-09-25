@@ -1,6 +1,6 @@
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import SmartView from "./smart.js";
+import SmartView from "./smart-view.js";
 import {StatsType, BASE_COLOR, GENRES} from "../const.js";
 
 const BAR_HEIGHT = 50;

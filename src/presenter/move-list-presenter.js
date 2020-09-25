@@ -1,11 +1,11 @@
-import FilmPresenter from "./film.js";
+import FilmPresenter from "./film-presenter.js";
 import {render, RenderPosition, remove} from "../utils/render.js";
-import ListContainerView from "../view/list-container.js";
-import FilmListView from "../view/film-list.js";
-import NoFilmsView from "../view/no-films.js";
-import ButtonLoaderView from "../view/button.js";
-import LoadingView from "../view/loading.js";
-import SortView from "../view/sort.js";
+import ListContainerView from "../view/list-container-view.js";
+import FilmListView from "../view/film-list-view.js";
+import NoFilmsView from "../view/no-films-view.js";
+import ButtonLoaderView from "../view/button-view.js";
+import LoadingView from "../view/loading-view.js";
+import SortView from "../view/sort-view.js";
 import {SortType, UpdateType, UserAction} from "../const.js";
 import {sortFilmByDate, sortFilmByRating} from "../utils/film.js";
 import {filter} from "../utils/filter.js";
@@ -127,23 +127,8 @@ export default class MovieList {
 
   _renderFilm(card) {
     const filmPresenter = new FilmPresenter(this._filmList, this._handleViewAction, this._handleModeChange, this._api);
-    this._api.getComments(card.id)
-      .then((comments) => {
-        const film = Object.assign(
-            {},
-            card,
-            {
-              comments: comments.slice(),
-            }
-        );
-        filmPresenter.init(film);
-        this._filmPresenter[film.id] = filmPresenter;
-      })
-      .catch(() => {
-        card.comments = [];
-        filmPresenter.init(card);
-        this._filmPresenter[card.id] = filmPresenter;
-      });
+    filmPresenter.init(card);
+    this._filmPresenter[card.id] = filmPresenter;
   }
 
   _handleSortTypeChange(sortType) {

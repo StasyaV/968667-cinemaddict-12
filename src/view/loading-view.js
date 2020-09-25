@@ -1,4 +1,4 @@
-import AbstractView from "./abstract.js";
+import AbstractView from "./abstract-view.js";
 
 const createNoTaskTemplate = () => {
   return `<h2 class="films-list__title">Loading...</h2>`;
