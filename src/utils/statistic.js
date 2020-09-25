@@ -18,7 +18,7 @@ const countFilmsByGenre = (films, genre) => {
 };
 
 const getRank = (watchedFilms) => {
-  for (let rank of RANKS) {
+  for (const rank of RANKS) {
     if (watchedFilms <= Object.values(rank)) {
       return Object.keys(rank)[0];
     }
@@ -27,9 +27,9 @@ const getRank = (watchedFilms) => {
 };
 
 const getPopularGenres = (films, genres) => {
-  let totalCountGenre = [];
+  const totalCountGenre = [];
   if (films.length > 0) {
-    for (let genre of genres) {
+    for (const genre of genres) {
       totalCountGenre.push(countFilmsByGenre(films, genre));
     }
   }
