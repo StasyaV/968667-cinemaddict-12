@@ -1,7 +1,7 @@
 import MenuView from "../view/menu-view.js";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
 import {filter} from "../utils/filter.js";
-import {FilterType, UpdateType, MenuItem} from "../const.js";
+import {FilterType, UpdateType} from "../const.js";
 
 export default class Filter {
   constructor(filterContainer, filterModel, moviesModel, statsPresenter, movieListPresenter) {
@@ -47,17 +47,13 @@ export default class Filter {
   }
 
   _handleFilterTypeChange(filterType) {
-    console.log(`filterType`, filterType);
-    if (this._currentFilter === filterType && !this._isStats) {
-      return;
-    }
-
     this._currentFilter = filterType;
 
     if (this._isStats) {
-      this._statsPresenter.destroy();
-      this._movieListPresenter.init();
       this._isStats = false;
+      this._statsPresenter.destroy();
+      this._movieListPresenter.destroy();
+      this._movieListPresenter.init();
     }
 
     this._filterModel.setFilter(UpdateType.MAJOR, this._currentFilter);
@@ -89,17 +85,13 @@ export default class Filter {
     ];
   }
 
-  _handleMenuClick(menuItem) {
-    console.log(`menuItem`, menuItem);
-    if (menuItem === MenuItem.STATS) {
-      this._movieListPresenter.destroy();
-      this._statsPresenter.init();
-    } else {
-      if (document.querySelector(`.statistic`)) {
-        this._statsPresenter.destroy();
-        this._movieListPresenter.destroy();
-        this._movieListPresenter.init();
-      }
+  _handleMenuClick() {
+    if (this._isStats) {
+      return;
     }
+
+    this._isStats = true;
+    this._movieListPresenter.destroy();
+    this._statsPresenter.init();
   }
 }

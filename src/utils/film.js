@@ -23,7 +23,7 @@ export const formatReleaseDate = (date, isFullDate = false) => {
 };
 
 export const getCommentDate = (date) => {
-  return moment(date).fromNow();
+  return moment(date).format(`YYYY/MM/DD HH:MM`);
 };
 
 export const sortFilmByDate = (filmA, filmB) => {

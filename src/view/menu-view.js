@@ -59,7 +59,7 @@ export default class Menu extends AbstractView {
 
   setStatsButtonClickHandler(callback) {
     this._callback.statsButton = callback;
-    this.getElement().addEventListener(`click`, this._statsButtonClickHandler);
+    this.getElement().querySelector(`.main-navigation__additional`).addEventListener(`click`, this._statsButtonClickHandler);
   }
 
   _statsButtonClickHandler(evt) {
@@ -67,6 +67,6 @@ export default class Menu extends AbstractView {
 
     this.getElement().querySelector(`.main-navigation__item--active`).classList.remove(`main-navigation__item--active`);
     this.getElement().querySelector(`.main-navigation__additional`).classList.add(`main-navigation__item--active`);
-    this._callback.statsButton(evt.target.name);
+    this._callback.statsButton();
   }
 }

@@ -39,14 +39,6 @@ export const FilterType = {
   FAVORITES: `Favorites`
 };
 
-export const MenuItem = {
-  ALL: `all`,
-  WATCHLIST: `watchlist`,
-  HISTORY: `history`,
-  FAVORITES: `favorites`,
-  STATS: `stats`
-};
-
 export const StatsType = {
   ALL: `ALL`,
   TODAY: `TODAY`,
