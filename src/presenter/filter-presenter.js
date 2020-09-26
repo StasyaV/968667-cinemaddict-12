@@ -47,9 +47,12 @@ export default class Filter {
   }
 
   _handleFilterTypeChange(filterType) {
-    if (this._currentFilter === filterType && !this._isStats === true) {
+    console.log(`filterType`, filterType);
+    if (this._currentFilter === filterType && !this._isStats) {
       return;
     }
+
+    this._currentFilter = filterType;
 
     if (this._isStats) {
       this._statsPresenter.destroy();
@@ -57,7 +60,7 @@ export default class Filter {
       this._isStats = false;
     }
 
-    this._filterModel.setFilter(UpdateType.MAJOR, filterType);
+    this._filterModel.setFilter(UpdateType.MAJOR, this._currentFilter);
   }
 
   _getFilters() {
@@ -87,6 +90,7 @@ export default class Filter {
   }
 
   _handleMenuClick(menuItem) {
+    console.log(`menuItem`, menuItem);
     if (menuItem === MenuItem.STATS) {
       this._movieListPresenter.destroy();
       this._statsPresenter.init();

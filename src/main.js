@@ -1,11 +1,10 @@
 import {UpdateType} from "./const.js";
 import {render, RenderPosition} from "./utils/render.js";
-import UserView from "./view/user-view.js";
-import StatisticView from "./view/stat-view.js";
 import MainContentView from "./view/content-container-view.js";
 import StatisticPresenter from "./presenter/statistic-presenter.js";
 import MovieListPresenter from "./presenter/move-list-presenter.js";
 import FilterPresenter from "./presenter/filter-presenter.js";
+import InfoPresenter from "./presenter/info-presenter.js";
 import MoviesModel from "./model/movies-model.js";
 import FilterModel from "./model/filter-model.js";
 import Api from "./api/api.js";
@@ -20,7 +19,7 @@ const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
 
 const header = document.querySelector(`.header`);
 const mainContainter = document.querySelector(`.main`);
-const statContainer = document.querySelector(`.footer__statistics`);
+const footerInfoContainer = document.querySelector(`.footer__statistics`);
 
 const api = new Api(END_POINT, AUTHORIZATION);
 const store = new Store(STORE_NAME, window.localStorage);
@@ -32,10 +31,9 @@ const filmContainer = new MainContentView();
 const movieListPresenter = new MovieListPresenter(filmContainer, moviesModel, filterModel, apiWithProvider);
 const statisticPresenter = new StatisticPresenter(mainContainter, moviesModel);
 const filterPresenter = new FilterPresenter(mainContainter, filterModel, moviesModel, statisticPresenter, movieListPresenter);
+const infoPresenter = new InfoPresenter(header, footerInfoContainer, moviesModel);
 
-render(header, new UserView().getElement(), RenderPosition.BEFOREEND);
 render(mainContainter, filmContainer.getElement(), RenderPosition.BEFOREEND);
-render(statContainer, new StatisticView().getElement(), RenderPosition.BEFOREEND);
 
 movieListPresenter.init();
 filterPresenter.init();
@@ -57,11 +55,15 @@ apiWithProvider.getFilms()
       });
 
       moviesModel.setFilms(UpdateType.INIT, filmWithComments);
+    })
+    .finally(() => {
+      infoPresenter.init();
     });
   })
   .catch(() => {
     moviesModel.setFilms(UpdateType.INIT, []);
-  });
+    infoPresenter.init();
+  }); 
 
 window.addEventListener(`load`, () => {
   navigator.serviceWorker.register(`/sw.js`)

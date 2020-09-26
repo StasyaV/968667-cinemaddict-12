@@ -17,7 +17,7 @@ const countFilmsByGenre = (films, genre) => {
   return films.filter((film) => film.genre.has(genre)).length;
 };
 
-const getRank = (watchedFilms) => {
+export const getRank = (watchedFilms) => {
   for (const rank of RANKS) {
     if (watchedFilms <= Object.values(rank)) {
       return Object.keys(rank)[0];
@@ -45,7 +45,7 @@ const getTopGenre = (films, genres) => {
   return ``;
 };
 
-const getWatchedFilms = (films) => {
+export const getWatchedFilms = (films) => {
   return films.filter((film) => film.isWatched);
 };
 
