@@ -63,7 +63,7 @@ apiWithProvider.getFilms()
   .catch(() => {
     moviesModel.setFilms(UpdateType.INIT, []);
     infoPresenter.init();
-  }); 
+  });
 
 window.addEventListener(`load`, () => {
   navigator.serviceWorker.register(`/sw.js`)
