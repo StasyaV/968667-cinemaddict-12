@@ -163,6 +163,10 @@ export default class Statistic extends SmartView {
   }
 
   _changePeriodClickHandler(evt) {
+    if (!evt.target.id) {
+      return;
+    }
+
     this._callback.changePeriodClick(evt.target.id);
   }
 

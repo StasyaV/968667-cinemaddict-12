@@ -28,10 +28,10 @@ const apiWithProvider = new Provider(api, store);
 const moviesModel = new MoviesModel();
 const filterModel = new FilterModel();
 const filmContainer = new MainContentView();
-const movieListPresenter = new MovieListPresenter(filmContainer, moviesModel, filterModel, apiWithProvider);
+const infoPresenter = new InfoPresenter(header, footerInfoContainer, moviesModel);
+const movieListPresenter = new MovieListPresenter(filmContainer, moviesModel, filterModel, apiWithProvider, infoPresenter);
 const statisticPresenter = new StatisticPresenter(mainContainter, moviesModel);
 const filterPresenter = new FilterPresenter(mainContainter, filterModel, moviesModel, statisticPresenter, movieListPresenter);
-const infoPresenter = new InfoPresenter(header, footerInfoContainer, moviesModel);
 
 render(mainContainter, filmContainer.getElement(), RenderPosition.BEFOREEND);
 

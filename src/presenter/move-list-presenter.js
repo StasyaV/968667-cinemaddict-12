@@ -13,13 +13,14 @@ import {filter} from "../utils/filter.js";
 const CARDS_PER_STEP = 5;
 
 export default class MovieList {
-  constructor(filmContainer, moviesModel, filterModel, api) {
+  constructor(filmContainer, moviesModel, filterModel, api, infoPresenter) {
     this._moviesModel = moviesModel;
     this._filterModel = filterModel;
     this._filmContainer = filmContainer;
     this._renderedFilmsCards = CARDS_PER_STEP;
     this._currentSortType = SortType.DEFAULT;
     this._filmPresenter = {};
+    this._infoPresenter = infoPresenter;
     this._isLoading = true;
     this._api = api;
 
@@ -102,6 +103,7 @@ export default class MovieList {
     switch (updateType) {
       case UpdateType.PATCH:
         this._filmPresenter[data.id].init(data);
+        this._infoPresenter.init();
         break;
       case UpdateType.MINOR:
         this._clearFilmBoard();
