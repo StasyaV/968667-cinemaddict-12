@@ -1,7 +1,7 @@
-import StatisticView from "../view/statistics-view.js";
+import StatisticView from "../view/statistic-view.js";
 import {render, RenderPosition, replace, remove} from "../utils/render.js";
 import {StatsType, GENRES} from "../const.js";
-import {getFilmStats, getFiltredFilmsByDate} from "../utils/statistic.js";
+import {getFilmStats, getFilteredFilmsByDate} from "../utils/statistic.js";
 
 export default class Statistic {
   constructor(statContainer, moviesModel) {
@@ -17,7 +17,7 @@ export default class Statistic {
 
   init() {
     const prevStatistic = this._statistic;
-    const films = getFiltredFilmsByDate(this._moviesModel.getFilms().slice(), this._currentStats);
+    const films = getFilteredFilmsByDate(this._moviesModel.getFilms().slice(), this._currentStats);
     const filmsStats = getFilmStats(films, GENRES);
 
     this._statistic = new StatisticView(filmsStats, this._currentStats);

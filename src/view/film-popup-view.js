@@ -215,6 +215,7 @@ export default class FilmPopup extends SmartView {
   _closeClickHandler(evt) {
     evt.preventDefault();
     this._callback.closeClick();
+    this.restoreHandlers();
   }
 
   setClosePopupClickHandler(callback) {
@@ -271,12 +272,12 @@ export default class FilmPopup extends SmartView {
       const emojiField = this.getElement().querySelector(`.film-details__add-emoji-label`);
 
       if (!this._emoji) {
-        this._userWarning(emojiField);
+        this._makeUserWarning(emojiField);
         return;
       }
 
       if (!commentInput.value) {
-        this._userWarning(commentInput);
+        this._makeUserWarning(commentInput);
         return;
       }
 
@@ -288,7 +289,7 @@ export default class FilmPopup extends SmartView {
     }
   }
 
-  errorAnimation(errorElement, afterErrFunc) {
+  makeErrorAnimation(errorElement, afterErrFunc) {
     errorElement.style.animation = `shake ${ERROR_ANIMATION_TIMEOUT / 1000}s`;
     errorElement.style.boxShadow = `1px 1px 8px red`;
     errorElement.onanimationend = () => {
@@ -296,8 +297,8 @@ export default class FilmPopup extends SmartView {
     };
   }
 
-  _userWarning(element) {
-    this.errorAnimation(element, () => {
+  _makeUserWarning(element) {
+    this.makeErrorAnimation(element, () => {
       element.style.outline = `none`;
       element.style.animation = ``;
       element.style.boxShadow = `none`;

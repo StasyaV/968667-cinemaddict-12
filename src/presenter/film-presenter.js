@@ -158,7 +158,7 @@ export default class Film {
 
   deletingErrorHandler(commentId) {
     const errorComment = this._filmPopup.getElement().querySelector(`li[id="${commentId}"]`);
-    this._filmPopup.errorAnimation(errorComment, () => {
+    this._filmPopup.makeErrorAnimation(errorComment, () => {
       errorComment.style.animation = ``;
       const deletingButton = errorComment.querySelector(`button`);
       deletingButton.textContent = `Delete`;
@@ -168,7 +168,7 @@ export default class Film {
 
   addingErrorHandler() {
     const commentInput = this._filmPopup.getElement().querySelector(`.film-details__comment-input`);
-    this._filmPopup.errorAnimation(commentInput, () => {
+    this._filmPopup.makeErrorAnimation(commentInput, () => {
       commentInput.style.animation = ``;
       commentInput.disabled = false;
       commentInput.style.color = `black`;

@@ -9,7 +9,7 @@ const statsFilter = {
   [StatsType.YEAR]: (films) => films.filter((film) => moment().isSame(moment(film.watchingDate), `year`)),
 };
 
-export const getFiltredFilmsByDate = (films, mode) => {
+export const getFilteredFilmsByDate = (films, mode) => {
   return statsFilter[mode](films);
 };
 
@@ -27,13 +27,13 @@ export const getRank = (watchedFilms) => {
 };
 
 const getPopularGenres = (films, genres) => {
-  const totalCountGenre = [];
+  const totalCountGenres = [];
   if (films.length > 0) {
     for (const genre of genres) {
-      totalCountGenre.push(countFilmsByGenre(films, genre));
+      totalCountGenres.push(countFilmsByGenre(films, genre));
     }
   }
-  return totalCountGenre;
+  return totalCountGenres;
 };
 
 const getTopGenre = (films, genres) => {

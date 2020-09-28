@@ -4,7 +4,7 @@ const createStatTemplate = (films) => {
   return `<p>${films.length} movies inside</p>`;
 };
 
-export default class Statistic extends AbstractView {
+export default class FooterInfo extends AbstractView {
   constructor(films) {
     super();
 

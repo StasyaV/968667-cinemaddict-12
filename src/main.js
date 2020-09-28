@@ -1,6 +1,6 @@
 import {UpdateType} from "./const.js";
 import {render, RenderPosition} from "./utils/render.js";
-import MainContentView from "./view/content-container-view.js";
+import MainContentView from "./view/main-content-view.js";
 import StatisticPresenter from "./presenter/statistic-presenter.js";
 import MovieListPresenter from "./presenter/move-list-presenter.js";
 import FilterPresenter from "./presenter/filter-presenter.js";

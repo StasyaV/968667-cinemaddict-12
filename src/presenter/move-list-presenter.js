@@ -3,7 +3,7 @@ import {render, RenderPosition, remove} from "../utils/render.js";
 import ListContainerView from "../view/list-container-view.js";
 import FilmListView from "../view/film-list-view.js";
 import NoFilmsView from "../view/no-films-view.js";
-import ButtonLoaderView from "../view/button-view.js";
+import ButtonLoaderView from "../view/button-loader-view.js";
 import LoadingView from "../view/loading-view.js";
 import SortView from "../view/sort-view.js";
 import {SortType, UpdateType, UserAction} from "../const.js";
@@ -61,15 +61,15 @@ export default class MovieList {
   _getFilms() {
     const filterType = this._filterModel.getFilter();
     const films = this._moviesModel.getFilms();
-    const filtredFilms = filter[filterType](films);
+    const filteredFilms = filter[filterType](films);
 
     switch (this._currentSortType) {
       case SortType.DATE:
-        return filtredFilms.sort(sortFilmByDate);
+        return filteredFilms.sort(sortFilmByDate);
       case SortType.RATING:
-        return filtredFilms.sort(sortFilmByRating);
+        return filteredFilms.sort(sortFilmByRating);
     }
-    return filtredFilms;
+    return filteredFilms;
   }
 
   _handleViewAction(actionType, updateType, update) {
@@ -168,11 +168,7 @@ export default class MovieList {
       .forEach((presenter) => presenter.destroy());
     this._filmPresenter = {};
 
-    if (resetRenderedFilmCount) {
-      this._renderedFilmCount = CARDS_PER_STEP;
-    } else {
-      this._renderedFilmkCount = Math.min(filmCount, this._renderedFilmCount);
-    }
+    this._renderedFilmCount = resetRenderedFilmCount ? CARDS_PER_STEP : Math.min(filmCount, this._renderedFilmCount);
 
     if (resetSortType) {
       this._currentSortType = SortType.DEFAULT;
